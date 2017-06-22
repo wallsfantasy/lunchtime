@@ -2,9 +2,20 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property int    $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $apiToken
+ * @property string $rememberToken
+ * @property Carbon $createdAt
+ * @property Carbon $updatedAt
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -15,7 +26,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -24,6 +37,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 }
