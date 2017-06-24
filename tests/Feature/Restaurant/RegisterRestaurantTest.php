@@ -31,9 +31,6 @@ class RegisterRestaurantTest extends TestCase
             ]
         );
 
-        $response->assertJson([
-            'success' => true,
-            'data' => $restaurantData
-        ]);
+        $response->assertJson($restaurantData);
     }
 }

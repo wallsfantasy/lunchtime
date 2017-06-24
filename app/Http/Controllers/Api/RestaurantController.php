@@ -13,15 +13,10 @@ class RestaurantController extends Controller
      * Register a restaurant
      *
      * @param RegisterRestaurantRequest $request
-     * @return array
+     * @return Restaurant
      */
     public function register(RegisterRestaurantRequest $request)
     {
-        $restaurant = Restaurant::create($request->all());
-
-        return [
-            'success' => true,
-            'data' => $restaurant,
-        ];
+        return Restaurant::create($request->all());
     }
 }
