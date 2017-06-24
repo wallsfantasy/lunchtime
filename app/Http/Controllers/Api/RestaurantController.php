@@ -19,4 +19,15 @@ class RestaurantController extends Controller
     {
         return Restaurant::create($request->all());
     }
+
+    /**
+     * Get restaurant by Id
+     *
+     * @param int $id
+     * @return array
+     */
+    public function get(int $id)
+    {
+        return Restaurant::findOrFail($id);
+    }
 }

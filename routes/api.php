@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->namespace('Api')->prefix('restaurants')->group(function () {
     Route::post('/', 'RestaurantController@register');
-    Route::get('/', 'RestaurantController@get');
+    Route::get('/{id}', 'RestaurantController@get');
 });
