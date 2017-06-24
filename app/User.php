@@ -11,8 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $name
  * @property string $email
  * @property string $password
- * @property string $apiToken
- * @property string $rememberToken
+ * @property string $api_token
+ * @property string $remember_token
  * @property Carbon $createdAt
  * @property Carbon $updatedAt
  */
