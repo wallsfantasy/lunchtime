@@ -13,8 +13,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $password
  * @property string $api_token
  * @property string $remember_token
- * @property Carbon $createdAt
- * @property Carbon $updatedAt
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class User extends Authenticatable
 {
