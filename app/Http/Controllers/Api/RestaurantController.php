@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Restaurant\RegisterRestaurantRequest;
+use App\Http\Requests\RegisterRestaurantRequest;
 use App\Restaurant;
 use Illuminate\Http\Request;
 
