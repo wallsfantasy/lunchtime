@@ -30,3 +30,9 @@ $factory->define(App\Restaurant::class, function (Faker\Generator $faker) {
         'description' => $faker->sentence()
     ];
 });
+
+$factory->define(\App\Cycle::class, function (Faker\Generator $faker) {
+    return [
+        'name' => "{$faker->company} {$faker->companySuffix}",
+    ];
+});

@@ -29,5 +29,6 @@ Route::prefix('cycles')
     ->middleware('auth:api')
     ->namespace('Api')
     ->group(function () {
-        Route::post('/', 'CycleController@createCycle');
+        Route::post('/', 'CycleController@create');
+        Route::post('/join', 'CycleController@join');
 });

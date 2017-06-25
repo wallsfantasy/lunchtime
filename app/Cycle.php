@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
+ * @property int    $id
  * @property string $name
  */
 class Cycle extends Model
