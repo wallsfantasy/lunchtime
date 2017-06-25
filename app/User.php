@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -40,4 +41,14 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * The Cycle joined by this user
+     *
+     * @return BelongsToMany|Cycle[]
+     */
+    public function cycles()
+    {
+        return $this->belongsToMany(Cycle::class);
+    }
 }
