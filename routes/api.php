@@ -17,7 +17,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->namespace('Api')->prefix('restaurants')->group(function () {
-    Route::post('/', 'RestaurantController@register');
-    Route::get('/{id}', 'RestaurantController@get');
+Route::prefix('restaurants')
+    ->middleware('auth:api')
+    ->namespace('Api')
+    ->group(function () {
+        Route::post('/', 'RestaurantController@register');
+        Route::get('/{id}', 'RestaurantController@get');
+});
+
+Route::prefix('cycles')
+    ->middleware('auth:api')
+    ->namespace('Api')
+    ->group(function () {
+        Route::post('/', 'CycleController@createCycle');
 });
