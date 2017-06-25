@@ -32,5 +32,7 @@ class RegisterRestaurantTest extends TestCase
         );
 
         $response->assertJson($restaurantData);
+
+        $this->assertDatabaseHas('restaurants', $restaurantData);
     }
 }
