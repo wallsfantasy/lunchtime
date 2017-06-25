@@ -11,9 +11,7 @@ class CyclesTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach (static::fixtures() as $item) {
-            DB::table('cycles')->insert($item);
-        }
+        DB::table('cycles')->insert(static::fixtures());
     }
 
     public static function fixtures()

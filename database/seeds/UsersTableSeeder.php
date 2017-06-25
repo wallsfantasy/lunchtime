@@ -11,9 +11,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach (static::fixtures() as $item) {
-            DB::table('users')->insert($item);
-        }
+        DB::table('users')->insert(static::fixtures());
     }
 
     public static function fixtures()

@@ -11,12 +11,10 @@ class RestaurantsTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach ($this->fixtures() as $item) {
-            DB::table('restaurants')->insert($item);
-        }
+        DB::table('restaurants')->insert(static::fixtures());
     }
 
-    private function fixtures()
+    public static function fixtures()
     {
         return [
             [
