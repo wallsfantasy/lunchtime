@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Propose extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['user_id', 'restaurant_id'];
 
     /**
      * The User that made this propose
