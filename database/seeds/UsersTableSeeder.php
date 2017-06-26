@@ -17,61 +17,71 @@ class UsersTableSeeder extends Seeder
     public static function fixtures()
     {
         return [
-            0 => [
+            [
+                'id' => 1,
                 'name' => 'Jack Sparrow',
                 'email' => 'jack@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'jack',
             ],
-            1 => [
+            [
+                'id' => 2,
                 'name' => 'Davy Jones',
                 'email' => 'davy@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'davy',
             ],
-            2 => [
+            [
+                'id' => 3,
                 'name' => 'Will Turner',
                 'email' => 'will@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'will',
             ],
-            3 => [
+            [
+                'id' => 4,
                 'name' => 'Hector Barbossa',
                 'email' => 'hector@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'hector',
             ],
-            4 => [
+            [
+                'id' => 5,
                 'name' => 'Elizabeth Swan',
                 'email' => 'elizabeth@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'elizabeth',
             ],
-            5 => [
+            [
+                'id' => 6,
                 'name' => 'Tia Dalma',
                 'email' => 'tia@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'tia',
             ],
-            6 => [
+            [
+                'id' => 7,
                 'name' => 'James Norrington',
                 'email' => 'james@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'james',
             ],
-            7 => [
+            [
+                'id' => 8,
                 'name' => 'Joshamee Gibbs',
                 'email' => 'joshamee@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'joshamee',
             ],
-            8 => [
+            [
+                'id' => 9,
                 'name' => 'Cutler Beckett',
                 'email' => 'cutler@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'cutler',
             ],
-            9 => [
+            [
+                'id' => 10,
                 'name' => 'Edward Teach',
                 'email' => 'edward@gmail.com',
                 'password' => bcrypt('secret'),
