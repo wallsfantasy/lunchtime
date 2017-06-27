@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int    $restaurant_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Carbon $propose_until
  */
 class Propose extends Model
 {
-    protected $fillable = ['user_id', 'restaurant_id'];
+    protected $fillable = ['user_id', 'restaurant_id', 'propose_until'];
 
     /**
      * The User that made this propose
@@ -35,5 +36,15 @@ class Propose extends Model
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
+    }
+
+    /**
+     * @return $something
+     */
+    public function getProposeUntilAttribute()
+    {
+        list($hours, $minutes, $seconds) = explode(':', $this->propose_until);
+
+        return Carbon::today()->addHour($hours)->addMinute($minutes)->addSecond($seconds);
     }
 }

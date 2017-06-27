@@ -49,18 +49,22 @@ class CyclesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'Pirate Captains',
+                'propose_until' => '13:00:00',
             ],
             [
                 'id' => 2,
                 'name' => 'Royal Navy',
+                'propose_until' => '10:00:00',
             ],
             [
                 'id' => 3,
                 'name' => 'Love Triangle',
+                'propose_until' => '12:00:00',
             ],
             [
                 'id' => 4,
                 'name' => 'Ex Revenge',
+                'propose_until' => '11:00:00',
             ]
         ];
     }

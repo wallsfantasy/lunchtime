@@ -17,6 +17,7 @@ class CreateCyclesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
+            $table->time('propose_until');
         });
     }
 

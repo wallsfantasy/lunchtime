@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Cycle extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'propose_until'];
 
     /**
      * The Users that belongs to this cycle

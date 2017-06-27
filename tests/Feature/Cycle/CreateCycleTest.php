@@ -16,6 +16,7 @@ class CreateCycleTest extends TestCase
     {
         $cycleData = [
             'name' => 'Lunchtime Warrior',
+            'propose_until' => '12:00:00',
         ];
 
         /** @var User $user */
@@ -26,7 +27,7 @@ class CreateCycleTest extends TestCase
             '/api/cycles',
             $cycleData,
             [
-                'Authorization' => "Bearer {$user->api_token}"
+                'Authorization' => "Bearer {$user->api_token}",
             ]
         );
 
