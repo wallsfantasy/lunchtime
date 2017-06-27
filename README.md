@@ -12,5 +12,6 @@ An app to help you decide where to go for lunch today :)
 ## Status
 - [x] User
 - [x] Restaurants
-- [ ] Cycle (wip)
+- [ ] Cycle (WIP - propose until)
+- [x] Propose
 - [ ] Report
