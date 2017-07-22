@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRestaurantRequest;
-use App\Restaurant;
+use App\Model\Restaurant\Restaurant;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller

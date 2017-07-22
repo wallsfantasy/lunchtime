@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Restaurant;
 
-use App\Restaurant;
+use App\Model\Restaurant\Restaurant;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;

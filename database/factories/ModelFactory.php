@@ -24,7 +24,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Restaurant::class, function (Faker\Generator $faker) {
+$factory->define(App\Model\Restaurant\Restaurant::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
         'description' => $faker->sentence()
