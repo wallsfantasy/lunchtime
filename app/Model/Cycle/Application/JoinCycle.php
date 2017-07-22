@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service;
+namespace App\Model\Cycle\Application;
 
 use App\User;
 
-class CycleService
+class JoinCycle
 {
     /**
      * @param User $user
