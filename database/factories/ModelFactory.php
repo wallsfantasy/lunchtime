@@ -31,7 +31,7 @@ $factory->define(App\Model\Restaurant\Restaurant::class, function (Faker\Generat
     ];
 });
 
-$factory->define(\App\Cycle::class, function (Faker\Generator $faker) {
+$factory->define(\App\Model\Cycle\Cycle::class, function (Faker\Generator $faker) {
     return [
         'name' => "{$faker->company} {$faker->companySuffix}",
         'propose_until' => $faker->time(),

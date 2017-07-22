@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Cycle;
+use App\Model\Cycle\Cycle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCycleRequest;
 use App\Http\Requests\JoinCycleRequest;

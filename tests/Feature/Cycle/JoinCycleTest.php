@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Cycles;
 
-use App\Cycle;
+use App\Model\Cycle\Cycle;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;

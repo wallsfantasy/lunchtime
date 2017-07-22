@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\Cycle\Cycle;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;

@@ -1,9 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Model\Cycle;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\User;
 
 /**
  * @property int    $id
