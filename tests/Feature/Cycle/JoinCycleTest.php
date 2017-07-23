@@ -11,7 +11,7 @@ class JoinCycleTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testJoinCycle()
+    public function testJoinCycleSuccess()
     {
         /** @var User $user */
         $user = factory(User::class)->create();
@@ -33,5 +33,10 @@ class JoinCycleTest extends TestCase
         $response->assertJson(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
 
         $this->assertDatabaseHas('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+    }
+
+    public function testJoinNonExistCycleFail()
+    {
+        $this->markTestIncomplete('tbd');
     }
 }
