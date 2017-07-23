@@ -4,6 +4,7 @@ namespace App\Model\Restaurant\Application;
 
 use App\Model\Restaurant\Restaurant;
 use Illuminate\Auth\AuthManager;
+use Illuminate\Database\Eloquent\Model;
 
 class RegisterRestaurant
 {
@@ -21,11 +22,11 @@ class RegisterRestaurant
      * @param string      $name
      * @param string|null $description
      *
-     * @return Restaurant
+     * @return Model|Restaurant
      */
     public function registerRestaurant(string $name, string $description = null)
     {
-        $registerUserId = $this->authManager->id();
+        $registerUserId = $this->authManager->guard()->id();
 
         $restaurant = Restaurant::create(
             [
