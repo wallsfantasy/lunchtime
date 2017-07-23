@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $cycle_id
  * @property int $user_id
+ * @mixin \Eloquent
  */
 class Member extends Model
 {

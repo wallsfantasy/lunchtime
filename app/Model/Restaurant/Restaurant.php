@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $register_user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @mixin \Eloquent
  */
 class Restaurant extends Model
 {

@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int    $id
  * @property string $name
+ * @mixin \Eloquent
  */
 class Cycle extends Model
 {
