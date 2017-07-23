@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Cycle\Application;
+namespace App\Model\Cycle\Domain;
 
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;

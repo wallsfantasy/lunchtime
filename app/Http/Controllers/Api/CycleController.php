@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCycleRequest;
 use App\Http\Requests\JoinCycleRequest;
-use App\Model\Cycle\Application\JoinCycle;
+use App\Model\Cycle\Domain\JoinCycle;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
 
