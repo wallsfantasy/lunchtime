@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRestaurantRequest;
 use App\Model\Restaurant\Restaurant;
-use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
@@ -13,6 +12,7 @@ class RestaurantController extends Controller
      * Register a restaurant
      *
      * @param RegisterRestaurantRequest $request
+     *
      * @return Restaurant
      */
     public function register(RegisterRestaurantRequest $request)
@@ -24,7 +24,8 @@ class RestaurantController extends Controller
      * Get restaurant by Id
      *
      * @param int $id
-     * @return array
+     *
+     * @return Restaurant
      */
     public function get(int $id)
     {

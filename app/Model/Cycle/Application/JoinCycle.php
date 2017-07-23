@@ -28,7 +28,6 @@ class JoinCycle
     {
         /** @var Cycle $cycle */
         $cycle = Cycle::findOrFail($cycleId);
-
         $userId = $this->authManager->id();
 
         $member = $cycle->members()->create(['user_id' => $userId]);

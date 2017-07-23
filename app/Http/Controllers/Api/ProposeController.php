@@ -12,6 +12,7 @@ class ProposeController extends Controller
      * Create a Cycle
      *
      * @param MakeProposeRequest $request
+     *
      * @return Propose
      */
     public function make(MakeProposeRequest $request)
