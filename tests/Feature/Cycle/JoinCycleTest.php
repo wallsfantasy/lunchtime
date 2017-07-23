@@ -3,7 +3,7 @@
 namespace Tests\Feature\Cycles;
 
 use App\Model\Cycle\Cycle;
-use App\User;
+use App\Model\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

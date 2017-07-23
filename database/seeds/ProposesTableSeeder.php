@@ -19,7 +19,7 @@ class ProposesTableSeeder extends Seeder
         return [
             [
                 'id' => 1,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT10H2M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT10H2M')),
 
                 // Jack - Duck Noodle
                 'user_id' => 1,
@@ -27,7 +27,7 @@ class ProposesTableSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT11H24M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT11H24M')),
 
                 // Davy - Goethe
                 'user_id' => 2,
@@ -35,7 +35,7 @@ class ProposesTableSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT10H15M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT10H15M')),
 
                 // Will - Food Court
                 'user_id' => 3,
@@ -43,7 +43,7 @@ class ProposesTableSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT9H53M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT9H53M')),
 
                 // Elizabeth - Food Court
                 'user_id' => 5,
@@ -51,7 +51,7 @@ class ProposesTableSeeder extends Seeder
             ],
             [
                 'id' => 5,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT11H33M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT11H33M')),
 
                 // Tia - Sai Sa-ard
                 'user_id' => 6,
@@ -59,7 +59,7 @@ class ProposesTableSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT11H38M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT11H38M')),
 
                 // James - Sam & Lek
                 'user_id' => 7,
@@ -67,7 +67,7 @@ class ProposesTableSeeder extends Seeder
             ],
             [
                 'id' => 7,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT11H42M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT11H42M')),
 
                 // Babossa - Tree House
                 'user_id' => 4,
@@ -75,7 +75,7 @@ class ProposesTableSeeder extends Seeder
             ],
             [
                 'id' => 8,
-                'created_at' => (new \DateTime('today'))->add(new \DateInterval('PT11H42M')),
+                'for_date' => (new \DateTime('today'))->add(new \DateInterval('PT11H42M')),
 
                 // Joshamee - Duck Noodle
                 'user_id' => 8,

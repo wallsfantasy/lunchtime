@@ -2,11 +2,9 @@
 
 namespace Tests\Feature\Restaurant;
 
-use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Model\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class RegisterRestaurantTest extends TestCase
 {
@@ -27,7 +25,7 @@ class RegisterRestaurantTest extends TestCase
             '/api/restaurants',
             $restaurantData,
             [
-                'Authorization' => "Bearer {$user->api_token}"
+                'Authorization' => "Bearer {$user->api_token}",
             ]
         );
 

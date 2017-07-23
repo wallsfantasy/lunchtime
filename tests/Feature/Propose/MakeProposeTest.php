@@ -3,7 +3,7 @@
 namespace Tests\Feature\Propose;
 
 use App\Model\Restaurant\Restaurant;
-use App\User;
+use App\Model\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

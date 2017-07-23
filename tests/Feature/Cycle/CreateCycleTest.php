@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Cycles;
 
-use App\User;
+use App\Model\User\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
