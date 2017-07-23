@@ -4,10 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MakeProposeRequest;
-use App\Propose;
+use App\Model\Propose\Domain\MakePropose;
+use App\Model\Propose\Propose;
 
 class ProposeController extends Controller
 {
+    /** @var MakePropose */
+    private $makePropose;
+
+    public function __construct(MakePropose $makePropose)
+    {
+        $this->makePropose = $makePropose;
+    }
+
     /**
      * Create a Cycle
      *
@@ -17,13 +26,11 @@ class ProposeController extends Controller
      */
     public function make(MakeProposeRequest $request)
     {
-        $user = \Auth::user();
+        $restaurantId = $request->request->get('restaurant_id');
+        $date = $request->request->get('date');
 
-        return Propose::create(
-            [
-                'user_id' => $user->id,
-                'restaurant_id' => $request->get('restaurant_id'),
-            ]
-        );
+        $propose = $this->makePropose->makePropose($restaurantId, $date);
+
+        return $propose;
     }
 }

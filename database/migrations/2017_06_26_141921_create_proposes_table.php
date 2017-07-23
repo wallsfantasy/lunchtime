@@ -15,20 +15,18 @@ class CreateProposesTable extends Migration
     {
         Schema::create('proposes', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('for_date');
+            $table->text('note')->nullable();
             $table->timestamps();
 
             // user
             $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')
-                ->on('users')->onDelete('cascade');
 
             // restaurant
             $table->integer('restaurant_id')->unsigned()->index();
-            $table->foreign('restaurant_id')->references('id')
-                ->on('restaurants')->onDelete('cascade');
 
-            // composite key
-            $table->index(['user_id', 'restaurant_id']);
+            // composite index
+            $table->index(['user_id', 'for_date']);
         });
     }
 

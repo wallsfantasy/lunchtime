@@ -2,23 +2,16 @@
 
 namespace Tests\Feature\Propose;
 
-use App\Restaurant;
+use App\Model\Restaurant\Restaurant;
 use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class MakeProposeTest extends TestCase
 {
     use DatabaseTransactions;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testMakeProposeSuccess()
+    public function testMakeProposeWithoutDateSuccess()
     {
         /** @var Restaurant $restaurant */
         $restaurant = factory(Restaurant::class)->create();
@@ -53,5 +46,20 @@ class MakeProposeTest extends TestCase
                 'restaurant_id' => $proposeData['restaurant_id'],
             ]
         );
+    }
+
+    public function testMakeProposeWithDateSuccess()
+    {
+        $this->markTestIncomplete('tbd');
+    }
+
+    public function testMakeProposeAlreadyMadeFail()
+    {
+        $this->markTestIncomplete('tbd');
+    }
+
+    public function testMakeProposeNotExistRestaurantFail()
+    {
+        $this->markTestIncomplete('tbd');
     }
 }

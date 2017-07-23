@@ -15,6 +15,7 @@ class CreateCycleMembersTable extends Migration
     {
         Schema::create('cycle_members', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
 
             // cycle
             $table->integer('cycle_id')->unsigned()->index();
@@ -26,7 +27,6 @@ class CreateCycleMembersTable extends Migration
 
             // composite index
             $table->unique(['cycle_id', 'user_id']);
-            $table->timestamps();
         });
     }
 
