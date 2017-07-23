@@ -7,7 +7,7 @@ use App\Http\Requests\CreateCycleRequest;
 use App\Http\Requests\JoinCycleRequest;
 use App\Model\Cycle\Application\JoinCycle;
 use App\Model\Cycle\Cycle;
-use App\User;
+use App\Model\Cycle\Member;
 
 class CycleController extends Controller
 {
@@ -23,6 +23,7 @@ class CycleController extends Controller
      * Create a Cycle
      *
      * @param CreateCycleRequest $request
+     *
      * @return Cycle
      */
     public function create(CreateCycleRequest $request)
@@ -35,10 +36,10 @@ class CycleController extends Controller
      *
      * @param JoinCycleRequest $request
      *
-     * @return User
+     * @return Member
      */
     public function join(JoinCycleRequest $request)
     {
-        return $this->joinCycle->joinCycle(\Auth::user(), $request->get('cycle_id'));
+        return $this->joinCycle->joinCycle($request->get('cycle_id'));
     }
 }

@@ -22,25 +22,51 @@ class CyclesTableSeeder extends Seeder
          * Pirate Captains
          * - Jack, Davy, Will, Hector, Elizabeth
          */
-        $cycles[1]->users()->sync([1, 2, 3, 4, 10]);
+        $cycles[1]->members()->createMany(
+            [
+                ['user_id' => 1],
+                ['user_id' => 2],
+                ['user_id' => 3],
+                ['user_id' => 4],
+                ['user_id' => 10],
+            ]
+        );
 
         /*
          * Royal Navy
          * - James, Cutler
          */
-        $cycles[2]->users()->sync([7, 9]);
+        $cycles[2]->members()->createMany(
+            [
+                ['user_id' => 7],
+                ['user_id' => 9],
+            ]
+        );
 
         /*
          * Love Triangle
          * - Will, Elizabeth, James
          */
-        $cycles[3]->users()->sync([3, 5, 7]);
+        $cycles[3]->members()->createMany(
+            [
+                ['user_id' => 3],
+                ['user_id' => 5],
+                ['user_id' => 7],
+            ]
+        );
 
         /*
          * Ex Revenge
          * - Jack, Hector, Davy, Tia
          */
-        $cycles[4]->users()->sync([1, 4, 2, 6]);
+        $cycles[4]->members()->createMany(
+            [
+                ['user_id' => 1],
+                ['user_id' => 4],
+                ['user_id' => 2],
+                ['user_id' => 6],
+            ]
+        );
     }
 
     public static function fixtures()
@@ -65,7 +91,7 @@ class CyclesTableSeeder extends Seeder
                 'id' => 4,
                 'name' => 'Ex Revenge',
                 'propose_until' => '11:00:00',
-            ]
+            ],
         ];
     }
 }

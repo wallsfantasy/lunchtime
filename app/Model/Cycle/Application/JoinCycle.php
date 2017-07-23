@@ -2,20 +2,37 @@
 
 namespace App\Model\Cycle\Application;
 
-use App\User;
+use App\Model\Cycle\Cycle;
+use App\Model\Cycle\Member;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Database\Eloquent\Model;
 
 class JoinCycle
 {
-    /**
-     * @param User $user
-     * @param int  $cycleId
-     *
-     * @return User
-     */
-    public function joinCycle(User $user, int $cycleId)
-    {
-        $user->cycles()->attach($cycleId);
+    /** @var AuthManager $authManager */
+    private $authManager;
 
-        return $user;
+    public function __construct(AuthManager $authManager)
+    {
+        $this->authManager = $authManager;
+    }
+
+    /**
+     * Join Cycle
+     *
+     * @param int $cycleId
+     *
+     * @return Model|Member
+     */
+    public function joinCycle(int $cycleId)
+    {
+        /** @var Cycle $cycle */
+        $cycle = Cycle::findOrFail($cycleId);
+
+        $userId = $this->authManager->id();
+
+        $member = $cycle->members()->create(['user_id' => $userId]);
+
+        return $member;
     }
 }

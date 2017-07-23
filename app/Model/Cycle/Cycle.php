@@ -2,9 +2,9 @@
 
 namespace App\Model\Cycle;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\User;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int    $id
@@ -17,10 +17,10 @@ class Cycle extends Model
     /**
      * The Users that belongs to this cycle
      *
-     * @return BelongsToMany|User[]
+     * @return HasMany|Collection|Member[]
      */
-    public function users()
+    public function members()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(Member::class, 'cycle_id');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCyclesUsersTable extends Migration
+class CreateCycleMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,9 @@ class CreateCyclesUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('cycle_user', function (Blueprint $table) {
+        Schema::create('cycle_members', function (Blueprint $table) {
+            $table->increments('id');
+
             // cycle
             $table->integer('cycle_id')->unsigned()->index();
             $table->foreign('cycle_id')->references('id')
@@ -21,11 +23,10 @@ class CreateCyclesUsersTable extends Migration
 
             // user
             $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')
-                ->on('users')->onDelete('cascade');
 
-            // composite key
-            $table->primary(['cycle_id', 'user_id']);
+            // composite index
+            $table->unique(['cycle_id', 'user_id']);
+            $table->timestamps();
         });
     }
 
@@ -36,6 +37,6 @@ class CreateCyclesUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cycle_user');
+        Schema::dropIfExists('cycle_members');
     }
 }

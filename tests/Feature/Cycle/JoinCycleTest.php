@@ -4,10 +4,8 @@ namespace Tests\Feature\Cycles;
 
 use App\Model\Cycle\Cycle;
 use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class JoinCycleTest extends TestCase
 {
@@ -32,8 +30,8 @@ class JoinCycleTest extends TestCase
             ]
         );
 
-        $response->assertJson($user->toArray());
+        $response->assertJson(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
 
-        $this->assertDatabaseHas('cycle_user', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+        $this->assertDatabaseHas('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
     }
 }
