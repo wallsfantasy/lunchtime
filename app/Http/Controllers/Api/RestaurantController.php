@@ -4,10 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRestaurantRequest;
+use App\Model\Restaurant\Application\RegisterRestaurant;
 use App\Model\Restaurant\Restaurant;
 
 class RestaurantController extends Controller
 {
+    /** @var RegisterRestaurant $registerRestaurant */
+    private $registerRestaurant;
+
+    public function __construct(RegisterRestaurant $registerRestaurant)
+    {
+        $this->registerRestaurant = $registerRestaurant;
+    }
+
     /**
      * Register a restaurant
      *
@@ -17,7 +26,10 @@ class RestaurantController extends Controller
      */
     public function register(RegisterRestaurantRequest $request)
     {
-        return Restaurant::create($request->all());
+        $name = $request->request->get('name');
+        $description = $request->request->get('description');
+
+        return $this->registerRestaurant->registerRestaurant($name, $description);
     }
 
     /**

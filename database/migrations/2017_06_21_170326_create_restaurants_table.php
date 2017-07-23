@@ -18,6 +18,7 @@ class CreateRestaurantsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->integer('register_user_id')->unsigned()->index()->nullable();
         });
     }
 
