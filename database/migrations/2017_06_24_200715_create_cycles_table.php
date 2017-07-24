@@ -18,6 +18,8 @@ class CreateCyclesTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->time('propose_until');
+            $table->time('lunchtime');
+            $table->integer('user_id')->unsigned()->nullable();
         });
     }
 

@@ -9,11 +9,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int    $id
  * @property string $name
+ * @property string $propose_until
+ * @property string $lunchtime
  * @mixin \Eloquent
  */
 class Cycle extends Model
 {
-    protected $fillable = ['name', 'propose_until'];
+    const DEFAULT_PROPOSE_BEFORE_LUNCHTIME = 'PT5M';
+
+    protected $fillable = ['name', 'propose_until', 'lunchtime', 'user_id'];
 
     /**
      * The Users that belongs to this cycle

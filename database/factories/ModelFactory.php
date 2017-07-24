@@ -35,5 +35,6 @@ $factory->define(\App\Model\Cycle\Cycle::class, function (Faker\Generator $faker
     return [
         'name' => "{$faker->company} {$faker->companySuffix}",
         'propose_until' => $faker->time(),
+        'lunchtime' => $faker->time(),
     ];
 });

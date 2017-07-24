@@ -25,7 +25,8 @@ class CreateCycleRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'propose_until' => 'required|date_format:H:i:s',
+            'lunchtime' => 'required|date_format:H:i:s',
+            'propose_until' => 'nullable|date_format:H:i:s',
         ];
     }
 }
