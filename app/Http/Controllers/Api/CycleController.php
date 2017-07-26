@@ -8,8 +8,11 @@ use App\Http\Requests\JoinCycleRequest;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Domain\CreateCycle;
 use App\Model\Cycle\Domain\JoinCycle;
+use App\Model\Cycle\Domain\LeaveCycle;
 use App\Model\Cycle\Member;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class CycleController extends Controller
 {
@@ -19,10 +22,36 @@ class CycleController extends Controller
     /** @var JoinCycle */
     private $joinCycle;
 
-    public function __construct(CreateCycle $createCycle, JoinCycle $joinCycle)
+    /** @var LeaveCycle */
+    private $leaveCycle;
+
+    public function __construct(CreateCycle $createCycle, JoinCycle $joinCycle, LeaveCycle $leaveCycle)
     {
         $this->createCycle = $createCycle;
         $this->joinCycle   = $joinCycle;
+        $this->leaveCycle  = $leaveCycle;
+    }
+
+    /**
+     * Get Cycles
+     *
+     * @return Collection|Cycle[]
+     */
+    public function get()
+    {
+        return Cycle::all();
+    }
+
+    /**
+     * Get Cycle by id
+     *
+     * @param int $cycleId
+     *
+     * @return Model|Cycle
+     */
+    public function getById(int $cycleId)
+    {
+        return Cycle::find(['id' => $cycleId]);
     }
 
     /**
@@ -60,5 +89,10 @@ class CycleController extends Controller
     public function join(JoinCycleRequest $request)
     {
         return $this->joinCycle->joinCycle($request->get('cycle_id'));
+    }
+
+    public function leave(Request $request, int $cycleId)
+    {
+        return $this->leaveCycle->leaveCycle($request->get('cycle_id'));
     }
 }
