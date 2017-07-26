@@ -30,8 +30,7 @@ Route::prefix('cycles')
         Route::get('/', 'Api\CycleController@get');
         Route::get('/{cycleId}', 'Api\CycleController@getById');
         Route::post('/', 'Api\CycleController@create');
-        Route::post('/join', 'Api\CycleController@join');
-        Route::post('/leave', 'Api\CycleController@create');
+        Route::post('/{cycleId}/join', 'Api\CycleController@join');
 });
 
 Route::prefix('proposes')

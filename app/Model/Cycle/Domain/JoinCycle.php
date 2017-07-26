@@ -21,8 +21,6 @@ class JoinCycle
     /**
      * Join Cycle
      *
-     * @param int $cycleId
-     *
      * @return Model|Member
      * @throws JoinCycleException
      */
@@ -35,11 +33,18 @@ class JoinCycle
             $cycle = Cycle::findOrFail($cycleId);
         } catch (\Exception $e) {
             throw new JoinCycleException('Cycle not found',
-                JoinCycleException::CODES['ALREADY_JOINED'], $e, $cycleId
+                JoinCycleException::CODES['JOIN_NON_EXIST_CYCLE'], $e, $cycleId, $userId
             );
         }
 
-        $member = $cycle->members()->create(['user_id' => $userId]);
+        try {
+            /** @var Member $member */
+            $member = $cycle->members()->create(['user_id' => $userId]);
+        } catch (\Exception $e) {
+            throw new JoinCycleException('User is already joined',
+                JoinCycleException::CODES['ALREADY_JOINED'], $e, $cycleId, $userId
+            );
+        }
 
         return $member;
     }

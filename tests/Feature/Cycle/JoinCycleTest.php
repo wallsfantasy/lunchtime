@@ -21,10 +21,8 @@ class JoinCycleTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/cycles/join',
-            [
-                'cycle_id' => $cycle->id,
-            ],
+            "/api/cycles/{$cycle->id}/join",
+            [],
             [
                 'Authorization' => "Bearer {$user->api_token}",
             ]
@@ -36,6 +34,11 @@ class JoinCycleTest extends TestCase
     }
 
     public function testJoinNonExistCycleFail()
+    {
+        $this->markTestIncomplete('tbd');
+    }
+
+    public function testJoinAlreadyJoinedCycleFail()
     {
         $this->markTestIncomplete('tbd');
     }
