@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCycleRequest;
-use App\Http\Requests\JoinCycleRequest;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Domain\CreateCycle;
 use App\Model\Cycle\Domain\JoinCycle;
@@ -12,7 +11,6 @@ use App\Model\Cycle\Domain\LeaveCycle;
 use App\Model\Cycle\Member;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class CycleController extends Controller
 {
@@ -28,8 +26,8 @@ class CycleController extends Controller
     public function __construct(CreateCycle $createCycle, JoinCycle $joinCycle, LeaveCycle $leaveCycle)
     {
         $this->createCycle = $createCycle;
-        $this->joinCycle   = $joinCycle;
-        $this->leaveCycle  = $leaveCycle;
+        $this->joinCycle = $joinCycle;
+        $this->leaveCycle = $leaveCycle;
     }
 
     /**
