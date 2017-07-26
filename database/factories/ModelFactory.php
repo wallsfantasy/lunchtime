@@ -38,3 +38,7 @@ $factory->define(\App\Model\Cycle\Cycle::class, function (Faker\Generator $faker
         'lunchtime' => $faker->time(),
     ];
 });
+
+$factory->define(\App\Model\Cycle\Member::class, function (Faker\Generator $faker) {
+    return [];
+});

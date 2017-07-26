@@ -82,17 +82,26 @@ class CycleController extends Controller
     /**
      * Join a cycle
      *
-     * @param JoinCycleRequest $request
+     * @param int $cycleId
      *
-     * @return Member
+     * @return Model|Member
      */
-    public function join(JoinCycleRequest $request)
+    public function join(int $cycleId)
     {
-        return $this->joinCycle->joinCycle($request->get('cycle_id'));
+        return $this->joinCycle->joinCycle($cycleId);
     }
 
-    public function leave(Request $request, int $cycleId)
+    /**
+     * Leave a cycle
+     *
+     * @param int $cycleId
+     *
+     * @return array
+     */
+    public function leave(int $cycleId)
     {
-        return $this->leaveCycle->leaveCycle($request->get('cycle_id'));
+        $result = $this->leaveCycle->leaveCycle($cycleId);
+
+        return ['success' => $result];
     }
 }
