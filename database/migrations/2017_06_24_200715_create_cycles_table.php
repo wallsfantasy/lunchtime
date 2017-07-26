@@ -19,7 +19,7 @@ class CreateCyclesTable extends Migration
             $table->string('name');
             $table->time('propose_until');
             $table->time('lunchtime');
-            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('creator_user_id')->unsigned()->nullable();
         });
     }
 

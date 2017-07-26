@@ -42,8 +42,8 @@ class CreateCycleTest extends TestCase
             'lunchtime' => '12:00:00',
         ];
 
-        // default propose until is 5 minutes before lunch time
-        $cycleResponse = $cycleData + ['propose_until' => '11:55:00'];
+        // default propose until is 0 minutes before lunch time
+        $cycleResponse = $cycleData + ['propose_until' => '12:00:00'];
 
         /** @var User $user */
         $user = factory(User::class)->create();
