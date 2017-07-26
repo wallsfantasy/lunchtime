@@ -20,8 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('restaurants')
     ->middleware('auth:api')
     ->group(function () {
-        Route::post('/', 'RestaurantController@register');
-        Route::get('/{id}', 'RestaurantController@get');
+        Route::post('/', 'Api\RestaurantController@register');
+        Route::get('/{id}', 'Api\RestaurantController@get');
 });
 
 Route::prefix('cycles')
@@ -36,7 +36,6 @@ Route::prefix('cycles')
 
 Route::prefix('proposes')
     ->middleware('auth:api')
-    ->namespace('Api')
     ->group(function () {
-        Route::post('/', 'ProposeController@make');
+        Route::post('/', 'Api\ProposeController@make');
     });
