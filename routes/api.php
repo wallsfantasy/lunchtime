@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,14 +17,14 @@ Route::prefix('me')
         Route::get('/', 'Api\UserController@getMyUser');
         Route::get('/members', 'Api\UserController@getMyMembers');
         Route::get('/cycles', 'Api\UserController@getMyCycles');
-});
+    });
 
 Route::prefix('restaurants')
     ->middleware('auth:api')
     ->group(function () {
         Route::post('/', 'Api\RestaurantController@register');
         Route::get('/{id}', 'Api\RestaurantController@get');
-});
+    });
 
 Route::prefix('cycles')
     ->middleware('auth:api')
@@ -36,7 +34,7 @@ Route::prefix('cycles')
         Route::post('/', 'Api\CycleController@create');
         Route::post('/{cycleId}/join', 'Api\CycleController@join');
         Route::delete('/{cycleId}/leave', 'Api\CycleController@leave');
-});
+    });
 
 Route::prefix('proposes')
     ->middleware('auth:api')
