@@ -5,24 +5,28 @@ namespace App\Model\Cycle\Domain\Exception;
 class CreateCycleException extends \DomainException
 {
     const CODES = [
-        'LUNCHTIME_AFTER_PROPOSE_UNTIL' => 1,
+        'REPOSITORY_FAILURE' => 1,
+        'LUNCHTIME_BEFORE_PROPOSE_TIME' => 102,
     ];
 
-    /** @var \DateInterval */
-    private $proposeUntil;
-
-    /** @var \DateInterval */
-    private $lunchtime;
+    /** @var array */
+    private $context;
 
     public function __construct(
         $message = '',
         $code = 0,
         \Throwable $previous = null,
-        \DateInterval $proposeUntil,
-        \DateInterval $tallyTime
+        array $context
     ) {
         parent::__construct($message, $code, $previous);
-        $this->proposeUntil = $proposeUntil;
-        $this->lunchtime    = $tallyTime;
+        $this->context = $context;
+    }
+
+    /**
+     * @return array
+     */
+    public function getContext(): array
+    {
+        return $this->context;
     }
 }

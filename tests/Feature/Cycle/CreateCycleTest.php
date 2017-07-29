@@ -30,9 +30,16 @@ class CreateCycleTest extends TestCase
             ]
         );
 
-        $response->assertJson($cycleData);
+        // expectation
+        $cycleResponse = $cycleData;
+        $cycleResponse['members'] = [
+            ['user_id' => $user->id],
+        ];
+
+        $response->assertJson($cycleResponse);
 
         $this->assertDatabaseHas('cycles', $cycleData);
+        $this->assertDatabaseHas('cycle_members', ['user_id' => $user->id]);
     }
 
     public function testCreateCycleWithoutProposeUntilSuccess()
