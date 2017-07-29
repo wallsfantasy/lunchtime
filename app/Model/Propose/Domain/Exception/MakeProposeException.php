@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Propose\Exception;
+namespace App\Model\Propose\Domain\Exception;
 
 class MakeProposeException extends \DomainException
 {

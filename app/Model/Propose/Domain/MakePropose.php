@@ -2,7 +2,7 @@
 
 namespace App\Model\Propose\Domain;
 
-use App\Model\Propose\Exception\MakeProposeException;
+use App\Model\Propose\Domain\Exception\MakeProposeException;
 use App\Model\Propose\Propose;
 use App\Model\Restaurant\Restaurant;
 use Illuminate\Auth\AuthManager;

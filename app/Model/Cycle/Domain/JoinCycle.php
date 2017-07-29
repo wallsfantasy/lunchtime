@@ -4,7 +4,7 @@ namespace App\Model\Cycle\Domain;
 
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
-use App\Model\Propose\Exception\JoinCycleException;
+use App\Model\Cycle\Domain\Exception\JoinCycleException;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Database\Eloquent\Model;
 

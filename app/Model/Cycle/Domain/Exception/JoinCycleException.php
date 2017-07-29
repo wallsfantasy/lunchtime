@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Propose\Exception;
+namespace App\Model\Cycle\Domain\Exception;
 
 class JoinCycleException extends \DomainException
 {

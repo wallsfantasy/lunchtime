@@ -3,9 +3,8 @@
 namespace App\Model\Cycle\Domain;
 
 use App\Model\Cycle\Cycle;
+use App\Model\Cycle\Domain\Exception\LeaveCycleException;
 use App\Model\Cycle\Member;
-use App\Model\Propose\Exception\JoinCycleException;
-use App\Model\Propose\Exception\LeaveCycleException;
 use Illuminate\Auth\AuthManager;
 
 class LeaveCycle
