@@ -2,7 +2,6 @@
 
 namespace App\Model\Cycle;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -22,7 +21,7 @@ class Cycle extends Model
     /**
      * The Users that belongs to this cycle
      *
-     * @return HasMany|Collection|Member[]
+     * @return HasMany|Member[]
      */
     public function members()
     {
