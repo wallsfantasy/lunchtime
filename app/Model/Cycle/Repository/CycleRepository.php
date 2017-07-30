@@ -4,6 +4,7 @@ namespace App\Model\Cycle\Repository;
 
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CycleRepository
@@ -31,6 +32,20 @@ class CycleRepository
         $cycles = $this->cycle::with(['members'])
             ->where('id', '=', $id)
             ->first();
+
+        return $cycles;
+    }
+
+    /**
+     * @return iterable|Collection|Cycle[]
+     */
+    public function findByMemberUserId(int $userId): iterable
+    {
+        $cycles = $this->cycle::whereHas('members', function ($query) use ($userId) {
+            $query->where('user_id', '=', $userId);
+        })
+            ->with('members')
+            ->get();
 
         return $cycles;
     }
