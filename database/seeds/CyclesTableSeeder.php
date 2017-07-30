@@ -88,7 +88,7 @@ class CyclesTableSeeder extends Seeder
                 'propose_until' => '12:00:00',
             ],
             4 => [
-                'name' => 'Ex Revenge',
+                'name' => 'Ex Problem',
                 'lunchtime' => '11:00:00',
                 'propose_until' => '11:00:00',
             ],
