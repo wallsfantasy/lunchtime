@@ -4,9 +4,15 @@ namespace App\Model\Cycle\Repository;
 
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
+use Illuminate\Support\Facades\DB;
 
 class CycleRepository
 {
+    private const TABLES = [
+        'cycle' => 'cycles',
+        'member' => 'cycle_members',
+    ];
+
     /** @var Cycle */
     private $cycle;
 
@@ -48,21 +54,26 @@ class CycleRepository
      * @param Cycle             $cycle
      * @param iterable|Member[] $members
      *
-     * @return Cycle
-     * @throws \Exception
+     * @return int
+     * @throws \Throwable
      */
-    public function add(Cycle $cycle, iterable $members = []): Cycle
+    public function add(Cycle $cycle, iterable $members = []): int
     {
-        if ($cycle->save() === false) {
-            throw new \Exception('Fail to add Cycle to repository');
-        }
+        $cycleId = null;
+        DB::transaction(function () use ($cycle, $members, &$cycleId) {
+            $cycleId = DB::table(self::TABLES['cycle'])->insertGetId($cycle->toArray());
 
-        if ($members !== []) {
-            $cycle->members()->saveMany($members);
-        }
+            if (count($members) > 0) {
+                $memberData = [];
+                foreach ($members as $member) {
+                    $member = $member->toArray();
+                    $member['cycle_id'] = $cycleId;
+                    $memberData[] = $member;
+                }
+                DB::table(self::TABLES['member'])->insert($memberData);
+            }
+        });
 
-        $result = $this->find($cycle->id);
-
-        return $result;
+        return $cycleId;
     }
 }
