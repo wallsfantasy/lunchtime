@@ -36,6 +36,7 @@ class MakeProposeTest extends TestCase
             [
                 'user_id' => $user->id,
                 'restaurant_id' => $proposeData['restaurant_id'],
+                'for_date' => (new \DateTime('today'))->format('Y-m-d H:i:s'),
             ]
         );
 
@@ -44,13 +45,50 @@ class MakeProposeTest extends TestCase
             [
                 'user_id' => $user->id,
                 'restaurant_id' => $proposeData['restaurant_id'],
+                'for_date' => (new \DateTime('today'))->format('Y-m-d H:i:s'),
             ]
         );
     }
 
     public function testMakeProposeWithDateSuccess()
     {
-        $this->markTestIncomplete('tbd');
+        /** @var Restaurant $restaurant */
+        $restaurant = factory(Restaurant::class)->create();
+
+        /** @var User $user */
+        $user = factory(User::class)->create();
+
+        $today = new \DateTimeImmutable('today');
+        $proposeData = [
+            'restaurant_id' => $restaurant->id,
+            'date' => $today->format('Y-m-d'),
+        ];
+
+        $response = $this->json(
+            'POST',
+            '/api/proposes',
+            $proposeData,
+            [
+                'Authorization' => "Bearer {$user->api_token}",
+            ]
+        );
+
+        $response->assertJson(
+            [
+                'user_id' => $user->id,
+                'restaurant_id' => $proposeData['restaurant_id'],
+                'for_date' => $today->format('Y-m-d H:i:s'),
+            ]
+        );
+
+        $this->assertDatabaseHas(
+            'proposes',
+            [
+                'user_id' => $user->id,
+                'restaurant_id' => $proposeData['restaurant_id'],
+                'for_date' => $today->format('Y-m-d H:i:s'),
+            ]
+        );
     }
 
     public function testMakeProposeAlreadyMadeFail()

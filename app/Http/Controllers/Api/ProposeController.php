@@ -29,7 +29,7 @@ class ProposeController extends Controller
         $restaurantId = $request->request->get('restaurant_id');
         $date = $request->request->get('date');
 
-        $propose = $this->makePropose->makePropose($restaurantId, $date);
+        $propose = $this->makePropose->makePropose($restaurantId, new \DateTime($date));
 
         return $propose;
     }
