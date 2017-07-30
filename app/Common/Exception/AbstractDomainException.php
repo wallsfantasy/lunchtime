@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Exception;
+namespace App\Common\Exception;
 
 abstract class AbstractDomainException extends \DomainException
 {

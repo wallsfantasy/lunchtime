@@ -5,6 +5,7 @@ namespace App\Model\Cycle\Domain;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
 use App\Model\Cycle\Repository\CycleRepository;
+use Carbon\Carbon;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,11 +36,11 @@ class CreateCycle
         $userId = $this->authManager->guard()->id();
 
         // initialize lunchtime and propose_until
-        $today = new \DateTimeImmutable('today');
-        $todayLunchtime = $today->add($lunchtime);
+        $today = Carbon::today();
+        $todayLunchtime = $today->copy()->add($lunchtime);
         if ($proposeUntil === null) {
-            $todayProposeUntil = $todayLunchtime->sub(new \DateInterval(Cycle::DEFAULT_PROPOSE_BEFORE_LUNCHTIME));
-            $proposeUntil = $today->diff($todayProposeUntil);
+            $todayProposeUntil = $todayLunchtime->copy()->sub(new \DateInterval(Cycle::DEFAULT_PROPOSE_BEFORE_LUNCHTIME));
+            $proposeUntil = $today->copy()->diff($todayProposeUntil);
         } else {
             $todayProposeUntil = $today->add($proposeUntil);
         }

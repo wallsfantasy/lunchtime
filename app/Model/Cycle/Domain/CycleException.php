@@ -2,7 +2,7 @@
 
 namespace App\Model\Cycle\Domain;
 
-use App\Library\Exception\AbstractDomainException;
+use App\Common\Exception\AbstractDomainException;
 
 class CycleException extends AbstractDomainException
 {
