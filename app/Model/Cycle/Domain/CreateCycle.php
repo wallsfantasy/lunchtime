@@ -3,7 +3,6 @@
 namespace App\Model\Cycle\Domain;
 
 use App\Model\Cycle\Cycle;
-use App\Model\Cycle\Domain\Exception\CreateCycleException;
 use App\Model\Cycle\Member;
 use App\Model\Cycle\Repository\CycleRepository;
 use Illuminate\Auth\AuthManager;
@@ -14,13 +13,13 @@ class CreateCycle
     /** @var AuthManager $authManager */
     private $authManager;
 
-    /** @var CycleRepository */
+    /** @var CycleRepository $cycleRepo */
     private $cycleRepo;
 
-    public function __construct(AuthManager $authManager, CycleRepository $cycleRepository)
+    public function __construct(AuthManager $authManager, CycleRepository $cycleRepo)
     {
         $this->authManager = $authManager;
-        $this->cycleRepo = $cycleRepository;
+        $this->cycleRepo = $cycleRepo;
     }
 
     /**
@@ -29,7 +28,7 @@ class CreateCycle
      * @param \DateInterval|null $proposeUntil
      *
      * @return Model|Cycle
-     * @throws CreateCycleException
+     * @throws CycleException
      */
     public function createCycle(string $name, \DateInterval $lunchtime, \DateInterval $proposeUntil = null): Cycle
     {
@@ -52,7 +51,8 @@ class CreateCycle
             $this->throwLunchtimeBeforeProposeTime($lunchtimeFormatted, $proposeUntilFormatted);
         }
 
-        // factory
+        // factory and save cycle
+        /** @var Cycle $cycle */
         $cycle = new Cycle(
             [
                 'name' => $name,
@@ -61,16 +61,16 @@ class CreateCycle
                 'creator_user_id' => $userId,
             ]
         );
-        $members = [
-            new Member(['user_id' => $userId]),
-        ];
 
-        // save
+        $members = [new Member(['user_id' => $userId])];
+
         try {
-            $cycle = $this->cycleRepo->add($cycle, $members);
+            $id = $this->cycleRepo->add($cycle, $members);
         } catch (\Throwable $e) {
-            $this->throwRepositoryException($e, $cycle);
+            throw new CycleException('Fail to add Cycle to repository', 0, $e, [$cycle, $members]);
         }
+
+        $cycle = $this->cycleRepo->find($id);
 
         return $cycle;
     }
@@ -79,34 +79,18 @@ class CreateCycle
      * @param string $lunchtimeFormatted
      * @param string $proposeUntilFormatted
      *
-     * @throws CreateCycleException
+     * @throws CycleException
      */
     private function throwLunchtimeBeforeProposeTime(string $lunchtimeFormatted, string $proposeUntilFormatted): void
     {
-        throw new CreateCycleException(
+        throw new CycleException(
             "Lunchtime ({$lunchtimeFormatted}) arrived before last propose time ({$proposeUntilFormatted})",
-            CreateCycleException::CODES['LUNCHTIME_BEFORE_PROPOSE_TIME'],
+            CycleException::CODES_CREATE_CYCLE['lunchtime_before_propose'],
             null,
             [
                 'propose_until' => $proposeUntilFormatted,
                 'lunchtime' => $lunchtimeFormatted,
             ]
-        );
-    }
-
-    /**
-     * @param \Throwable $previous
-     * @param Cycle      $cycle
-     *
-     * @throws CreateCycleException
-     */
-    private function throwRepositoryException(\Throwable $previous, Cycle $cycle): void
-    {
-        throw new CreateCycleException(
-            'Fail to save Cycle',
-            CreateCycleException::CODES['REPOSITORY_FAILURE'],
-            $previous,
-            $cycle->toArray()
         );
     }
 }

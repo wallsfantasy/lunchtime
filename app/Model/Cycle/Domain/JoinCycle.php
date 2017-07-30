@@ -4,7 +4,6 @@ namespace App\Model\Cycle\Domain;
 
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
-use App\Model\Cycle\Domain\Exception\JoinCycleException;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,8 +20,10 @@ class JoinCycle
     /**
      * Join Cycle
      *
-     * @return Model|Member
-     * @throws JoinCycleException
+     * @param int $cycleId
+     *
+     * @return Member|Model
+     * @throws CycleException
      */
     public function joinCycle(int $cycleId)
     {
@@ -31,18 +32,22 @@ class JoinCycle
         try {
             /** @var Cycle $cycle */
             $cycle = Cycle::findOrFail($cycleId);
-        } catch (\Exception $e) {
-            throw new JoinCycleException('Cycle not found',
-                JoinCycleException::CODES['JOIN_NON_EXIST_CYCLE'], $e, $cycleId, $userId
+        } catch (\Throwable $e) {
+            throw new CycleException('Cycle not found',
+                CycleException::CODES_JOIN_CYCLE['join_non_exist_cycle'],
+                $e,
+                ['user_id' => $userId, 'cycle_id' => $cycleId]
             );
         }
 
         try {
             /** @var Member $member */
             $member = $cycle->members()->create(['user_id' => $userId]);
-        } catch (\Exception $e) {
-            throw new JoinCycleException('User is already joined',
-                JoinCycleException::CODES['ALREADY_JOINED'], $e, $cycleId, $userId
+        } catch (\Throwable $e) {
+            throw new CycleException('User is already joined',
+                CycleException::CODES_JOIN_CYCLE['join_already_joined'],
+                $e,
+                ['user_id' => $userId, 'cycle_id' => $cycleId]
             );
         }
 
