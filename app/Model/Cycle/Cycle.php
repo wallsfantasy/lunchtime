@@ -2,14 +2,16 @@
 
 namespace App\Model\Cycle;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int    $id
- * @property string $name
- * @property string $propose_until
- * @property string $lunchtime
+ * @property int                 $id
+ * @property string              $name
+ * @property string              $propose_until
+ * @property string              $lunchtime
+ * @property Collection|Member[] $members
  * @mixin \Eloquent
  */
 class Cycle extends Model
