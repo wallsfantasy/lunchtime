@@ -75,12 +75,18 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-xs-1 col-sm-2 col-md-2 col-lg-2 sidebar">
-                @include('layouts.sidebar')
-            </div>
-            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-1 col-md-8 col-lg-8 col-lg-offset-1 main">
-                @yield('content')
-            </div>
+            @if (! Auth::guest())
+                <div class="col-xs-1 col-sm-2 col-md-2 col-lg-2 sidebar">
+                    @include('layouts.sidebar')
+                </div>
+                <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-1 col-md-8 col-lg-8 col-lg-offset-1 main">
+                    @yield('content')
+                </div>
+            @else
+                <div class="col-md-8">
+                    @yield('content')
+                </div>
+            @endif
         </div>
     </div>
 </div>
