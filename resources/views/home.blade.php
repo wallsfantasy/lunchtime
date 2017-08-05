@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <!-- My Cycles -->
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading">Your Cycles</div>
+            <div class="panel-heading">My Cycles</div>
             <div class="panel-body">
                 <ul>
                     @forelse($cycles as $cycle)
-                        <li>{{ $cycle->name }}</li>
+                        <li><a href="#{{ kebab_case($cycle->name) }}">{{ $cycle->name }}</a></li>
                     @empty
                         <li>You haven't join any cycle. Click here to add some!</li>
                     @endforelse
@@ -15,10 +16,11 @@
             </div>
         </div>
     </div>
+    <!-- Cycle lists -->
     @forelse($userProposesByCycle as $cycleName => $userPropose)
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading"><a name="{{ kebab_case($cycleName) }}"></a>
                     {{ $cycleName }}
                 </div>
                 <div class="panel-body">
