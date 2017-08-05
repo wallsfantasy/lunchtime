@@ -1,40 +1,36 @@
 <?php
 
-namespace Tests\Feature\Cycles;
+namespace Tests\Feature\Cycles\Api;
 
 use App\Model\Cycle\Cycle;
-use App\Model\Cycle\Member;
 use App\Model\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class LeaveCycleTest extends TestCase
+class JoinCycleTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testLeaveCycleSuccess()
+    public function testJoinCycleSuccess()
     {
         /** @var User $user */
         $user = factory(User::class)->create();
 
-        /** @var Cycle $cycle */
+        /** @var $cycle */
         $cycle = factory(Cycle::class)->create();
 
-        /** @var Member $member */
-        $member = factory(Member::class)->create(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
-
         $response = $this->json(
-            'DELETE',
-            "/api/cycles/{$cycle->id}/leave",
+            'POST',
+            "/api/cycles/{$cycle->id}/join",
             [],
             [
                 'Authorization' => "Bearer {$user->api_token}",
             ]
         );
 
-        $response->assertJson(['success' => true]);
+        $response->assertJson(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
 
-        $this->assertDatabaseMissing('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+        $this->assertDatabaseHas('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
     }
 
     public function testJoinNonExistCycleFail()
@@ -42,7 +38,7 @@ class LeaveCycleTest extends TestCase
         $this->markTestIncomplete('tbd');
     }
 
-    public function testLeaveNeverJoinedCycleFail()
+    public function testJoinAlreadyJoinedCycleFail()
     {
         $this->markTestIncomplete('tbd');
     }

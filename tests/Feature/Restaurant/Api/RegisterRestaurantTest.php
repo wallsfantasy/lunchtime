@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Restaurant;
+namespace Tests\Feature\Restaurant\Api;
 
 use App\Model\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
