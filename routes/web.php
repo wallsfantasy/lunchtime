@@ -20,4 +20,5 @@ Auth::routes();
 Route::middleware('auth')
     ->group(function () {
         Route::get('/home', 'Web\HomeController@index')->name('home');
+        Route::get('/restaurant', 'Web\RestaurantController@index')->name('restaurant');
     });
