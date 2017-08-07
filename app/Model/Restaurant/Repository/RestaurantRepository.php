@@ -25,7 +25,7 @@ class RestaurantRepository
      */
     public function find(int $id): Restaurant
     {
-        $restaurant = $this->restaurant::where('id', '=', $id)
+        $restaurant = $this->restaurant->where('id', '=', $id)
             ->first();
 
         return $restaurant;
@@ -38,7 +38,7 @@ class RestaurantRepository
      */
     public function findByIds(array $ids): iterable
     {
-        $restaurants = $this->restaurant::whereIn('id', $ids)
+        $restaurants = $this->restaurant->whereIn('id', $ids)
             ->get();
 
         return $restaurants;
@@ -55,18 +55,18 @@ class RestaurantRepository
      */
     public function pageByRestaurantName(
         string $name = null,
-        int $page = null,
+        int $page = 1,
         string $order = 'asc',
         int $size = self::DEFAULT_PAGE_SIZE
     ): iterable {
         // todo: create pagination result VO in common
         if ($name === null) {
-            $paginated = $this->restaurant::orderBy('name', $order)
+            $paginated = $this->restaurant->orderBy('name', $order)
                 ->paginate($size, $columns = ['*'], $pageName = 'page', $page);
             return $paginated;
         }
 
-        $paginated = $this->restaurant::where('name', 'like', "%{$name}%")
+        $paginated = $this->restaurant->where('name', 'ilike', "%{$name}%")
             ->orderBy('name', $order)
             ->paginate($size, $columns = ['*'], $pageName = 'page', $page);
 

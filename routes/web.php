@@ -17,8 +17,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware('auth')
-    ->group(function () {
-        Route::get('/home', 'Web\HomeController@index')->name('home');
-        Route::get('/restaurant', 'Web\RestaurantController@index')->name('restaurant');
-    });
+/* Home */
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', 'Web\HomeController@index')->name('home');
+});
+
+/* Restaurant */
+Route::group(['prefix' => 'restaurant'], function () {
+    Route::get('/', 'Web\RestaurantController@index')->name('restaurant');
+    Route::get('/search', 'Web\RestaurantController@search')->name('restaurant-search');
+    Route::post('/register', 'Web\RestaurantController@postRegisterRestaurant')->name('restaurant-register');
+});
