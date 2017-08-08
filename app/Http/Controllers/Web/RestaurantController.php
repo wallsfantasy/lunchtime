@@ -107,7 +107,6 @@ class RestaurantController extends Controller
 
         $registered = $this->registerRestaurant->registerRestaurant($name, $description);
 
-        return redirect('restaurant')->with('notification', 'Register restaurant success');
+        return back()->with('notification', 'Register restaurant success');
     }
-
 }
