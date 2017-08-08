@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <!-- My Cycles -->
     <div class="row">
         <div class="panel panel-default">
@@ -16,6 +17,7 @@
             </div>
         </div>
     </div>
+
     <!-- Cycle lists -->
     @forelse($userProposesByCycle as $cycleName => $userPropose)
         <div class="row">
