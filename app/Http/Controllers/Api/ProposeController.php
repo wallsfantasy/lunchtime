@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MakeProposeRequest;
 use App\Model\Propose\Domain\MakePropose;
 use App\Model\Propose\Propose;
+use Carbon\Carbon;
 
 class ProposeController extends Controller
 {
@@ -27,9 +28,9 @@ class ProposeController extends Controller
     public function make(MakeProposeRequest $request)
     {
         $restaurantId = $request->request->get('restaurant_id');
-        $date = $request->request->get('date');
+        $date = Carbon::today()->format('Y-m-d');
 
-        $propose = $this->makePropose->makePropose($restaurantId, new \DateTime($date));
+        $propose = $this->makePropose->makePropose($restaurantId, $date);
 
         return $propose;
     }

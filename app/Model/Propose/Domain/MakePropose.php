@@ -4,6 +4,7 @@ namespace App\Model\Propose\Domain;
 
 use App\Model\Propose\Propose;
 use App\Model\Restaurant\Restaurant;
+use Carbon\Carbon;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,10 +29,8 @@ class MakePropose
      */
     public function makePropose(int $restaurantId, \DateTime $date = null)
     {
-        json_encode(new \DateTime());
         $userId = $this->authManager->guard()->id();
-        $date = $date ?? new \DateTime('today');
-        $date->setTime(0, 0);
+        $date = $date ?? Carbon::today();
 
         // throw if already proposed
         $proposed = Propose::where(['user_id' => $userId, 'for_date' => $date->format('Y-m-d')])->first();
@@ -39,7 +38,7 @@ class MakePropose
             throw new ProposeException("Already proposed for date {$date->format('Y-m-d')}",
                 ProposeException::CODES_MAKE_PROPOSE['already_proposed'],
                 null,
-                [ 'date' => $date, 'restaurant_id' => $restaurantId]
+                ['date' => $date, 'restaurant_id' => $restaurantId]
             );
         }
 
@@ -50,7 +49,7 @@ class MakePropose
             throw new ProposeException("Restaurant not found",
                 ProposeException::CODES_MAKE_PROPOSE['restaurant_not_found'],
                 $e,
-                [ 'date' => $date, 'restaurant_id' => $restaurantId ]
+                ['date' => $date, 'restaurant_id' => $restaurantId]
             );
         }
 

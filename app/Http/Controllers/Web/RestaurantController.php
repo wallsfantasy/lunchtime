@@ -48,6 +48,8 @@ class RestaurantController extends Controller
     }
 
     /**
+     * Show search result of the restaurants
+     *
      * @param PageRestaurantRequest $request
      *
      * @return View

@@ -17,7 +17,7 @@ class ProposeRepository
     }
 
     /**
-     * @param array          $userIds
+     * @param int[]          $userIds
      * @param \DateTime|null $date
      *
      * @return iterable|Collection|Propose[]
@@ -25,10 +25,23 @@ class ProposeRepository
     public function findByUserIdsForDate(array $userIds, \DateTime $date = null): iterable
     {
         $date = $date ?? Carbon::today();
-        $proposes = $this->propose::whereIn('user_id', $userIds)
+        $proposes = $this->propose->whereIn('user_id', $userIds)
             ->where('for_date', '=', $date->format('Y-m-d'))
             ->get();
 
         return $proposes;
     }
+
+    /**
+     * @param Propose $propose
+     *
+     * @return int
+     */
+    public function add(Propose $propose)
+    {
+        $propose->save();
+
+        return $propose->id;
+    }
+
 }

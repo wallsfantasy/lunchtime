@@ -22,8 +22,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'Web\HomeController@index')->name('home');
 });
 
+/* Propose */
+Route::group(['prefix' => 'propose', 'middleware' => ['auth']], function () {
+    Route::get('/', 'Web\ProposeController@index')->name('propose');
+    Route::get('/restaurant-search', 'Web\ProposeController@restaurantSearch')->name('propose-restaurant-search');
+    Route::post('/make', 'Web\ProposeController@postMakePropose')->name('propose-make');
+});
+
 /* Restaurant */
-Route::group(['prefix' => 'restaurant'], function () {
+Route::group(['prefix' => 'restaurant', 'middleware' => ['auth']], function () {
     Route::get('/', 'Web\RestaurantController@index')->name('restaurant');
     Route::get('/search', 'Web\RestaurantController@search')->name('restaurant-search');
     Route::post('/register', 'Web\RestaurantController@postRegisterRestaurant')->name('restaurant-register');
