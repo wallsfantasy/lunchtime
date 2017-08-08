@@ -25,7 +25,6 @@ class MakeProposeRequest extends FormRequest
     {
         return [
             'restaurant_id' => 'required|integer',
-            'for_date' => 'nullable|date',
         ];
     }
 }
