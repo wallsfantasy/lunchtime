@@ -17,6 +17,22 @@ class ProposeRepository
     }
 
     /**
+     * @param int            $userId
+     * @param \DateTime|null $date
+     *
+     * @return Propose|null
+     */
+    public function findByUserIdForDate(int $userId, \DateTime $date = null): ?Propose
+    {
+        $date = $date ?? Carbon::today();
+        $propose = $this->propose->where('user_id', '=', $userId)
+            ->where('for_date', '=', $date->format('Y-m-d'))
+            ->first();
+
+        return $propose;
+    }
+
+    /**
      * @param int[]          $userIds
      * @param \DateTime|null $date
      *
@@ -37,7 +53,7 @@ class ProposeRepository
      *
      * @return int
      */
-    public function add(Propose $propose)
+    public function add(Propose $propose): int
     {
         $propose->save();
 

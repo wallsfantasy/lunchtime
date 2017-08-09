@@ -17,6 +17,18 @@
         </div>
     </div>
 
+    <!-- show today proposal -->
+    @if($todayProposal !== null)
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">My Proposal Today</div>
+                <div class="panel-body">
+                    <p>{{ $todayRestaurant->name }}</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- restaurant list -->
     <div class="row">
         <div class="panel panel-default">
@@ -44,7 +56,11 @@
                                     {!! csrf_field() !!}
                                     <input type="hidden" class="form-control"
                                            id="propose-restaurant-id-{{ $restaurant->id }}" name="restaurant_id" value="{{ $restaurant->id }}">
-                                    <button class="btn btn-default">Propose</button>
+                                    @if($todayProposal === null)
+                                        <button class="btn btn-default">Propose</button>
+                                    @else
+                                        <button class="btn btn-default">Re-propose</button>
+                                    @endif
                                 </form>
                             </td>
                         </tr>

@@ -14,7 +14,7 @@ use Illuminate\View\View;
 
 class ProposeController extends Controller
 {
-    const PAGE_SIZE  = 20;
+    const PAGE_SIZE = 20;
     const PAGE_ORDER = 'asc';
 
     /** @var MakePropose */
@@ -26,8 +26,11 @@ class ProposeController extends Controller
     /** @var ProposeRepository */
     private $proposeRepo;
 
-    public function __construct(MakePropose $makePropose, RestaurantRepository $restaurantRepo, ProposeRepository $proposeRepo)
-    {
+    public function __construct(
+        MakePropose $makePropose,
+        RestaurantRepository $restaurantRepo,
+        ProposeRepository $proposeRepo
+    ) {
         $this->makePropose = $makePropose;
         $this->restaurantRepo = $restaurantRepo;
         $this->proposeRepo = $proposeRepo;
@@ -44,9 +47,11 @@ class ProposeController extends Controller
 
         $restaurants = $this->restaurantRepo->pageByRestaurantName(null, 1, self::PAGE_SIZE);
 
-        $todayPropose = $this->proposeRepo->findByUserIdsForDate([$userId]);
+        $todayProposal = $this->proposeRepo->findByUserIdForDate($userId);
 
-        return view('propose', compact('restaurants', 'todayPropose'));
+        $todayRestaurant = ($todayProposal === null) ? null : $this->restaurantRepo->find($todayProposal->restaurant_id);
+
+        return view('propose', compact('restaurants', 'todayProposal', 'todayRestaurant'));
     }
 
     /**
@@ -67,7 +72,9 @@ class ProposeController extends Controller
         // todo: sanitize page, size
         $restaurants = $this->restaurantRepo->pageByRestaurantName($name, $page, $size);
 
-        return view('propose', compact('restaurants'));
+        $todayProposal = $this->proposeRepo->findByUserIdsForDate([$userId]);
+
+        return view('propose', compact('restaurants', 'todayProposal'));
     }
 
     /**
