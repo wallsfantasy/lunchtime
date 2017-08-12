@@ -22,23 +22,23 @@ class MakePropose
      * Make propose for a restaurant
      *
      * @param int            $restaurantId
-     * @param \DateTime|null $date
+     * @param \DateTime|null $forDate
      *
      * @return Model|Propose
      * @throws ProposeException
      */
-    public function makePropose(int $restaurantId, \DateTime $date = null)
+    public function makePropose(int $restaurantId, \DateTime $forDate = null)
     {
         $userId = $this->authManager->guard()->id();
-        $date = $date ?? Carbon::today();
+        $forDate = $forDate ?? Carbon::today();
 
         // throw if already proposed
-        $proposed = Propose::where(['user_id' => $userId, 'for_date' => $date->format('Y-m-d')])->first();
+        $proposed = Propose::where(['user_id' => $userId, 'for_date' => $forDate->format('Y-m-d')])->first();
         if ($proposed !== null) {
-            throw new ProposeException("Already proposed for date {$date->format('Y-m-d')}",
+            throw new ProposeException("Already proposed for forDate {$forDate->format('Y-m-d')}",
                 ProposeException::CODES_MAKE_PROPOSE['already_proposed'],
                 null,
-                ['date' => $date, 'restaurant_id' => $restaurantId]
+                ['for_date' => $forDate, 'restaurant_id' => $restaurantId]
             );
         }
 
@@ -49,11 +49,11 @@ class MakePropose
             throw new ProposeException("Restaurant not found",
                 ProposeException::CODES_MAKE_PROPOSE['restaurant_not_found'],
                 $e,
-                ['date' => $date, 'restaurant_id' => $restaurantId]
+                ['for_date' => $forDate, 'restaurant_id' => $restaurantId]
             );
         }
 
-        $propose = Propose::create(['user_id' => $userId, 'restaurant_id' => $restaurantId, 'for_date' => $date]);
+        $propose = Propose::create(['user_id' => $userId, 'restaurant_id' => $restaurantId, 'for_date' => $forDate]);
 
         return $propose;
     }

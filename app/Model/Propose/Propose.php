@@ -16,8 +16,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Propose extends Model
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->setRawAttributes(['proposed_at' => Carbon::now()], true);
+        parent::__construct($attributes);
+    }
+
     protected $casts = [
         'for_date' => 'date',
+        'proposed_at' => 'datetime',
     ];
 
     protected $fillable = ['user_id', 'restaurant_id', 'for_date'];

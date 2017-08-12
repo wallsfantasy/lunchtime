@@ -4,6 +4,7 @@ namespace Tests\Feature\Propose\Api;
 
 use App\Model\Restaurant\Restaurant;
 use App\Model\User\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -23,6 +24,9 @@ class MakeProposeTest extends TestCase
             'restaurant_id' => $restaurant->id,
         ];
 
+        $mockNow = Carbon::create(2000, 1, 1, 12);
+        Carbon::setTestNow($mockNow);
+
         $response = $this->json(
             'POST',
             '/api/proposes',
@@ -36,7 +40,8 @@ class MakeProposeTest extends TestCase
             [
                 'user_id' => $user->id,
                 'restaurant_id' => $proposeData['restaurant_id'],
-                'for_date' => (new \DateTime('today'))->format('Y-m-d H:i:s'),
+                'for_date' => Carbon::today()->format('Y-m-d H:i:s'),
+                'proposed_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]
         );
 
@@ -45,7 +50,8 @@ class MakeProposeTest extends TestCase
             [
                 'user_id' => $user->id,
                 'restaurant_id' => $proposeData['restaurant_id'],
-                'for_date' => (new \DateTime('today'))->format('Y-m-d H:i:s'),
+                'for_date' => Carbon::today()->format('Y-m-d H:i:s'),
+                'proposed_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]
         );
     }
@@ -58,10 +64,11 @@ class MakeProposeTest extends TestCase
         /** @var User $user */
         $user = factory(User::class)->create();
 
-        $today = new \DateTimeImmutable('today');
+        $mockNow = Carbon::create(2000, 1, 1, 12);
+        Carbon::setTestNow($mockNow);
         $proposeData = [
             'restaurant_id' => $restaurant->id,
-            'date' => $today->format('Y-m-d'),
+            'for_date' => Carbon::today()->format('Y-m-d'),
         ];
 
         $response = $this->json(
@@ -77,7 +84,8 @@ class MakeProposeTest extends TestCase
             [
                 'user_id' => $user->id,
                 'restaurant_id' => $proposeData['restaurant_id'],
-                'for_date' => $today->format('Y-m-d H:i:s'),
+                'for_date' => Carbon::today()->format('Y-m-d H:i:s'),
+                'proposed_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]
         );
 
@@ -86,7 +94,8 @@ class MakeProposeTest extends TestCase
             [
                 'user_id' => $user->id,
                 'restaurant_id' => $proposeData['restaurant_id'],
-                'for_date' => $today->format('Y-m-d H:i:s'),
+                'for_date' => Carbon::today()->format('Y-m-d H:i:s'),
+                'proposed_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]
         );
     }

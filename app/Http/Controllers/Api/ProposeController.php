@@ -28,9 +28,10 @@ class ProposeController extends Controller
     public function make(MakeProposeRequest $request)
     {
         $restaurantId = $request->request->get('restaurant_id');
-        $date = Carbon::today()->format('Y-m-d');
+        $forDate = $request->request->get('date');
+        $forDate = new Carbon($forDate);
 
-        $propose = $this->makePropose->makePropose($restaurantId, $date);
+        $propose = $this->makePropose->makePropose($restaurantId, $forDate);
 
         return $propose;
     }

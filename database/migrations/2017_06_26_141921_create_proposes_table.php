@@ -17,6 +17,7 @@ class CreateProposesTable extends Migration
             $table->increments('id');
             $table->date('for_date');
             $table->text('note')->nullable();
+            $table->dateTime('proposed_at');
             $table->timestamps();
 
             // user
@@ -25,8 +26,9 @@ class CreateProposesTable extends Migration
             // restaurant
             $table->integer('restaurant_id')->unsigned()->index();
 
-            // composite index
+            // index
             $table->index(['user_id', 'for_date']);
+            $table->index(['user_id', 'for_date', 'proposed_at']);
         });
     }
 
