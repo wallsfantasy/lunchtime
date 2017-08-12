@@ -42,3 +42,7 @@ $factory->define(\App\Model\Cycle\Cycle::class, function (Faker\Generator $faker
 $factory->define(\App\Model\Cycle\Member::class, function (Faker\Generator $faker) {
     return [];
 });
+
+$factory->define(\App\Model\Propose\Propose::class, function (Faker\Generator $faker) {
+    return [];
+});
