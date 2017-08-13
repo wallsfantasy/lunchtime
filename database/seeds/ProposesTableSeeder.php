@@ -19,64 +19,80 @@ class ProposesTableSeeder extends Seeder
     {
         return [
             1 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT10H2M')),
-                'proposed_at' => Carbon::now(),
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT10H2M')),
 
                 // Jack - Duck Noodle
                 'user_id' => 1,
                 'restaurant_id' => 5,
             ],
             2 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT11H24M')),
-                'proposed_at' => Carbon::now(),
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT10H30M')),
+
+                // Jack - Food Court (change his mind)
+                'user_id' => 1,
+                'restaurant_id' => 2,
+            ],
+            3 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H15M')),
 
                 // Davy - Goethe
                 'user_id' => 2,
                 'restaurant_id' => 1,
             ],
-            3 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT10H15M')),
-                'proposed_at' => Carbon::now(),
+            4 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H24M')),
+
+                // Davy - Sai Sa-ard (change his mind)
+                'user_id' => 2,
+                'restaurant_id' => 7,
+            ],
+            5 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT10H15M')),
 
                 // Will - Food Court
                 'user_id' => 3,
                 'restaurant_id' => 2,
             ],
-            4 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT9H53M')),
-                'proposed_at' => Carbon::now(),
+            6 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT9H53M')),
 
                 // Elizabeth - Food Court
                 'user_id' => 5,
                 'restaurant_id' => 2,
             ],
-            5 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT11H33M')),
-                'proposed_at' => Carbon::now(),
+            7 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H33M')),
 
                 // Tia - Sai Sa-ard
                 'user_id' => 6,
-                'restaurant_id' => 5,
+                'restaurant_id' => 7,
             ],
-            6 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT11H38M')),
-                'proposed_at' => Carbon::now(),
+            8 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H38M')),
 
                 // James - Sam & Lek
                 'user_id' => 7,
-                'restaurant_id' => 5,
+                'restaurant_id' => 4,
             ],
-            7 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT11H42M')),
-                'proposed_at' => Carbon::now(),
+            9 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H42M')),
 
                 // Babossa - Tree House
                 'user_id' => 4,
                 'restaurant_id' => 9,
             ],
-            8 => [
-                'for_date' => Carbon::today()->add(new \DateInterval('PT11H42M')),
-                'proposed_at' => Carbon::now(),
+            10 => [
+                'for_date' => Carbon::today(),
+                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H42M')),
 
                 // Joshamee - Duck Noodle
                 'user_id' => 8,
