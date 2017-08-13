@@ -4,7 +4,6 @@ namespace App\Model\Cycle\Repository;
 
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -42,11 +41,10 @@ class CycleRepository
      */
     public function findByMemberUserId(int $userId): iterable
     {
-        $cycles = $this->cycle::with([
-            'members' => function (Builder $query) use ($userId) {
+        $cycles = $this->cycle::with('members')
+            ->whereHas('members', function ($query) use ($userId) {
                 $query->where('user_id', '=', $userId);
-            },
-        ])
+            })
             ->get();
 
         return $cycles;
