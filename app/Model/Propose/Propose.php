@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int    $id
+ * @property Carbon $for_date
+ * @property Carbon $proposed_at
  * @property int    $user_id
  * @property int    $restaurant_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property Carbon $for_date
  * @mixin \Eloquent
  */
 class Propose extends Model
