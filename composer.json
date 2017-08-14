@@ -12,6 +12,7 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.3",
         "fzaninotto/faker": "~1.4",
+        "laravel/dusk": "^1.1",
         "mockery/mockery": "0.9.*",
         "mpociot/laravel-apidoc-generator": "^2.0",
         "phpunit/phpunit": "~5.7"

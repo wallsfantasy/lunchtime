@@ -5,6 +5,7 @@ namespace App\Providers;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Mpociot\ApiDoc\ApiDocGeneratorServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local', 'testing')) {
             $this->app->register(IdeHelperServiceProvider::class);
             $this->app->register(ApiDocGeneratorServiceProvider::class);
+            $this->app->register(DuskServiceProvider::class);
         }
     }
 }
