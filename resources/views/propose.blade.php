@@ -18,16 +18,18 @@
     </div>
 
     <!-- show today proposal -->
-    @if($todayProposal !== null)
-        <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">My Proposal Today</div>
-                <div class="panel-body">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">My Proposal Today</div>
+            <div class="panel-body">
+                @if($todayProposal !== null)
                     <p>{{ $todayRestaurant->name }}</p>
-                </div>
+                @else
+                    <p>No proposed restaurant today, propose one!</p>
+                @endif
             </div>
         </div>
-    @endif
+    </div>
 
     <!-- restaurant list -->
     <div class="row">
@@ -52,16 +54,25 @@
                             <td>{{ $restaurant->name }}</td>
                             <td>{{ $restaurant->description }}</td>
                             <td>
-                                <form class="form-inline" method="post" action="{{ route('propose-make') }}">
-                                    {!! csrf_field() !!}
-                                    <input type="hidden" class="form-control"
-                                           id="propose-restaurant-id-{{ $restaurant->id }}" name="restaurant_id" value="{{ $restaurant->id }}">
-                                    @if($todayProposal === null)
+                                @if($todayProposal === null)
+                                    <form class="form-inline" method="post" action="{{ route('propose-make') }}">
+                                        {!! csrf_field() !!}
+                                        <input type="hidden" class="form-control"
+                                               id="propose-restaurant-id-{{ $restaurant->id }}" name="restaurant_id"
+                                               value="{{ $restaurant->id }}">
                                         <button class="btn btn-default">Propose</button>
-                                    @else
+                                    </form>
+                                @elseif($todayProposal !== null && $todayRestaurant->id !== $restaurant->id)
+                                    <form class="form-inline" method="post" action="{{ route('propose-re-propose') }}">
+                                        {!! csrf_field() !!}
+                                        <input type="hidden" class="form-control"
+                                               id="propose-restaurant-id-{{ $restaurant->id }}" name="restaurant_id"
+                                               value="{{ $restaurant->id }}">
                                         <button class="btn btn-default">Re-propose</button>
-                                    @endif
-                                </form>
+                                    </form>
+                                @else
+                                    <button class="btn btn-default disabled">Re-propose</button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

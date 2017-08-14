@@ -19,18 +19,23 @@
     </div>
 
     <!-- Cycle lists -->
-    @forelse($userProposesByCycle as $cycleName => $userPropose)
+    @forelse($proposesByCycle as $cycleProposes)
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading"><a name="{{ kebab_case($cycleName) }}"></a>
-                    {{ $cycleName }}
+                <div class="panel-heading"><a name="{{ kebab_case($cycleProposes['cycle']->name) }}"></a>
+                    <span class="panel-title pull-left">{{ $cycleProposes['cycle']->name }}</span>
+                    <div class="pull-right">
+                        <p>
+                            Propose Until: {{ $cycleProposes['cycle']->propose_until }}<br>
+                            Lunchtime: {{ $cycleProposes['cycle']->lunchtime }}
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
                     <ul>
-                        @foreach($userPropose as $userName => $restaurantName)
-                            @if($restaurantName !== null)
-                                <li>{{ $userName }} {{ $restaurantName }}</li>
-                            @endif
+                        @foreach($cycleProposes['proposes'] as $propose)
+                            <li>{{ $propose['user']->name }} {{ $propose['restaurant']->name }} {{ $propose->proposed_at }}</li>
                         @endforeach
                     </ul>
                 </div>
