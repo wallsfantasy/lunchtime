@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Feature\Home\Web;
+namespace Tests\Feature\Web\Propose;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class ShowHomePageTest extends TestCase
+class ShowProposePageTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testGetHomepageSuccess()
+    public function testGetProposePageSuccess()
     {
         // tbd
     }

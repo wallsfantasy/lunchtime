@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Cycles\Api;
+namespace Tests\Feature\Api\Cycles;
 
 use App\Model\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

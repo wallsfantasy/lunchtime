@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Propose\Api;
+namespace Tests\Feature\Api\Propose;
 
 use App\Model\Propose\Propose;
 use App\Model\Restaurant\Restaurant;

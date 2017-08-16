@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Cycles\Api;
+namespace Tests\Feature\Api\Cycles;
 
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Member;
