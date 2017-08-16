@@ -51,13 +51,12 @@ class ProposeRepository
     /**
      * @param Propose $propose
      *
-     * @return int
+     * @return Propose
      */
-    public function add(Propose $propose): int
+    public function add(Propose $propose): Propose
     {
         $propose->save();
 
-        return $propose->id;
+        return $propose;
     }
-
 }

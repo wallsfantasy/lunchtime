@@ -3,6 +3,7 @@
 namespace App\Model\Propose\Domain;
 
 use App\Model\Propose\Propose;
+use App\Model\Propose\Repository\ProposeRepository;
 use App\Model\Restaurant\Restaurant;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthManager;
@@ -13,15 +14,19 @@ class MakePropose
     /** @var AuthManager */
     private $authManager;
 
-    public function __construct(AuthManager $authManager)
+    /** @var ProposeRepository */
+    private $proposeRepo;
+
+    public function __construct(AuthManager $authManager, ProposeRepository $proposeRepository)
     {
         $this->authManager = $authManager;
+        $this->proposeRepo = $proposeRepository;
     }
 
     /**
      * Make propose for a restaurant
      *
-     * @param int            $restaurantId
+     * @param int $restaurantId
      * @param \DateTime|null $forDate
      *
      * @return Model|Propose
@@ -53,7 +58,13 @@ class MakePropose
             );
         }
 
-        $propose = Propose::create(['user_id' => $userId, 'restaurant_id' => $restaurantId, 'for_date' => $forDate]);
+        $propose = new Propose([
+            'user_id' => $userId,
+            'restaurant_id' => $restaurantId,
+            'for_date' => $forDate,
+        ]);
+
+        $propose = $this->proposeRepo->add($propose);
 
         return $propose;
     }
