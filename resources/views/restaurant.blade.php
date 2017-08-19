@@ -9,8 +9,7 @@
                     {!! csrf_field() !!}
                     <div class="form-group">
                         <label for="searchName">Search</label>
-                        <input class="form-control" id="searchName" placeholder="Restaurant Name"
-                               name="name">
+                        <input class="form-control" id="searchName" placeholder="Restaurant Name" name="name">
                     </div>
                     <button class="btn btn-default">Search</button>
                 </form>

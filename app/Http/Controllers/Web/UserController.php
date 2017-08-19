@@ -46,12 +46,12 @@ class UserController extends Controller
         $name = $request->query->get('name');
 
         if ($name === null && $page === null) {
-            $userPageData = $this->queryForUserPage();
+            $users = $this->queryForUserPage();
         } else {
-            $userPageData = $this->queryForUserPage($name, $page);
+            $users = $this->queryForUserPage($name, $page);
         }
 
-        return view('user', compact('userPageData'));
+        return view('user', compact('users'));
     }
 
     /**

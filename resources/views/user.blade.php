@@ -22,12 +22,12 @@
             <div class="panel-heading">
                 <div class="panel-title">Users</div>
             </div>
-            @foreach($userPageData as $item)
+            @foreach($users as $user)
             <div class="panel-body">
-                {{ $item['user']->name }}
+                {{ $user['user']->name }}
 
                 <ul>
-                @forelse($item['proposes'] as $propose)
+                @forelse($user['proposes'] as $propose)
                         <li>{{ $propose->restaurant->name }} ({{ $propose->proposed_at->diffForHumans() }})</li>
                 @empty
                     <li>Not yet proposed.</li>
