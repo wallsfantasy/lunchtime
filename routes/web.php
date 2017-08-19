@@ -33,7 +33,7 @@ Route::group(['prefix' => 'propose', 'middleware' => ['auth']], function () {
 /* Restaurant */
 Route::group(['prefix' => 'restaurant', 'middleware' => ['auth']], function () {
     Route::get('/', 'Web\RestaurantController@index')->name('restaurant');
-    Route::get('/search', 'Web\RestaurantController@search')->name('restaurant-search');
+    Route::post('/search', 'Web\RestaurantController@postSearch')->name('restaurant-search');
     Route::post('/register', 'Web\RestaurantController@postRegisterRestaurant')->name('restaurant-register');
 });
 

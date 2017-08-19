@@ -40,30 +40,49 @@ class RestaurantController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(PageRestaurantRequest $request): View
     {
-        [$restaurants, $registrants] = $this->queryRestaurantView(null, 1, self::PAGE_SIZE);
+        $page = $request->request->get('page');
+        $name = $request->request->get('name');
+
+        [$restaurants, $registrants] = $this->queryRestaurantView($name, $page);
 
         return view('restaurant', compact('restaurants', 'registrants'));
     }
 
     /**
-     * Show search result of the restaurants
+     * POST method to make search
      *
      * @param PageRestaurantRequest $request
      *
-     * @return View
+     * @return RedirectResponse
      */
-    public function search(PageRestaurantRequest $request): View
+    public function postSearch(PageRestaurantRequest $request): RedirectResponse
     {
-        $name = $request->request->get('name') ?? null;
-        $page = $request->request->get('page') ?? 1;
-        $size = $request->request->get('size') ?? self::PAGE_SIZE;
+        $name = $request->request->get('name');
 
-        // todo: sanitize page, size
-        [$restaurants, $registrants] = $this->queryRestaurantView($name, $page, $size);
+        if ($name === null) {
+            return redirect()->action('Web\UserController@index');
+        }
 
-        return view('restaurant', compact('restaurants', 'registrants'));
+        return redirect()->action('Web\RestaurantController@index', ['name' => $name]);
+    }
+
+    /**
+     * POST method to register restaurant
+     *
+     * @param RegisterRestaurantRequest $request
+     *
+     * @return RedirectResponse
+     */
+    public function postRegisterRestaurant(RegisterRestaurantRequest $request): RedirectResponse
+    {
+        $name = $request->request->get('name');
+        $description = $request->request->get('description');
+
+        $registered = $this->registerRestaurant->registerRestaurant($name, $description);
+
+        return back()->with('notification', "Restaurant {$registered->name} registered.");
     }
 
     /**
@@ -71,13 +90,14 @@ class RestaurantController extends Controller
      *
      * @param string|null $name
      * @param int         $page
-     * @param int         $size
      *
      * @return array
      */
-    private function queryRestaurantView(string $name = null, int $page, int $size): array
+    private function queryRestaurantView(string $name = null, int $page = null): array
     {
-        $restaurants = $this->restaurantRepo->pageByRestaurantName($name, $page, self::PAGE_ORDER, $size);
+        $page = $page ?? 1;
+
+        $restaurants = $this->restaurantRepo->pageByRestaurantName($name, $page, self::PAGE_ORDER, self::PAGE_SIZE);
 
         // find Users who made registration
         $userIds = [];
@@ -93,22 +113,5 @@ class RestaurantController extends Controller
         }
 
         return [$restaurants, $registrants];
-    }
-
-    /**
-     * POST to register restaurant
-     *
-     * @param RegisterRestaurantRequest $request
-     *
-     * @return RedirectResponse
-     */
-    public function postRegisterRestaurant(RegisterRestaurantRequest $request): RedirectResponse
-    {
-        $name = $request->request->get('name');
-        $description = $request->request->get('description');
-
-        $registered = $this->registerRestaurant->registerRestaurant($name, $description);
-
-        return back()->with('notification', 'Register restaurant success');
     }
 }

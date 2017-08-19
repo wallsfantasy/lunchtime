@@ -5,7 +5,7 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-body">
-                <form class="form-inline" action="{{ route('restaurant-search') }}">
+                <form class="form-inline" method="post" action="{{ route('restaurant-search') }}">
                     {!! csrf_field() !!}
                     <div class="form-group">
                         <label for="searchName">Search</label>

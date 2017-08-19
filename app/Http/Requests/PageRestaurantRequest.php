@@ -26,7 +26,6 @@ class PageRestaurantRequest extends FormRequest
         return [
             'name' => 'nullable|string',
             'page' => 'nullable|integer',
-            'size' => 'nullable|integer',
         ];
     }
 }
