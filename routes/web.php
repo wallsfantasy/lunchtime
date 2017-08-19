@@ -36,3 +36,9 @@ Route::group(['prefix' => 'restaurant', 'middleware' => ['auth']], function () {
     Route::get('/search', 'Web\RestaurantController@search')->name('restaurant-search');
     Route::post('/register', 'Web\RestaurantController@postRegisterRestaurant')->name('restaurant-register');
 });
+
+/* User */
+Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
+    Route::get('/', 'Web\UserController@index')->name('user');
+    Route::post('/search', 'Web\UserController@postSearch')->name('user-search');
+});
