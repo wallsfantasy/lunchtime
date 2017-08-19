@@ -82,9 +82,7 @@ class UserController extends Controller
      */
     private function queryForUserPage(string $name = null, int $page = null)
     {
-        $page = $page ?? 1;
-
-        $users = $this->userRepo->pageByUserName($name, $page, self::PAGE_ORDER, self::PAGE_SIZE);
+        $users = $this->userRepo->pageByUserName($name, $page ?? 1, self::PAGE_ORDER, self::PAGE_SIZE);
 
         // find today Proposes of the users
         $today = Carbon::today();

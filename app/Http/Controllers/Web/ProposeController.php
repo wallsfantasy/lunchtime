@@ -48,35 +48,30 @@ class ProposeController extends Controller
      *
      * @return View
      */
-    public function index(Request $request)
+    public function index(PageRestaurantRequest $request)
     {
+        $name = $request->query->get('name');
+        $page = $request->query->get('page');
+
         $userId = $request->user()->id;
 
-        [$restaurants, $todayProposal, $todayRestaurant] = $this->queryProposePageData($userId);
+        [$restaurants, $todayProposal, $todayRestaurant] = $this->queryProposePageData($userId, $name, $page);
 
         return view('propose', compact('restaurants', 'todayProposal', 'todayRestaurant'));
     }
 
     /**
-     * Show search result of the restaurants
+     * POST to search restaurants
      *
      * @param PageRestaurantRequest $request
      *
-     * @return View
+     * @return RedirectResponse
      */
-    public function restaurantSearch(PageRestaurantRequest $request)
+    public function postRestaurantSearch(PageRestaurantRequest $request)
     {
-        $userId = $request->user()->id;
-
-        // todo: sanitize page, size
-        // todo: same restaurant search path with index?
         $name = $request->request->get('name') ?? null;
-        $page = $request->request->get('page') ?? 1;
-        $size = $request->request->get('size') ?? self::PAGE_SIZE;
 
-        [$restaurants, $todayProposal, $todayRestaurant] = $this->queryProposePageData($userId, $name, $page, $size);
-
-        return view('propose', compact('restaurants', 'todayProposal', 'todayRestaurant'));
+        return redirect()->action('Web\ProposeController@index', ['name' => $name]);
     }
 
     /**
@@ -124,10 +119,10 @@ class ProposeController extends Controller
     private function queryProposePageData(
         int $userId,
         string $restaurantName = null,
-        int $page = 1,
+        int $page = null,
         int $size = self::PAGE_SIZE
     ) {
-        $restaurants = $this->restaurantRepo->pageByRestaurantName($restaurantName, $page, $size);
+        $restaurants = $this->restaurantRepo->pageByRestaurantName($restaurantName, $page ?? 1, $size);
 
         $todayProposal = $this->proposeRepo->findByUserIdForDate($userId);
         $todayRestaurant = ($todayProposal === null) ? null : $this->restaurantRepo->find($todayProposal->restaurant_id);

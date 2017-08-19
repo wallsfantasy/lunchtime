@@ -95,9 +95,7 @@ class RestaurantController extends Controller
      */
     private function queryRestaurantView(string $name = null, int $page = null): array
     {
-        $page = $page ?? 1;
-
-        $restaurants = $this->restaurantRepo->pageByRestaurantName($name, $page, self::PAGE_ORDER, self::PAGE_SIZE);
+        $restaurants = $this->restaurantRepo->pageByRestaurantName($name, $page ?? 1, self::PAGE_ORDER, self::PAGE_SIZE);
 
         // find Users who made registration
         $userIds = [];

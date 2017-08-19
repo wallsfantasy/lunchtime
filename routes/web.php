@@ -25,7 +25,7 @@ Route::group(['middleware' => ['auth']], function () {
 /* Propose */
 Route::group(['prefix' => 'propose', 'middleware' => ['auth']], function () {
     Route::get('/', 'Web\ProposeController@index')->name('propose');
-    Route::get('/restaurant-search', 'Web\ProposeController@restaurantSearch')->name('propose-restaurant-search');
+    Route::post('/restaurant-search', 'Web\ProposeController@postRestaurantSearch')->name('propose-restaurant-search');
     Route::post('/make', 'Web\ProposeController@postMakePropose')->name('propose-make');
     Route::post('/re-propose', 'Web\ProposeController@postRePropose')->name('propose-re-propose');
 });
