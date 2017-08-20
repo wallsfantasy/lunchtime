@@ -20,7 +20,7 @@ class ProposesTableSeeder extends Seeder
         return [
             1 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT10H2M')),
+                'proposed_at' => Carbon::yesterday()->sub(new \DateInterval('PT10H30M')),
 
                 // Jack - Duck Noodle
                 'user_id' => 1,
@@ -28,7 +28,7 @@ class ProposesTableSeeder extends Seeder
             ],
             2 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT10H30M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT10H2M')),
 
                 // Jack - Food Court (change his mind)
                 'user_id' => 1,
@@ -36,7 +36,7 @@ class ProposesTableSeeder extends Seeder
             ],
             3 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H15M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT11H24M')),
 
                 // Davy - Goethe
                 'user_id' => 2,
@@ -44,7 +44,7 @@ class ProposesTableSeeder extends Seeder
             ],
             4 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H24M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT11H15M')),
 
                 // Davy - Sai Sa-ard (change his mind)
                 'user_id' => 2,
@@ -52,7 +52,7 @@ class ProposesTableSeeder extends Seeder
             ],
             5 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT10H15M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT10H15M')),
 
                 // Will - Food Court
                 'user_id' => 3,
@@ -60,7 +60,7 @@ class ProposesTableSeeder extends Seeder
             ],
             6 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT9H53M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT9H53M')),
 
                 // Elizabeth - Food Court
                 'user_id' => 5,
@@ -68,7 +68,7 @@ class ProposesTableSeeder extends Seeder
             ],
             7 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H33M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT11H33M')),
 
                 // Tia - Sai Sa-ard
                 'user_id' => 6,
@@ -76,7 +76,7 @@ class ProposesTableSeeder extends Seeder
             ],
             8 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H38M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT11H38M')),
 
                 // James - Sam & Lek
                 'user_id' => 7,
@@ -84,7 +84,7 @@ class ProposesTableSeeder extends Seeder
             ],
             9 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H42M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT11H42M')),
 
                 // Babossa - Tree House
                 'user_id' => 4,
@@ -92,7 +92,7 @@ class ProposesTableSeeder extends Seeder
             ],
             10 => [
                 'for_date' => Carbon::today(),
-                'proposed_at' => Carbon::today()->add(new \DateInterval('PT11H42M')),
+                'proposed_at' => Carbon::today()->sub(new \DateInterval('PT11H42M')),
 
                 // Joshamee - Duck Noodle
                 'user_id' => 8,
