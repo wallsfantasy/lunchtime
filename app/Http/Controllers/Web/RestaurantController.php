@@ -62,7 +62,7 @@ class RestaurantController extends Controller
         $name = $request->request->get('name');
 
         if ($name === null) {
-            return redirect()->action('Web\UserController@index');
+            return redirect()->action('Web\RestaurantController@index');
         }
 
         return redirect()->action('Web\RestaurantController@index', ['name' => $name]);
