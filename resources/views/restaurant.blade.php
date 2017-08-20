@@ -1,25 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- search -->
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <form class="form-inline" method="post" action="{{ route('restaurant-search') }}">
-                    {!! csrf_field() !!}
-                    <div class="form-group">
-                        <label for="searchName">Search</label>
-                        <input class="form-control" id="searchName" placeholder="Restaurant Name" name="name">
-                    </div>
-                    <button class="btn btn-default">Search</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- register -->
     <div class="row">
         <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Register a Restaurant</div>
+            </div>
             <div class="panel-body">
                 <form class="form-inline" method="post" action="{{ route('restaurant-register') }}">
                     {!! csrf_field() !!}
@@ -37,13 +25,29 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading">Restaurants</div>
+            <div class="panel-heading">
+                <div class="panel-title">Restaurants</div>
+            </div>
 
+            <!-- search -->
+            <div class="panel-body">
+                <form class="form-inline" method="post" action="{{ route('restaurant-search') }}">
+                    {!! csrf_field() !!}
+                    <div class="form-group">
+                        <label for="searchName">Search</label>
+                        <input class="form-control" id="searchName" placeholder="Restaurant Name" name="name">
+                    </div>
+                    <button class="btn btn-default">Search</button>
+                </form>
+            </div>
+
+            <!-- restaurant list -->
             @if(count($restaurants) === 0)
                 <div class="panel-body">
-                    <p>Restaurant not found. Be the first to register!</p>
+                    <p>No restaurant found. Be the first to register!</p>
                 </div>
             @else
                 <table class="table">

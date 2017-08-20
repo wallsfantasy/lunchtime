@@ -5,7 +5,9 @@
     <!-- My Cycles -->
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading">My Cycles</div>
+            <div class="panel-heading">
+                <div class="panel-title">My Cycles</div>
+            </div>
             <div class="panel-body">
                 <ul>
                     @forelse($cycles as $cycle)
@@ -23,19 +25,19 @@
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading"><a name="{{ kebab_case($cycleProposes['cycle']->name) }}"></a>
-                    <span class="panel-title pull-left">{{ $cycleProposes['cycle']->name }}</span>
-                    <div class="pull-right">
-                        <p>
-                            Propose Until: {{ $cycleProposes['cycle']->propose_until }}<br>
-                            Lunchtime: {{ $cycleProposes['cycle']->lunchtime }}
-                        </p>
-                    </div>
-                    <div class="clearfix"></div>
+                    <span class="panel-title">{{ $cycleProposes['cycle']->name }}&nbsp;
+                        @if ($cycleProposes['cycle']->propose_until == $cycleProposes['cycle']->lunchtime)
+                            ({{ $cycleProposes['cycle']->lunchtime }})
+                        @else
+                            ({{ $cycleProposes['cycle']->lunchtime }} | {{ $cycleProposes['cycle']->propose_until }})
+                        @endif
+                    </span>
                 </div>
                 <div class="panel-body">
                     <ul>
                         @foreach($cycleProposes['proposes'] as $propose)
-                            <li>{{ $propose['user']->name }} {{ $propose['restaurant']->name }} {{ $propose->proposed_at }}</li>
+                            <li>({{ $propose->proposed_at->format('H:i') }}
+                                ) {{ $propose['user']->name }} {{ $propose['restaurant']->name }}</li>
                         @endforeach
                     </ul>
                 </div>
