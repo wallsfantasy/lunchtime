@@ -4,7 +4,7 @@ namespace App\Model\Propose\Domain;
 
 use App\Model\Propose\Propose;
 use App\Model\Propose\Repository\ProposeRepository;
-use App\Model\Restaurant\Restaurant;
+use App\Model\Restaurant\Repository\RestaurantRepository;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Database\Eloquent\Model;
@@ -17,10 +17,17 @@ class MakePropose
     /** @var ProposeRepository */
     private $proposeRepo;
 
-    public function __construct(AuthManager $authManager, ProposeRepository $proposeRepository)
-    {
+    /** @var RestaurantRepository */
+    private $restaurantRepo;
+
+    public function __construct(
+        AuthManager $authManager,
+        ProposeRepository $proposeRepository,
+        RestaurantRepository $restaurantRepo
+    ) {
         $this->authManager = $authManager;
         $this->proposeRepo = $proposeRepository;
+        $this->restaurantRepo = $restaurantRepo;
     }
 
     /**
@@ -37,24 +44,16 @@ class MakePropose
         $userId = $this->authManager->guard()->id();
         $forDate = $forDate ?? Carbon::today();
 
-        // throw if already proposed
-        $proposed = Propose::where(['user_id' => $userId, 'for_date' => $forDate->format('Y-m-d')])->first();
-        if ($proposed !== null) {
-            throw new ProposeException("Already proposed for date {$forDate->format('Y-m-d')}",
-                ProposeException::CODES_MAKE_PROPOSE['already_proposed'],
-                null,
-                ['for_date' => $forDate, 'restaurant_id' => $restaurantId]
-            );
-        }
+        $restaurant = $this->restaurantRepo->get($restaurantId);
 
-        // throw if restaurant not exists
-        try {
-            Restaurant::where(['id' => $restaurantId])->firstOrFail();
-        } catch (\Throwable $e) {
-            throw new ProposeException("Restaurant not found",
-                ProposeException::CODES_MAKE_PROPOSE['restaurant_not_found'],
-                $e,
-                ['for_date' => $forDate, 'restaurant_id' => $restaurantId]
+        // throw if currently proposed the same restaurant
+        $proposed = $this->proposeRepo->findLatestByUserIdForDate($userId, $forDate);
+        if ($proposed !== null && $proposed->restaurant_id === $restaurantId) {
+            throw new ProposeException(
+                "You're currently proposing {$restaurant->name} on {$forDate->format('Y-m-d')}",
+                ProposeException::CODES_MAKE_PROPOSE['currently_proposed'],
+                null,
+                ['for_date' => $forDate, 'restaurant' => $restaurant->toArray()]
             );
         }
 

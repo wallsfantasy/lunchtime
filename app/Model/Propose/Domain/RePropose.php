@@ -3,7 +3,8 @@
 namespace App\Model\Propose\Domain;
 
 use App\Model\Propose\Propose;
-use App\Model\Restaurant\Restaurant;
+use App\Model\Propose\Repository\ProposeRepository;
+use App\Model\Restaurant\Repository\RestaurantRepository;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Database\Eloquent\Model;
@@ -13,9 +14,20 @@ class RePropose
     /** @var AuthManager */
     private $authManager;
 
-    public function __construct(AuthManager $authManager)
-    {
+    /** @var ProposeRepository */
+    private $proposeRepo;
+
+    /** @var RestaurantRepository */
+    private $restaurantRepo;
+
+    public function __construct(
+        AuthManager $authManager,
+        ProposeRepository $proposeRepo,
+        RestaurantRepository $restaurantRepo
+    ) {
         $this->authManager = $authManager;
+        $this->proposeRepo = $proposeRepo;
+        $this->restaurantRepo = $restaurantRepo;
     }
 
     /**
@@ -32,38 +44,37 @@ class RePropose
         $userId = $this->authManager->guard()->id();
         $forDate = $forDate ?? Carbon::today();
 
-        // throw if haven't proposed
-        $latestProposed = Propose::where(['user_id' => $userId, 'for_date' => $forDate->format('Y-m-d')])->first();
+        $restaurant = $this->restaurantRepo->get($restaurantId);
+
+        // throw if haven't proposed for given date
+        $latestProposed = $this->proposeRepo->findLatestByUserIdForDate($userId, $forDate);
         if ($latestProposed === null) {
             throw new ProposeException("Never proposed for date {$forDate->format('Y-m-d')}",
                 ProposeException::CODES_RE_PROPOSE['have_not_proposed'],
                 null,
-                ['for_date' => $forDate, 'restaurant_id' => $restaurantId]
+                ['for_date' => $forDate, 'restaurant' => $restaurant->toArray()]
             );
         }
 
         // throw if re-proposed the same as latest proposed
-        $latestProposedCompare = [$latestProposed->restaurant_id, $latestProposed->for_date->toDateString()];
-        if ($latestProposedCompare === [$restaurantId, $forDate->toDateString()]) {
+        if ($latestProposed !== null
+            && $latestProposed->restaurant_id === $restaurantId
+            && $latestProposed->for_date->toDateString() === $forDate->toDateString()
+        ) {
             throw new ProposeException("Repropose the same restaurant and date as latest proposed",
                 ProposeException::CODES_RE_PROPOSE['repropose_latest_proposed'],
                 null,
-                ['for_date' => $forDate, 'restaurant_id' => $restaurantId]
+                ['for_date' => $forDate, 'restaurant' => $restaurant->toArray()]
             );
         }
 
-        // throw if restaurant not exists
-        try {
-            Restaurant::where(['id' => $restaurantId])->firstOrFail();
-        } catch (\Throwable $e) {
-            throw new ProposeException("Restaurant not found",
-                ProposeException::CODES_MAKE_PROPOSE['restaurant_not_found'],
-                $e,
-                ['for_date' => $forDate, 'restaurant_id' => $restaurantId]
-            );
-        }
+        $propose = new Propose([
+            'user_id' => $userId,
+            'restaurant_id' => $restaurantId,
+            'for_date' => $forDate,
+        ]);
 
-        $propose = Propose::create(['user_id' => $userId, 'restaurant_id' => $restaurantId, 'for_date' => $forDate]);
+        $propose = $this->proposeRepo->add($propose);
 
         return $propose;
     }

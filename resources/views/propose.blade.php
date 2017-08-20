@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- today proposal -->
+    <!-- current proposal -->
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="panel-title">My Proposal Today</div>
+                <div class="panel-title">My current propose</div>
             </div>
             <div class="panel-body">
-                @if($todayProposal !== null)
-                    <p>{{ $todayRestaurant->name }}</p>
+                @if($currentPropose !== null)
+                    <p>{{ $currentRestaurant->name }}</p>
                 @else
                     <p>No proposed restaurant today, propose one!</p>
                 @endif
@@ -56,7 +56,7 @@
                             <td>{{ $restaurant->name }}</td>
                             <td>{{ $restaurant->description }}</td>
                             <td>
-                            @if($todayProposal === null)
+{{--                            @if($currentPropose === null)--}}
                                 <!-- propose button -->
                                     <form class="form-inline" method="post" action="{{ route('propose-make') }}">
                                         {!! csrf_field() !!}
@@ -65,7 +65,7 @@
                                                value="{{ $restaurant->id }}">
                                         <button class="btn btn-default">Propose</button>
                                     </form>
-                            @elseif($todayProposal !== null && $todayRestaurant->id !== $restaurant->id)
+                            {{--@elseif($currentPropose !== null && $currentRestaurant->id !== $restaurant->id)--}}
                                 <!-- re-propose button -->
                                     <form class="form-inline" method="post" action="{{ route('propose-re-propose') }}">
                                         {!! csrf_field() !!}
@@ -74,10 +74,10 @@
                                                value="{{ $restaurant->id }}">
                                         <button class="btn btn-default">Re-propose</button>
                                     </form>
-                            @else
+                            {{--@else--}}
                                 <!-- disable re-propose of currently proposed restaurant -->
                                     <button class="btn btn-default disabled">Current Propose</button>
-                                @endif
+                                {{--@endif--}}
                             </td>
                         </tr>
                     @endforeach

@@ -2,6 +2,7 @@
 
 namespace App\Model\Propose\Repository;
 
+use App\Common\Exception\RepositoryException;
 use App\Model\Propose\Propose;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,16 +18,32 @@ class ProposeRepository
     }
 
     /**
+     * @param int $id
+     *
+     * @return Propose
+     * @throws RepositoryException
+     */
+    public function get(int $id): Propose
+    {
+        try {
+            $propose = $this->propose->firstOrFail($id);
+        } catch (\Throwable $e) {
+            throw RepositoryException::getNotFound(self::class, Propose::class, $id, $e);
+        }
+    }
+
+    /**
      * @param int            $userId
      * @param \DateTime|null $date
      *
      * @return Propose|null
      */
-    public function findByUserIdForDate(int $userId, \DateTime $date = null): ?Propose
+    public function findLatestByUserIdForDate(int $userId, \DateTime $date = null): ?Propose
     {
         $date = $date ?? Carbon::today();
         $propose = $this->propose->where('user_id', '=', $userId)
             ->where('for_date', '=', $date->format('Y-m-d'))
+            ->orderBy('proposed_at', 'desc')
             ->first();
 
         return $propose;
@@ -52,10 +69,27 @@ class ProposeRepository
      * @param Propose $propose
      *
      * @return Propose
+     * @throws RepositoryException
      */
     public function add(Propose $propose): Propose
     {
-        $propose->save();
+        if ($propose->exists === true) {
+            throw RepositoryException::addAlreadyExistEntity(
+                self::class,
+                Propose::class, $propose->id,
+                $propose->toArray()
+            );
+        }
+
+        try {
+            $success = $propose->save();
+        } catch (\Throwable $e) {
+            throw RepositoryException::infrastructural(self::class, Propose::class, $e);
+        }
+
+        if ($success === false) {
+            throw RepositoryException::infrastructural(self::class, Propose::class);
+        }
 
         return $propose;
     }

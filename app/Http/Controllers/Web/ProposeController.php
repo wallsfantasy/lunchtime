@@ -55,9 +55,9 @@ class ProposeController extends Controller
 
         $userId = $request->user()->id;
 
-        [$restaurants, $todayProposal, $todayRestaurant] = $this->queryProposePageData($userId, $name, $page);
+        [$restaurants, $currentPropose, $currentRestaurant] = $this->queryProposePageData($userId, $name, $page);
 
-        return view('propose', compact('restaurants', 'todayProposal', 'todayRestaurant'));
+        return view('propose', compact('restaurants', 'currentPropose', 'currentRestaurant'));
     }
 
     /**
@@ -124,9 +124,9 @@ class ProposeController extends Controller
     ) {
         $restaurants = $this->restaurantRepo->pageByRestaurantName($restaurantName, $page ?? 1, $size);
 
-        $todayProposal = $this->proposeRepo->findByUserIdForDate($userId);
-        $todayRestaurant = ($todayProposal === null) ? null : $this->restaurantRepo->find($todayProposal->restaurant_id);
+        $currentPropose = $this->proposeRepo->findLatestByUserIdForDate($userId);
+        $currentRestaurant = ($currentPropose === null) ? null : $this->restaurantRepo->find($currentPropose->restaurant_id);
 
-        return [$restaurants, $todayProposal, $todayRestaurant];
+        return [$restaurants, $currentPropose, $currentRestaurant];
     }
 }

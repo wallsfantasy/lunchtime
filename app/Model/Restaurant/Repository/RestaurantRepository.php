@@ -2,6 +2,7 @@
 
 namespace App\Model\Restaurant\Repository;
 
+use App\Common\Exception\RepositoryException;
 use App\Model\Restaurant\Restaurant;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +17,24 @@ class RestaurantRepository
     public function __construct(Restaurant $restaurant)
     {
         $this->restaurant = $restaurant;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Restaurant
+     * @throws RepositoryException
+     */
+    public function get(int $id): Restaurant
+    {
+        try {
+            $restaurant = $this->restaurant->where('id', '=', $id)
+                ->firstOrFail();
+        } catch (\Throwable $e) {
+            throw RepositoryException::getNotFound(self::class, Restaurant::class, $id, $e);
+        }
+
+        return $restaurant;
     }
 
     /**
