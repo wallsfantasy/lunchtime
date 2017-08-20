@@ -56,7 +56,7 @@
                             <td>{{ $restaurant->name }}</td>
                             <td>{{ $restaurant->description }}</td>
                             <td>
-{{--                            @if($currentPropose === null)--}}
+                            @if($currentPropose === null)
                                 <!-- propose button -->
                                     <form class="form-inline" method="post" action="{{ route('propose-make') }}">
                                         {!! csrf_field() !!}
@@ -65,7 +65,7 @@
                                                value="{{ $restaurant->id }}">
                                         <button class="btn btn-default">Propose</button>
                                     </form>
-                            {{--@elseif($currentPropose !== null && $currentRestaurant->id !== $restaurant->id)--}}
+                            @elseif($currentPropose !== null && $currentRestaurant->id !== $restaurant->id)
                                 <!-- re-propose button -->
                                     <form class="form-inline" method="post" action="{{ route('propose-re-propose') }}">
                                         {!! csrf_field() !!}
@@ -74,10 +74,10 @@
                                                value="{{ $restaurant->id }}">
                                         <button class="btn btn-default">Re-propose</button>
                                     </form>
-                            {{--@else--}}
+                            @else
                                 <!-- disable re-propose of currently proposed restaurant -->
                                     <button class="btn btn-default disabled">Current Propose</button>
-                                {{--@endif--}}
+                                @endif
                             </td>
                         </tr>
                     @endforeach
