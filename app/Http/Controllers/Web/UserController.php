@@ -87,7 +87,7 @@ class UserController extends Controller
         // find today Proposes of the users
         $today = Carbon::today();
         $userIds = array_column((array) $users->items(), 'id');
-        $proposes = $this->proposeRepo->findByUserIdsForDate($userIds, $today);
+        $proposes = $this->proposeRepo->findAllByUserIdsForDate($userIds, $today);
 
         // find proposed restaurants
         $proposedRestaurantIds = array_unique(array_column((array) $proposes->all(), 'restaurant_id'));
