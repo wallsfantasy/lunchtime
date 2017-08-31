@@ -51,43 +51,33 @@ class HomeController extends Controller
     {
         $userId = $request->user()->id;
 
-        // initialize data
         // todo: move this to query function that returns view object
-        $users = [];
-        $proposes = [];
         /** @var Collection|Cycle[] $cycles */
         $cycles = $this->cycleRepo->findByMemberUserId($userId);
         $cycles = $cycles->sortBy('lunchtime');
-        $proposesByCycle = [];
-
-        // return everything empty if no Cycle
-        if (count($cycles) === 0) {
-            return view('home', compact('users', 'proposes', 'cycles', 'proposesByCycle'));
-        }
 
         // find unique Users in all of my Cycles
         $userIds = [];
         foreach ($cycles as $cycle) {
             foreach ($cycle->members as $member) {
-                $userIds[] = $member->user_id;
+                $userIds[$member->user_id] = $member->user_id;
             }
         }
-        $userIds = array_unique($userIds, SORT_NUMERIC);
         $users = $this->userRepo->findByIds($userIds);
 
         // find proposes of Users in my Cycles
         $today = Carbon::today();
-        $proposes = $this->proposeRepo->findByUserIdsForDate($userIds, $today);
+        $proposes = $this->proposeRepo->findAllByUserIdsForDate($userIds, $today);
 
         // find unique proposed Restaurants
         $restaurantIds = [];
         foreach ($proposes as $propose) {
-            $restaurantIds[] = $propose->restaurant_id;
+            $restaurantIds[$propose->restaurant_id] = $propose->restaurant_id;
         }
-        $restaurantIds = array_unique($restaurantIds, SORT_NUMERIC);
         $restaurants = $this->restaurantRepo->findByIds($restaurantIds);
 
         // View Data: $userProposesByCycle
+        $proposesByCycle = [];
         foreach ($cycles as $cycle) {
             $proposesByCycle[] = [
                 'cycle' => $cycle,
@@ -114,6 +104,8 @@ class HomeController extends Controller
     ): array {
         $members = $cycle->members;
         $memberUserIds = array_column($members->toArray(), 'user_id');
+        $proposeUntilParts = explode(':', $cycle->propose_until);
+        $todayProposeUntil = Carbon::createFromTime($proposeUntilParts[0], $proposeUntilParts[1], $proposeUntilParts[2]);
 
         $effectiveProposes = [];
         foreach ($proposes as $propose) {
@@ -123,7 +115,7 @@ class HomeController extends Controller
             }
 
             // skip late propose
-            if ($cycle->propose_until < $propose->proposed_at->format('H:i:s')) {
+            if ($todayProposeUntil < $propose->proposed_at->format('H:i:s')) {
                 continue;
             }
 
