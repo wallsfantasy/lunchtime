@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MakeProposeRequest;
 use App\Http\Requests\ReProposeRequest;
-use App\Model\Propose\Domain\MakePropose;
-use App\Model\Propose\Domain\RePropose;
+use App\Model\Propose\Application\MakePropose;
+use App\Model\Propose\Application\RePropose;
 use App\Model\Propose\Propose;
 use Carbon\Carbon;
 

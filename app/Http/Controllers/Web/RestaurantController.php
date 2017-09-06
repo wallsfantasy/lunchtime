@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PageRestaurantRequest;
 use App\Http\Requests\RegisterRestaurantRequest;
-use App\Model\Restaurant\Domain\RegisterRestaurant;
+use App\Model\Restaurant\Application\RegisterRestaurant;
 use App\Model\Restaurant\Repository\RestaurantRepository;
 use App\Model\User\Repository\UserRepository;
 use Illuminate\Http\RedirectResponse;

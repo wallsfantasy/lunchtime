@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Propose\Domain;
+namespace App\Model\Propose\Application;
 
 use App\Common\Exception\AbstractDomainException;
 

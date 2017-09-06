@@ -17,6 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Propose extends Model
 {
+    const MAX_DAY_PROPOSES = 3;
+
+    private $todayNumProposes;
+
     public function __construct(array $attributes = [])
     {
         $this->setRawAttributes(['proposed_at' => Carbon::now()], true);
@@ -29,4 +33,16 @@ class Propose extends Model
     ];
 
     protected $fillable = ['user_id', 'restaurant_id', 'for_date'];
+
+    public function makePropose()
+    {
+        if ($this->todayNumProposes > self::MAX_DAY_PROPOSES) {
+
+        }
+    }
+
+    private function guardDayNumProposes()
+    {
+
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Restaurant\Domain;
+namespace App\Model\Restaurant\Application;
 
 use App\Model\Restaurant\Restaurant;
 use Illuminate\Auth\AuthManager;
