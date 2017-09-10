@@ -30,7 +30,7 @@ class RegisterRestaurant
 
         $restaurant = Restaurant::create(
             [
-                'name' => $name,
+                'name' => ucfirst($name),
                 'register_user_id' => $registerUserId,
                 'description' => $description,
             ]

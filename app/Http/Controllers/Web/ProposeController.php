@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MakeProposeRequest;
 use App\Http\Requests\PageRestaurantRequest;
-use App\Http\Requests\ReProposeRequest;
 use App\Model\Propose\Application\MakePropose;
-use App\Model\Propose\Application\RePropose;
-use App\Model\Propose\Repository\ProposeRepository;
+use App\Model\Propose\ProposeRepository;
 use App\Model\Restaurant\Repository\RestaurantRepository;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProposeController extends Controller
@@ -22,9 +20,6 @@ class ProposeController extends Controller
     /** @var MakePropose */
     private $makePropose;
 
-    /** @var RePropose */
-    private $rePropose;
-
     /** @var RestaurantRepository */
     private $restaurantRepo;
 
@@ -33,12 +28,10 @@ class ProposeController extends Controller
 
     public function __construct(
         MakePropose $makePropose,
-        RePropose $rePropose,
         RestaurantRepository $restaurantRepo,
         ProposeRepository $proposeRepo
     ) {
         $this->makePropose = $makePropose;
-        $this->rePropose = $rePropose;
         $this->restaurantRepo = $restaurantRepo;
         $this->proposeRepo = $proposeRepo;
     }
@@ -85,25 +78,9 @@ class ProposeController extends Controller
     {
         $restaurantId = $makeProposeRequest->request->get('restaurant_id');
 
-        $propose = $this->makePropose->makePropose($restaurantId);
+        $this->makePropose->makePropose($restaurantId, Carbon::today());
 
         return back()->with('Proposed a restaurant success.');
-    }
-
-    /**
-     * POST method to re-propose
-     *
-     * @param ReProposeRequest $reProposeRequest
-     *
-     * @return RedirectResponse
-     */
-    public function postRePropose(ReProposeRequest $reProposeRequest): RedirectResponse
-    {
-        $restaurantId = $reProposeRequest->request->get('restaurant_id');
-
-        $propose = $this->rePropose->rePropose($restaurantId);
-
-        return back()->with('Re-propose a restaurant success.');
     }
 
     /**
@@ -124,7 +101,7 @@ class ProposeController extends Controller
     ) {
         $restaurants = $this->restaurantRepo->pageByRestaurantName($restaurantName, $page ?? 1, $size);
 
-        $currentPropose = $this->proposeRepo->findLatestByUserIdForDate($userId);
+        $currentPropose = $this->proposeRepo->findLatestByUserIdForDate($userId, Carbon::today());
         $currentRestaurant = ($currentPropose === null) ? null : $this->restaurantRepo->find($currentPropose->restaurant_id);
 
         return [$restaurants, $currentPropose, $currentRestaurant];

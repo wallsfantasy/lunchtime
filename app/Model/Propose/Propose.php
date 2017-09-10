@@ -17,9 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Propose extends Model
 {
-    const MAX_DAY_PROPOSES = 3;
-
-    private $todayNumProposes;
+    const DAY_PROPOSES_LIMIT = 3;
 
     public function __construct(array $attributes = [])
     {
@@ -33,16 +31,4 @@ class Propose extends Model
     ];
 
     protected $fillable = ['user_id', 'restaurant_id', 'for_date'];
-
-    public function makePropose()
-    {
-        if ($this->todayNumProposes > self::MAX_DAY_PROPOSES) {
-
-        }
-    }
-
-    private function guardDayNumProposes()
-    {
-
-    }
 }

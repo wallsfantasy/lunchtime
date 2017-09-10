@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PageUserRequest;
-use App\Model\Propose\Repository\ProposeRepository;
+use App\Model\Propose\ProposeRepository;
 use App\Model\Restaurant\Repository\RestaurantRepository;
 use App\Model\User\Repository\UserRepository;
 use Carbon\Carbon;

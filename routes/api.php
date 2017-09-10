@@ -38,5 +38,4 @@ Route::prefix('proposes')
     ->middleware('auth:api')
     ->group(function () {
         Route::post('/', 'Api\ProposeController@make');
-        Route::post('/repropose', 'Api\ProposeController@rePropose');
     });

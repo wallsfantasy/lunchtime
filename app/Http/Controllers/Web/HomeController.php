@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\CycleRepository;
 use App\Model\Propose\Propose;
-use App\Model\Propose\Repository\ProposeRepository;
+use App\Model\Propose\ProposeRepository;
 use App\Model\Restaurant\Repository\RestaurantRepository;
 use App\Model\Restaurant\Restaurant;
 use App\Model\User\Repository\UserRepository;

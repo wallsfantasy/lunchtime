@@ -36,7 +36,7 @@
                 <div class="panel-body">
                     <ul>
                         @foreach($cycleProposes['proposes'] as $propose)
-                            <li>({{ $propose->proposed_at->format('H:i') }}
+                            <li>({{ $propose->proposed_at->diffForHumans() }}
                                 ) {{ $propose['user']->name }} {{ $propose['restaurant']->name }}</li>
                         @endforeach
                     </ul>
