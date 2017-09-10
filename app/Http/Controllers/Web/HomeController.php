@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Model\Cycle\Cycle;
-use App\Model\Cycle\Repository\CycleRepository;
+use App\Model\Cycle\CycleRepository;
 use App\Model\Propose\Propose;
 use App\Model\Propose\Repository\ProposeRepository;
 use App\Model\Restaurant\Repository\RestaurantRepository;
@@ -53,7 +53,7 @@ class HomeController extends Controller
 
         // todo: move this to query function that returns view object
         /** @var Collection|Cycle[] $cycles */
-        $cycles = $this->cycleRepo->findByMemberUserId($userId);
+        $cycles = $this->cycleRepo->findAllByMemberUserId($userId);
         $cycles = $cycles->sortBy('lunchtime');
 
         // find unique Users in all of my Cycles

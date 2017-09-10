@@ -18,7 +18,7 @@ class CreateCycleMembersTable extends Migration
             $table->timestamps();
 
             // cycle
-            $table->integer('cycle_id')->unsigned()->index();
+            $table->uuid('cycle_id')->index();
             $table->foreign('cycle_id')->references('id')
                 ->on('cycles')->onDelete('cascade');
 

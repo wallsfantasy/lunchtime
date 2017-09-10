@@ -33,6 +33,7 @@ $factory->define(App\Model\Restaurant\Restaurant::class, function (Faker\Generat
 
 $factory->define(\App\Model\Cycle\Cycle::class, function (Faker\Generator $faker) {
     return [
+        'id' => "{$faker->uuid}",
         'name' => "{$faker->company} {$faker->companySuffix}",
         'propose_until' => $faker->time(),
         'lunchtime' => $faker->time(),

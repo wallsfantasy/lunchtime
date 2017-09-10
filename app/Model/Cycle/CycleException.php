@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Cycle\Application;
+namespace App\Model\Cycle;
 
 use App\Common\Exception\AbstractDomainException;
 
@@ -11,12 +11,14 @@ class CycleException extends AbstractDomainException
     ];
 
     const CODES_JOIN_CYCLE = [
-        'join_non_exist_cycle' => 201,
-        'join_already_joined' => 202,
+        'join_already_joined' => 201,
     ];
 
     const CODES_LEAVE_CYCLE = [
-        'leave_non_exist_cycle' => 301,
-        'not_a_member' => 302,
+        'not_a_member' => 301,
+    ];
+
+    const CODES_CLOSE_CYCLE = [
+        'close_cycle_having_member' => 401,
     ];
 }

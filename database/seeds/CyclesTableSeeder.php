@@ -16,13 +16,13 @@ class CyclesTableSeeder extends Seeder
         DB::table('cycles')->insert(static::fixtures());
 
         /** @var Collection|Cycle[] $cycles */
-        $cycles = Cycle::all()->keyBy('id');
+        $cycles = Cycle::all()->sortBy('id');
 
         /*
          * Pirate Captains
          * - Jack, Davy, Will, Hector, Elizabeth
          */
-        $cycles[1]->members()->createMany(
+        $cycles[0]->members()->createMany(
             [
                 ['user_id' => 1],
                 ['user_id' => 2],
@@ -36,7 +36,7 @@ class CyclesTableSeeder extends Seeder
          * Royal Navy
          * - James, Cutler
          */
-        $cycles[2]->members()->createMany(
+        $cycles[1]->members()->createMany(
             [
                 ['user_id' => 7],
                 ['user_id' => 9],
@@ -47,7 +47,7 @@ class CyclesTableSeeder extends Seeder
          * Love Triangle
          * - Will, Elizabeth, James
          */
-        $cycles[3]->members()->createMany(
+        $cycles[2]->members()->createMany(
             [
                 ['user_id' => 3],
                 ['user_id' => 5],
@@ -59,7 +59,7 @@ class CyclesTableSeeder extends Seeder
          * Ex Revenge
          * - Jack, Hector, Davy, Tia
          */
-        $cycles[4]->members()->createMany(
+        $cycles[3]->members()->createMany(
             [
                 ['user_id' => 1],
                 ['user_id' => 4],
@@ -73,21 +73,25 @@ class CyclesTableSeeder extends Seeder
     {
         return [
             1 => [
+                'id' => '00000000-0000-0000-0000-000000000001',
                 'name' => 'Pirate Captains',
                 'lunchtime' => '13:00:00',
                 'propose_until' => '13:00:00',
             ],
             2 => [
+                'id' => '00000000-0000-0000-0000-000000000002',
                 'name' => 'Royal Navy',
                 'lunchtime' => '10:00:00',
                 'propose_until' => '10:00:00',
             ],
             3 => [
+                'id' => '00000000-0000-0000-0000-000000000003',
                 'name' => 'Love Triangle',
                 'lunchtime' => '12:00:00',
                 'propose_until' => '12:00:00',
             ],
             4 => [
+                'id' => '00000000-0000-0000-0000-000000000004',
                 'name' => 'Ex Problem',
                 'lunchtime' => '11:00:00',
                 'propose_until' => '11:00:00',

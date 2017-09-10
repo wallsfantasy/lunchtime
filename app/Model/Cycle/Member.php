@@ -14,5 +14,5 @@ class Member extends Model
 {
     protected $table = 'cycle_members';
 
-    protected $fillable = ['user_id'];
+    protected $fillable = ['cycle_id', 'user_id'];
 }

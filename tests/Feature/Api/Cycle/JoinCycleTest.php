@@ -28,7 +28,7 @@ class JoinCycleTest extends TestCase
             ]
         );
 
-        $response->assertJson(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+        $response->assertJsonFragment(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
 
         $this->assertDatabaseHas('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
     }

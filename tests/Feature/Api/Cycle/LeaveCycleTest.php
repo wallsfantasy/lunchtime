@@ -20,8 +20,10 @@ class LeaveCycleTest extends TestCase
         /** @var Cycle $cycle */
         $cycle = factory(Cycle::class)->create();
 
-        /** @var Member $member */
-        $member = factory(Member::class)->create(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+        /** @var Member $member1 */
+        /** @var Member $member2 */
+        $member1 = factory(Member::class)->create(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+        $member2 = factory(Member::class)->create(['user_id' => 0, 'cycle_id' => $cycle->id]);
 
         $response = $this->json(
             'DELETE',
@@ -32,7 +34,7 @@ class LeaveCycleTest extends TestCase
             ]
         );
 
-        $response->assertJson(['success' => true]);
+        $response->assertJsonMissing(['user_id' => $user->id]);
 
         $this->assertDatabaseMissing('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
     }

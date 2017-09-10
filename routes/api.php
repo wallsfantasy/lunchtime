@@ -29,8 +29,6 @@ Route::prefix('restaurants')
 Route::prefix('cycles')
     ->middleware('auth:api')
     ->group(function () {
-        Route::get('/', 'Api\CycleController@get');
-        Route::get('/{cycleId}', 'Api\CycleController@getById');
         Route::post('/', 'Api\CycleController@create');
         Route::post('/{cycleId}/join', 'Api\CycleController@join');
         Route::delete('/{cycleId}/leave', 'Api\CycleController@leave');

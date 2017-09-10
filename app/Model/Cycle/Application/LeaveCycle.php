@@ -3,7 +3,8 @@
 namespace App\Model\Cycle\Application;
 
 use App\Model\Cycle\Cycle;
-use App\Model\Cycle\Member;
+use App\Model\Cycle\CycleException;
+use App\Model\Cycle\CycleRepository;
 use Illuminate\Auth\AuthManager;
 
 class LeaveCycle
@@ -11,43 +12,33 @@ class LeaveCycle
     /** @var AuthManager $authManager */
     private $authManager;
 
-    public function __construct(AuthManager $authManager)
+    /** @var CycleRepository $cycleRepo */
+    private $cycleRepo;
+
+    public function __construct(AuthManager $authManager, CycleRepository $cycleRepo)
     {
         $this->authManager = $authManager;
+        $this->cycleRepo = $cycleRepo;
     }
 
     /**
-     * Join Cycle
+     * @param string $cycleId
      *
-     * @param int $cycleId
-     *
-     * @return bool
+     * @return Cycle
      * @throws CycleException
      */
-    public function leaveCycle(int $cycleId)
+    public function leaveCycle(string $cycleId): Cycle
     {
         $userId = $this->authManager->guard()->id();
 
-        try {
-            /** @var Cycle $cycle */
-            $cycle = Cycle::findOrFail($cycleId);
-        } catch (\Throwable $e) {
-            throw new CycleException('Cycle not found',
-                CycleException::CODES_LEAVE_CYCLE['leave_non_exist_cycle'],
-                $e,
-                ['user_id' => $userId, 'cycle_id' => $cycleId]
-            );
-        }
+        $cycle = $this->cycleRepo->getByMemberUserId($cycleId, $userId);
 
-        $result = (bool) Member::where(['cycle_id' => $cycleId, 'user_id' => $userId])->delete();
-        if ($result === false) {
-            throw new CycleException('User leave the Cycle which was not the member',
-                CycleException::CODES_LEAVE_CYCLE['not_a_member'],
-                null,
-                ['user_id' => $userId, 'cycle_id' => $cycleId]
-            );
-        }
+        $cycle = $cycle->leaveCycle($userId);
 
-        return $result;
+        //$this->cycleRepo->save($cycle);
+
+        // dispatch event
+
+        return $cycle;
     }
 }

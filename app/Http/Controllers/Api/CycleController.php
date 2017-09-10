@@ -9,7 +9,6 @@ use App\Model\Cycle\Application\CreateCycle;
 use App\Model\Cycle\Application\JoinCycle;
 use App\Model\Cycle\Application\LeaveCycle;
 use App\Model\Cycle\Member;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class CycleController extends Controller
@@ -28,28 +27,6 @@ class CycleController extends Controller
         $this->createCycle = $createCycle;
         $this->joinCycle = $joinCycle;
         $this->leaveCycle = $leaveCycle;
-    }
-
-    /**
-     * Get Cycles
-     *
-     * @return Collection|Cycle[]
-     */
-    public function get()
-    {
-        return Cycle::all();
-    }
-
-    /**
-     * Get Cycle by id
-     *
-     * @param int $cycleId
-     *
-     * @return Model|Cycle
-     */
-    public function getById(int $cycleId)
-    {
-        return Cycle::find(['id' => $cycleId]);
     }
 
     /**
@@ -80,11 +57,11 @@ class CycleController extends Controller
     /**
      * Join a cycle
      *
-     * @param int $cycleId
+     * @param string $cycleId
      *
      * @return Model|Member
      */
-    public function join(int $cycleId)
+    public function join(string $cycleId)
     {
         return $this->joinCycle->joinCycle($cycleId);
     }
@@ -92,11 +69,11 @@ class CycleController extends Controller
     /**
      * Leave a cycle
      *
-     * @param int $cycleId
+     * @param string $cycleId
      *
      * @return array
      */
-    public function leave(int $cycleId)
+    public function leave(string $cycleId)
     {
         $result = $this->leaveCycle->leaveCycle($cycleId);
 
