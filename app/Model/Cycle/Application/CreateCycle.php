@@ -33,7 +33,7 @@ class CreateCycle
 
         $cycle = Cycle::createCycle($userId, $name, $lunchtime, $proposeUntil);
 
-        $cycle = $this->cycleRepo->add($cycle);
+        $this->cycleRepo->add($cycle);
 
         return $cycle;
     }

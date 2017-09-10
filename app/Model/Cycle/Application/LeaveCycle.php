@@ -33,9 +33,9 @@ class LeaveCycle
 
         $cycle = $this->cycleRepo->getByMemberUserId($cycleId, $userId);
 
-        $cycle = $cycle->leaveCycle($userId);
+        $cycle->leaveCycle($userId);
 
-        //$this->cycleRepo->save($cycle);
+        $this->cycleRepo->deleteMemberByUserId($cycle, $userId);
 
         // dispatch event
 

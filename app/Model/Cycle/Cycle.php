@@ -80,10 +80,8 @@ class Cycle extends Model
 
     /**
      * @param int $userId
-     *
-     * @return $this
      */
-    public function joinCycle(int $userId): self
+    public function joinCycle(int $userId)
     {
         $this->guardIsUserIdAlreadyMember($userId);
 
@@ -91,16 +89,12 @@ class Cycle extends Model
         $this->members->add($member);
 
         // generate userJoinedCycleEvent
-
-        return $this;
     }
 
     /**
      * @param int $userId
-     *
-     * @return $this
      */
-    public function leaveCycle(int $userId): self
+    public function leaveCycle(int $userId)
     {
         $this->guardUserIdIsNotMember($userId);
 
@@ -110,11 +104,7 @@ class Cycle extends Model
         $key = array_search($member->toArray(), $this->members->toArray(), true);
         $this->members->pull($key);
 
-        $member->delete();
-
         // generate memberLeftCycleEvent
-
-        return $this;
     }
 
     public function closeCycle()
@@ -122,8 +112,6 @@ class Cycle extends Model
         $this->guardCycleCloseStillHavingMember();
 
         // generate cycleClosedEvent
-
-        return $this;
     }
 
     /**

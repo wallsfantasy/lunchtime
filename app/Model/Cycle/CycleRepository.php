@@ -81,24 +81,31 @@ class CycleRepository
     }
 
     /**
-     * @return Cycle
+     * @param Cycle $cycle
      */
-    public function add(Cycle $cycle): Cycle
+    public function add(Cycle $cycle)
     {
         $cycle->push();
-
-        return $cycle;
     }
 
     /**
      * @param Cycle $cycle
-     *
-     * @return Cycle
      */
-    public function save(Cycle $cycle): Cycle
+    public function save(Cycle $cycle)
     {
         $cycle->push();
+    }
 
-        return $cycle;
+    /**
+     * @param Cycle $cycle
+     * @param int   $userId
+     */
+    public function deleteMemberByUserId(Cycle $cycle, int $userId)
+    {
+        $member = $this->member->where('cycle_id', '=', $cycle->id)
+            ->where('user_id', '=', $userId)
+            ->first();
+
+        $member->delete();
     }
 }

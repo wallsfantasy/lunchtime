@@ -35,7 +35,7 @@ class JoinCycle
 
         $cycle = $this->cycleRepo->get($cycleId);
 
-        $cycle = $cycle->joinCycle($userId);
+        $cycle->joinCycle($userId);
 
         $this->cycleRepo->save($cycle);
 
