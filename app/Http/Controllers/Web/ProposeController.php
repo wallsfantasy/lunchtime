@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MakeProposeRequest;
 use App\Http\Requests\PageRestaurantRequest;
 use App\Model\Propose\Application\MakePropose;
+use App\Model\Propose\Propose;
 use App\Model\Propose\ProposeRepository;
 use App\Model\Restaurant\Repository\RestaurantRepository;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class ProposeController extends Controller
@@ -48,9 +50,9 @@ class ProposeController extends Controller
 
         $userId = $request->user()->id;
 
-        [$restaurants, $currentPropose, $currentRestaurant] = $this->queryProposePageData($userId, $name, $page);
+        [$todayProposes, $currentPropose, $restaurants] = $this->queryProposePageData($userId, $name, $page);
 
-        return view('propose', compact('restaurants', 'currentPropose', 'currentRestaurant'));
+        return view('propose', compact('todayProposes', 'currentPropose', 'restaurants'));
     }
 
     /**
@@ -99,11 +101,25 @@ class ProposeController extends Controller
         int $page = null,
         int $size = self::PAGE_SIZE
     ) {
-        $restaurants = $this->restaurantRepo->pageByRestaurantName($restaurantName, $page ?? 1, $size);
+        // restaurants to show in propose restaurant list
+        $restaurants = $this->restaurantRepo->pageByRestaurantName($restaurantName, $page ?? 1, 'asc', $size);
 
-        $currentPropose = $this->proposeRepo->findLatestByUserIdForDate($userId, Carbon::today());
-        $currentRestaurant = ($currentPropose === null) ? null : $this->restaurantRepo->find($currentPropose->restaurant_id);
+        /** @var Collection|Propose[] $todayProposes */
+        $todayProposes = $this->proposeRepo
+            ->findAllByUserIdsForDate([$userId], Carbon::today())
+            ->sortByDesc('proposed_at');
 
-        return [$restaurants, $currentPropose, $currentRestaurant];
+        $proposedRestaurantIds = array_column($todayProposes->toArray(), 'restaurant_id');
+        $proposedRestaurants = (count($proposedRestaurantIds) > 0)
+            ? $this->restaurantRepo->findAllByIds($proposedRestaurantIds)->keyBy('id')
+            : Collection::make();
+
+        foreach ($todayProposes as &$propose) {
+            $propose->restaurant = $proposedRestaurants[$propose->restaurant_id] ?? null;
+        }
+
+        $currentPropose = $todayProposes->first();
+
+        return [$todayProposes, $currentPropose, $restaurants];
     }
 }

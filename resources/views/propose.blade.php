@@ -8,11 +8,13 @@
                 <div class="panel-title">My propose today</div>
             </div>
             <div class="panel-body">
-                @if($currentPropose !== null)
-                    <p>{{ $currentRestaurant->name }}</p>
-                @else
-                    <p>No proposed restaurant today, make one!</p>
-                @endif
+                <ul>
+                    @forelse ($todayProposes as $propose)
+                        <li>{{ $propose->restaurant->name }} ({{ $propose->proposed_at->diffForHumans() }})</li>
+                    @empty
+                        <li>No proposed restaurant today, make one!</li>
+                    @endforelse
+                </ul>
             </div>
         </div>
     </div>
@@ -70,7 +72,7 @@
                                                    value="{{ $restaurant->id }}">
                                             @if($currentPropose === null)
                                                 <button class="btn btn-default">Propose</button>
-                                            @elseif($currentRestaurant->id !== $restaurant->id)
+                                            @elseif($currentPropose->restaurant_id !== $restaurant->id)
                                                 <button class="btn btn-default">Re-propose</button>
                                             @else
                                             <!-- disable re-propose of currently proposed restaurant -->
