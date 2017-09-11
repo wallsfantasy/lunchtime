@@ -31,7 +31,7 @@ class CreateCycle
     {
         $userId = $this->authManager->guard()->id();
 
-        $cycle = Cycle::createCycle($userId, $name, $lunchtime, $proposeUntil);
+        $cycle = Cycle::createCycle($userId, ucfirst($name), $lunchtime, $proposeUntil);
 
         $this->cycleRepo->add($cycle);
 

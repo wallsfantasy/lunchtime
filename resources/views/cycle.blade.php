@@ -2,6 +2,28 @@
 
 @section('content')
 
+    <!-- create cycle -->
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Create Cycle</div>
+            </div>
+
+            <div class="panel-body">
+                <form class="form-inline" method="post" action="{{ route('cycle-create') }}">
+                    {!! csrf_field() !!}
+                    <div class="form-group">
+                        <label for="cycleName">Name</label>
+                        <input class="form-control" id="cycleName" placeholder="Name" name="name">
+                        <label for="lunchtime">Lunchtime</label>
+                        <input type="time" class="form-control" id="lunchtime" placeholder="Lunchtime" name="lunchtime">
+                    </div>
+                    <button class="btn btn-default">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- cycles list -->
     <div class="row">
         <div class="panel panel-default">

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCycleRequest;
+use App\Http\Requests\CreateCycleApiRequest;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Application\CreateCycle;
 use App\Model\Cycle\Application\JoinCycle;
@@ -32,11 +32,11 @@ class CycleController extends Controller
     /**
      * Create a Cycle
      *
-     * @param CreateCycleRequest $request
+     * @param CreateCycleApiRequest $request
      *
      * @return Model|Cycle
      */
-    public function create(CreateCycleRequest $request)
+    public function create(CreateCycleApiRequest $request)
     {
         $name = $request->request->get('name');
 

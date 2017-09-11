@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCycleRequest extends FormRequest
+class CreateCycleApiRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class CreateCycleRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'lunchtime' => 'required|date_format:H:i',
-            'propose_until' => 'nullable|date_format:H:i',
+            'lunchtime' => 'required|date_format:H:i:s',
+            'propose_until' => 'nullable|date_format:H:i:s',
         ];
     }
 }

@@ -45,6 +45,6 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
 /* Cycle */
 Route::group(['prefix' => 'cycle', 'middleware' => ['auth']], function () {
     Route::get('/', 'Web\CycleController@index')->name('cycle');
-    Route::post('/', 'Web\CycleController@postCreateCycle')->name('cycle-create');
+    Route::post('/create', 'Web\CycleController@postCreateCycle')->name('cycle-create');
     Route::post('/search', 'Web\CycleController@postSearch')->name('cycle-search');
 });

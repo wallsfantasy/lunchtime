@@ -76,8 +76,16 @@ class CycleController extends Controller
     public function postCreateCycle(CreateCycleRequest $request): RedirectResponse
     {
         $name = $request->request->get('name');
+
         $lunchtime = $request->request->get('lunchtime');
+        list($lunchHour, $lunchMinute) = explode(':', $lunchtime);
+        $lunchtime = new \DateInterval("PT{$lunchHour}H{$lunchMinute}M");
+
         $proposeUntil = $request->request->get('propose_until');
+        if ($proposeUntil !== null) {
+            list($proposeHour, $proposeMinute, $proposeSecond) = explode(':', $proposeUntil);
+            $proposeUntil = new \DateInterval("PT{$proposeHour}H{$proposeMinute}M");
+        }
 
         $this->createCycle->createCycle($name, $lunchtime, $proposeUntil);
 
