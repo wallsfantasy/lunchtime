@@ -6,7 +6,7 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="panel-title">Register a Restaurant</div>
+                <div class="panel-title">Register new Restaurant</div>
             </div>
             <div class="panel-body">
                 <form class="form-inline" method="post" action="{{ route('restaurant-register') }}">
@@ -43,30 +43,34 @@
                     <button class="btn btn-default">Search</button>
                 </form>
             </div>
+        </div>
 
-            <!-- restaurant list -->
-            @if(count($restaurants) === 0)
-                <div class="panel-body">
-                    <p>No restaurant found. Be the first to register!</p>
+        <!-- restaurant list -->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="pre-scrollable">
+                    @if(count($restaurants) === 0)
+                        <p>No restaurant found. Be the first to register!</p>
+                    @else
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($restaurants as $restaurant)
+                                <tr>
+                                    <td>{{ $restaurant->name }}</td>
+                                    <td>{{ $restaurant->description }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
-            @else
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($restaurants as $restaurant)
-                        <tr>
-                            <td>{{ $restaurant->name }}</td>
-                            <td>{{ $restaurant->description }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @endif
+            </div>
         </div>
     </div>
 @endsection
