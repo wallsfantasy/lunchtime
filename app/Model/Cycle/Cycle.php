@@ -83,7 +83,7 @@ class Cycle extends Model
      */
     public function joinCycle(int $userId)
     {
-        $this->guardIsUserIdAlreadyMember($userId);
+        $this->guardJoinAlreadyMember($userId);
 
         $member = new Member(['cycle_id' => $this->id, 'user_id' => $userId]);
         $this->members->add($member);
@@ -96,7 +96,7 @@ class Cycle extends Model
      */
     public function leaveCycle(int $userId)
     {
-        $this->guardUserIdIsNotMember($userId);
+        $this->guardLeaveCycleNotMember($userId);
 
         $key = $this->members->search(function (Member $member) use ($userId) {
             return $member->user_id === $userId;
@@ -127,15 +127,10 @@ class Cycle extends Model
         if ($todayLunchtime < $todayProposeUntil) {
             $lunchtimeFormatted = $lunchtime->format('%H:%I:%S');
             $proposeUntilFormatted = $proposeUntil->format('%H:%I:%S');
-            throw new CycleException(
-                "Lunchtime ({$lunchtimeFormatted}) arrived before last propose time ({$proposeUntilFormatted})",
-                CycleException::CODES_CREATE_CYCLE['lunchtime_before_propose'],
-                null,
-                [
-                    'propose_until' => $proposeUntilFormatted,
-                    'lunchtime' => $lunchtimeFormatted,
-                ]
-            );
+            throw CycleException::createLunchtimeBeforePropose(null, [
+                'propose_until' => $proposeUntilFormatted,
+                'lunchtime' => $lunchtimeFormatted,
+            ]);
         }
     }
 
@@ -144,13 +139,10 @@ class Cycle extends Model
      *
      * @throws CycleException
      */
-    private function guardIsUserIdAlreadyMember(int $userId)
+    private function guardJoinAlreadyMember(int $userId)
     {
         if (null !== $this->members->where('user_id', $userId)->first()) {
-            throw new CycleException(
-                'User is already a member of the cycle',
-                CycleException::CODES_JOIN_CYCLE['join_already_joined'],
-                null,
+            throw CycleException::createJoinAlreadyMemberCycle(null,
                 ['user_id' => $userId, 'cycle_id' => $this->toArray()]
             );
         }
@@ -161,14 +153,11 @@ class Cycle extends Model
      *
      * @throws CycleException
      */
-    private function guardUserIdIsNotMember(int $userId)
+    private function guardLeaveCycleNotMember(int $userId)
     {
         if (null === $this->members->where('user_id', $userId)->first()) {
-            throw new CycleException('User is not the member of the cycle',
-                CycleException::CODES_LEAVE_CYCLE['not_a_member'],
-                null,
-                ['user_id' => $userId, 'cycle_id' => $this->toArray()]
-            );
+            throw CycleException::createLeaveCycleNotMember(null,
+                ['user_id' => $userId, 'cycle_id' => $this->toArray()]);
         }
     }
 
@@ -178,12 +167,7 @@ class Cycle extends Model
     private function guardCycleCloseStillHavingMember()
     {
         if (count($this->members) > 0) {
-            throw new CycleException(
-                'Cycle still have members left and cannot be closed',
-                CycleException::CODES_CLOSE_CYCLE['close_cycle_having_member'],
-                null,
-                ['cycle' => $this->toArray()]
-            );
+            throw CycleException::createCloseCycleHasMember(null, ['cycle' => $this->toArray()]);
         }
     }
 }
