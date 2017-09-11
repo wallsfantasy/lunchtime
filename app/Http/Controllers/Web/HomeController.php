@@ -74,7 +74,7 @@ class HomeController extends Controller
         foreach ($proposes as $propose) {
             $restaurantIds[$propose->restaurant_id] = $propose->restaurant_id;
         }
-        $restaurants = $this->restaurantRepo->findByIds($restaurantIds);
+        $restaurants = $this->restaurantRepo->findAllByIds($restaurantIds);
 
         // View Data: $userProposesByCycle
         $proposesByCycle = [];

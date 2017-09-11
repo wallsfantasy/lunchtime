@@ -55,7 +55,7 @@ class RestaurantRepository
      *
      * @return iterable|Collection|Restaurant[]
      */
-    public function findByIds(array $ids): iterable
+    public function findAllByIds(array $ids): iterable
     {
         $restaurants = $this->restaurant->whereIn('id', $ids)
             ->get();
