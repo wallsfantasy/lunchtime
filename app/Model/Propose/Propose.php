@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Propose extends Model
 {
-    const DAY_PROPOSES_LIMIT = 3;
+    const DAY_PROPOSES_LIMIT = 5;
 
     public function __construct(array $attributes = [])
     {
