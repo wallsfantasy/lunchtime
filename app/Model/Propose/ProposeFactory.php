@@ -2,8 +2,6 @@
 
 namespace App\Model\Propose;
 
-use Carbon\Carbon;
-
 class ProposeFactory
 {
     /** @var ProposeRepository $proposeRepo */
@@ -19,21 +17,20 @@ class ProposeFactory
      * @param int       $restaurantId
      * @param \DateTime $forDate
      *
+     * @return Propose
      * @throws ProposeException
      */
     public function makePropose(int $userId, int $restaurantId, \DateTime $forDate)
     {
-        // proposes made by userId for forDate within 24 hours
-        $yesterdayNow = Carbon::now()->subDay();
-        $proposed = $this->proposeRepo->findAllByUserIdForDateAfter($userId, $forDate, $yesterdayNow);
+        // limit proposes made by user for a date
+        $proposed = $this->proposeRepo->findAllByUserIdsForDate([$userId], $forDate);
 
-        if (count($proposed) > Propose::DAY_PROPOSES_LIMIT) {
-            $laggingPropose = $proposed->last();
+        if (count($proposed) >= Propose::DAY_PROPOSES_LIMIT) {
             throw new ProposeException(
-                "Your propose limit within 24 hours reached",
+                "Your propose limit for a day reached",
                 ProposeException::CODES_MAKE_PROPOSE['propose_limit_reach'],
                 null,
-                ['lagging_propose_time' => $laggingPropose->toArray()]
+                ['proposed' => $proposed->toArray()]
             );
         }
 

@@ -91,7 +91,7 @@ class UserController extends Controller
 
         // find proposed restaurants
         $proposedRestaurantIds = array_unique(array_column((array) $proposes->all(), 'restaurant_id'));
-        $restaurants = $this->restaurantRepo->findByIds($proposedRestaurantIds);
+        $restaurants = $this->restaurantRepo->findAllByIds($proposedRestaurantIds);
 
         // function to join user's proposes/restaurants data
         $joinProposesRestaurant = function (iterable $userProposes) use ($restaurants): iterable {
