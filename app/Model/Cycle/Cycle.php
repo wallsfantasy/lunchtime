@@ -98,10 +98,9 @@ class Cycle extends Model
     {
         $this->guardUserIdIsNotMember($userId);
 
-        $member = $this->members->first(function (Member $member) use ($userId) {
+        $key = $this->members->search(function (Member $member) use ($userId) {
             return $member->user_id === $userId;
         });
-        $key = array_search($member->toArray(), $this->members->toArray(), true);
         $this->members->pull($key);
 
         // generate memberLeftCycleEvent

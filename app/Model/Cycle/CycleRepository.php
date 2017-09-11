@@ -2,10 +2,13 @@
 
 namespace App\Model\Cycle;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class CycleRepository
 {
+    const DEFAULT_PAGE_SIZE = 20;
+
     /** @var Cycle */
     private $cycle;
 
@@ -44,6 +47,38 @@ class CycleRepository
             ->get();
 
         return $cycles;
+    }
+
+
+    /**
+     * @param string|null $name
+     * @param int|null    $page
+     * @param string      $order
+     * @param int         $size
+     *
+     * @return iterable|LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function pageByCycleName(
+        ?string $name,
+        int $page = 1,
+        string $order = 'asc',
+        int $size = self::DEFAULT_PAGE_SIZE
+    ): iterable {
+        // todo: create pagination result VO in common
+        if ($name === null) {
+            $paginated = $this->cycle::with('members')
+                ->orderBy('name', $order)
+                ->paginate($size, $columns = ['*'], $pageName = 'page', $page);
+            return $paginated;
+        }
+
+        $paginated = $this->cycle::with('members')
+            ->where('name', 'ilike', "%{$name}%")
+            ->orderBy('name', $order)
+            ->paginate($size, $columns = ['*'], $pageName = 'page', $page);
+
+        return $paginated;
     }
 
     /**
