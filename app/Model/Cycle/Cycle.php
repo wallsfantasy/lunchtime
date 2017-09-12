@@ -2,6 +2,9 @@
 
 namespace App\Model\Cycle;
 
+use App\Common\Event\RecordEventsTrait;
+use App\Model\Cycle\Event\CycleClosedEvent;
+use App\Model\Cycle\Event\MemberLeftCycleEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +22,8 @@ use Ramsey\Uuid\Uuid;
  */
 class Cycle extends Model
 {
+    use RecordEventsTrait;
+
     const DEFAULT_PROPOSE_BEFORE_LUNCHTIME = 'PT0M';
 
     public $incrementing = false;
@@ -101,16 +106,19 @@ class Cycle extends Model
         $key = $this->members->search(function (Member $member) use ($userId) {
             return $member->user_id === $userId;
         });
-        $this->members->pull($key);
+        /** @var Member $member */
+        $member = $this->members->pull($key);
 
         // generate memberLeftCycleEvent
+        $this->recordEvent(new MemberLeftCycleEvent($this->id, $this->name, $member->id));
     }
 
     public function closeCycle()
     {
-        $this->guardCycleCloseStillHavingMember();
+        $this->guardCycleCloseStillHaveMember();
 
         // generate cycleClosedEvent
+        $this->recordEvent(new CycleClosedEvent($this->id, $this->name));
     }
 
     /**
@@ -164,7 +172,7 @@ class Cycle extends Model
     /**
      * @throws CycleException
      */
-    private function guardCycleCloseStillHavingMember()
+    private function guardCycleCloseStillHaveMember()
     {
         if (count($this->members) > 0) {
             throw CycleException::createCloseCycleHasMember(null, ['cycle' => $this->toArray()]);

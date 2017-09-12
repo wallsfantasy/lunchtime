@@ -5,7 +5,7 @@ namespace App\Common\Exception;
 trait ContextAwareTrait
 {
     /** @var array */
-    protected $context;
+    public $exceptionContext;
 
     /**
      * Get contextual information of the exception
@@ -14,6 +14,6 @@ trait ContextAwareTrait
      */
     final public function getContext(): array
     {
-        return $this->context;
+        return $this->exceptionContext;
     }
 }

@@ -3,6 +3,8 @@
 namespace Tests\Feature\Api\Cycles;
 
 use App\Model\Cycle\Cycle;
+use App\Model\Cycle\Event\CycleClosedEvent;
+use App\Model\Cycle\Event\MemberLeftCycleEvent;
 use App\Model\Cycle\Member;
 use App\Model\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -36,7 +38,39 @@ class LeaveCycleTest extends TestCase
 
         $response->assertJsonMissing(['user_id' => $user->id]);
 
+        // not work, see: https://github.com/laravel/framework/issues/20294
+//        $this->expectsEvents(MemberLeftCycleEvent::class);
+
         $this->assertDatabaseMissing('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+    }
+
+    public function testLeaveLastCloseCycleSuccess()
+    {
+        /** @var User $user */
+        $user = factory(User::class)->create();
+
+        /** @var Cycle $cycle */
+        $cycle = factory(Cycle::class)->create();
+
+        /** @var Member $lastMember */
+        $lastMember = factory(Member::class)->create(['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+
+        $response = $this->json(
+            'DELETE',
+            "/api/cycles/{$cycle->id}/leave",
+            [],
+            [
+                'Authorization' => "Bearer {$user->api_token}",
+            ]
+        );
+
+        $response->assertJsonMissing(['user_id' => $user->id]);
+
+        // not work, see: https://github.com/laravel/framework/issues/20294
+//        $this->expectsEvents([MemberLeftCycleEvent::class, CycleClosedEvent::class]);
+
+        $this->assertDatabaseMissing('cycle_members', ['user_id' => $user->id, 'cycle_id' => $cycle->id]);
+        $this->assertDatabaseMissing('cycles', ['id' => $cycle->id]);
     }
 
     public function testJoinNonExistCycleFail()

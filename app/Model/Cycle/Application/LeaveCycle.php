@@ -6,17 +6,25 @@ use App\Model\Cycle\Cycle;
 use App\Model\Cycle\CycleException;
 use App\Model\Cycle\CycleRepository;
 use Illuminate\Auth\AuthManager;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class LeaveCycle
 {
+    /** @var Dispatcher $dispatcher */
+    private $dispatcher;
+
     /** @var AuthManager $authManager */
     private $authManager;
 
     /** @var CycleRepository $cycleRepo */
     private $cycleRepo;
 
-    public function __construct(AuthManager $authManager, CycleRepository $cycleRepo)
-    {
+    public function __construct(
+        Dispatcher $dispatcher,
+        AuthManager $authManager,
+        CycleRepository $cycleRepo
+    ) {
+        $this->dispatcher = $dispatcher;
         $this->authManager = $authManager;
         $this->cycleRepo = $cycleRepo;
     }
@@ -38,6 +46,9 @@ class LeaveCycle
         $this->cycleRepo->deleteMemberByUserId($cycle, $userId);
 
         // dispatch event
+        foreach ($cycle->getEvents() as $event) {
+            $this->dispatcher->dispatch($event);
+        }
 
         return $cycle;
     }

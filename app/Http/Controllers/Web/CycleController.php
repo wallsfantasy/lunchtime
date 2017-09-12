@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCycleRequest;
+use App\Http\Requests\JoinCycleRequest;
 use App\Http\Requests\PageCycleRequest;
 use App\Model\Cycle\Application\CreateCycle;
+use App\Model\Cycle\Application\JoinCycle;
+use App\Model\Cycle\Application\LeaveCycle;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\CycleRepository;
 use App\Model\User\Repository\UserRepository;
@@ -14,7 +17,7 @@ use Illuminate\View\View;
 
 class CycleController extends Controller
 {
-    const PAGE_SIZE  = 20;
+    const PAGE_SIZE = 20;
     const PAGE_ORDER = 'asc';
 
     /** @var CycleRepository */
@@ -26,11 +29,24 @@ class CycleController extends Controller
     /** @var CreateCycle */
     private $createCycle;
 
-    public function __construct(CycleRepository $cycleRepo, UserRepository $userRepo, CreateCycle $createCycle)
-    {
+    /** @var JoinCycle */
+    private $joinCycle;
+
+    /** @var LeaveCycle */
+    private $leaveCycle;
+
+    public function __construct(
+        CycleRepository $cycleRepo,
+        UserRepository $userRepo,
+        CreateCycle $createCycle,
+        JoinCycle $joinCycle,
+        LeaveCycle $leaveCycle
+    ) {
         $this->cycleRepo = $cycleRepo;
         $this->userRepo = $userRepo;
         $this->createCycle = $createCycle;
+        $this->joinCycle = $joinCycle;
+        $this->leaveCycle = $leaveCycle;
     }
 
     /**
@@ -90,6 +106,38 @@ class CycleController extends Controller
         $this->createCycle->createCycle($name, $lunchtime, $proposeUntil);
 
         return back()->with('notification', 'Cycle registered.');
+    }
+
+    /**
+     * POST method to join cycle
+     *
+     * @param JoinCycleRequest $request
+     *
+     * @return RedirectResponse
+     */
+    public function postJoinCycle(JoinCycleRequest $request): RedirectResponse
+    {
+        $cycleId = $request->request->get('cycle_id');
+
+        $this->joinCycle->joinCycle($cycleId);
+
+        return back()->with('notification', 'Cycle joined.');
+    }
+
+    /**
+     * POST method to leave cycle
+     *
+     * @param JoinCycleRequest $request
+     *
+     * @return RedirectResponse
+     */
+    public function postLeaveCycle(JoinCycleRequest $request): RedirectResponse
+    {
+        $cycleId = $request->request->get('cycle_id');
+
+        $this->leaveCycle->leaveCycle($cycleId);
+
+        return back()->with('notification', 'Cycle joined.');
     }
 
     /**

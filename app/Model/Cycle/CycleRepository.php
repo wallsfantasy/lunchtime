@@ -143,4 +143,12 @@ class CycleRepository
 
         $member->delete();
     }
+
+    /**
+     * @param Cycle $cycle
+     */
+    public function delete(Cycle $cycle)
+    {
+        $cycle->delete();
+    }
 }
