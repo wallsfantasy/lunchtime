@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PageUserRequest;
 use App\Model\Propose\ProposeRepository;
 use App\Model\Restaurant\Repository\RestaurantRepository;
-use App\Model\User\Repository\UserRepository;
+use App\Model\User\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;

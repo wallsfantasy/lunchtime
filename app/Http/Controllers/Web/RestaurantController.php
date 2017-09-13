@@ -7,7 +7,7 @@ use App\Http\Requests\PageRestaurantRequest;
 use App\Http\Requests\RegisterRestaurantRequest;
 use App\Model\Restaurant\Application\RegisterRestaurant;
 use App\Model\Restaurant\Repository\RestaurantRepository;
-use App\Model\User\Repository\UserRepository;
+use App\Model\User\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 

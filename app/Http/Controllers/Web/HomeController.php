@@ -9,7 +9,7 @@ use App\Model\Propose\Propose;
 use App\Model\Propose\ProposeRepository;
 use App\Model\Restaurant\Repository\RestaurantRepository;
 use App\Model\Restaurant\Restaurant;
-use App\Model\User\Repository\UserRepository;
+use App\Model\User\UserRepository;
 use App\Model\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;

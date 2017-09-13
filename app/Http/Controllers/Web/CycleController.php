@@ -11,7 +11,7 @@ use App\Model\Cycle\Application\JoinCycle;
 use App\Model\Cycle\Application\LeaveCycle;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\CycleRepository;
-use App\Model\User\Repository\UserRepository;
+use App\Model\User\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -57,11 +57,13 @@ class CycleController extends Controller
     public function index(PageCycleRequest $request): View
     {
         $page = $request->request->get('page');
-        $name = $request->request->get('name');
+        $cycleName = $request->request->get('name');
 
-        [$cycles, $registrants] = $this->queryCycleView($name, $page);
+        $myUserId = $request->user()->id;
 
-        return view('cycle', compact('cycles', 'registrants'));
+        $cycles = $this->queryCycleView($myUserId, $cycleName, $page);
+
+        return view('cycle', compact('cycles', ['myUserId' => $myUserId]));
     }
 
     /**
@@ -143,12 +145,13 @@ class CycleController extends Controller
     /**
      * Prepare data to display cycle view
      *
+     * @param int         $myUserId
      * @param string|null $name
      * @param int|null    $page
      *
      * @return array
      */
-    private function queryCycleView(?string $name, ?int $page): array
+    private function queryCycleView(int $myUserId, ?string $name, ?int $page): array
     {
         /** @var Cycle[] $cycles */
         $cycles = $this->cycleRepo
@@ -169,12 +172,17 @@ class CycleController extends Controller
             // registrator_user
             $cycle->creator_user = $registrants->where('id', $cycle->creator_user_id)->first();
 
-            // member_user
+            // member_user and my_cycle
+            $isMyCycle = false;
             foreach ($cycle->members as &$cycleMember) {
                 $cycleMember->user = $registrants->where('id', $cycleMember->user_id)->first();
+                if ($cycleMember->user->id == $myUserId) {
+                    $isMyCycle = true;
+                }
             }
+            $cycle->is_my_cycle = $isMyCycle;
         }
 
-        return [$cycles, $registrants];
+        return $cycles;
     }
 }
