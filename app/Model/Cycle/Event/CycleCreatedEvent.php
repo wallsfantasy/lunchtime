@@ -3,35 +3,39 @@
 namespace App\Model\Cycle\Event;
 
 use App\Events\Event;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CycleCreatedEvent
+class CycleCreatedEvent extends Event
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    const EVENT_NAME = 'cycle-created';
 
     /** @var string */
     public $cycleId;
 
+    /** @var int */
+    public $cycleCreatorUserId;
+
     /** @var string */
-    public $memberId;
+    public $cycleName;
 
     /** @var string */
     public $cycleLunchtime;
 
     /** @var string */
-    public $proposeUntil;
+    public $cycleProposeUntil;
 
-    public function __construct(string $cycleId, string $memberId, string $cycleLunchtime, string $proposeUntil)
+    public function __construct(string $cycleId, int $cycleCreatorUserId, string $cycleName, string $cycleLunchtime, string $cycleProposeUntil)
     {
+        parent::__construct();
+        $this->meta['message_name'] = self::EVENT_NAME;
         $this->cycleId = $cycleId;
-        $this->memberId = $memberId;
+        $this->cycleCreatorUserId = $cycleCreatorUserId;
+        $this->cycleName = $cycleName;
         $this->cycleLunchtime = $cycleLunchtime;
-        $this->proposeUntil = $proposeUntil;
+        $this->cycleProposeUntil = $cycleProposeUntil;
+    }
+
+    public function getEventName()
+    {
+        return 'cycle-created';
     }
 }

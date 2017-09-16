@@ -3,18 +3,9 @@
 namespace App\Model\Cycle\Event;
 
 use App\Events\Event;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CycleClosedEvent
+class CycleClosedEvent extends Event
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
     /** @var string */
     public $cycleId;
 
@@ -23,7 +14,13 @@ class CycleClosedEvent
 
     public function __construct(string $cycleId, string $cycleName)
     {
+        parent::__construct();
         $this->cycleId = $cycleId;
         $this->cycleName = $cycleName;
+    }
+
+    public function getEventName()
+    {
+        return 'cycle-closed';
     }
 }

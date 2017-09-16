@@ -46,7 +46,8 @@ class LeaveCycle
         $this->cycleRepo->deleteMemberByUserId($cycle, $userId);
 
         // dispatch event
-        foreach ($cycle->getEvents() as $event) {
+        foreach ($cycle->domainEvents as $event) {
+            $event->addMeta();
             $this->dispatcher->dispatch($event);
         }
 

@@ -35,7 +35,8 @@ class CloseCycle
 
         $this->cycleRepo->delete($cycle);
 
-        foreach ($cycle->getEvents() as $event) {
+        foreach ($cycle->domainEvents as $event) {
+            $event->addMeta();
             $this->dispatcher->dispatch($event);
         }
 
