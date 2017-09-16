@@ -13,6 +13,7 @@ class CreateCyclesTable extends Migration
      */
     public function up()
     {
+        // cycles
         Schema::create('cycles', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');
@@ -22,6 +23,25 @@ class CreateCyclesTable extends Migration
             $table->time('lunchtime');
             $table->integer('creator_user_id')->unsigned()->nullable();
         });
+
+        // cycle_members
+        Schema::create('cycle_members', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+
+            // cycle
+            $table->uuid('cycle_id')->index();
+            $table->foreign('cycle_id')->references('id')
+                ->on('cycles')->onDelete('cascade');
+
+            // user
+            $table->integer('user_id')->unsigned()->index();
+
+            // composite index
+            $table->unique(['cycle_id', 'user_id']);
+        });
+
+
     }
 
     /**
@@ -31,6 +51,7 @@ class CreateCyclesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('cycle_members');
         Schema::dropIfExists('cycles');
     }
 }
