@@ -53,6 +53,7 @@
                         <tr>
                             <th>Cycle</th>
                             <th>Members</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -65,6 +66,19 @@
                                             <li>{{ $member->user->name }}</li>
                                         @endforeach
                                     </ul>
+                                </td>
+                                <td>
+                                    @if($cycle->is_my_cycle === true)
+                                        <form class="form-inline" method="post" action="{{ route('cycle-leave') }}">
+                                            <input type="hidden" name="cycle_id" value="{{ $cycle->id }}">
+                                            <button class="btn btn-default">Leave</button>
+                                        </form>
+                                    @else
+                                        <form class="form-inline" method="post" action="{{ route('cycle-join') }}">
+                                            <input type="hidden" name="cycle_id" value="{{ $cycle->id }}">
+                                            <button class="btn btn-default">Join</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
