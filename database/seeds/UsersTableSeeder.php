@@ -1,6 +1,9 @@
 <?php
 
+use App\Model\Cycle\Projection\UserProjector;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Redis;
+use Predis\Pipeline\Pipeline;
 
 class UsersTableSeeder extends Seeder
 {
@@ -11,7 +14,21 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert(static::fixtures());
+        $fixtures = self::fixtures();
+        DB::table('users')->insert($fixtures);
+
+        Redis::pipeline(function (Pipeline $redis) use ($fixtures) {
+            foreach ($fixtures as $id => $user) {
+                $redis->hmset(
+                    UserProjector::KEY_PREFIX . $id,
+                    [
+                        'id' => $id,
+                        'name' => $user['name'],
+                        'email' => $user['email'],
+                    ]
+                );
+            }
+        });
     }
 
     public static function fixtures()
@@ -76,7 +93,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'edward@gmail.com',
                 'password' => bcrypt('secret'),
                 'api_token' => 'edward',
-            ]
+            ],
         ];
     }
 }
