@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Model\User\Event\UserRegisteredEvent;
 use App\Model\User\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -64,11 +65,15 @@ class RegisterController extends Controller
     {
         $bcryptPassword = bcrypt($data['password']);
 
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $bcryptPassword,
             'api_token' => $bcryptPassword,
         ]);
+
+        event(new UserRegisteredEvent($user->id, $user->name, $user->email));
+
+        return $user;
     }
 }
