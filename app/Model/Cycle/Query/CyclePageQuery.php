@@ -23,7 +23,14 @@ class CyclePageQuery
         $this->cycleRepo = $cycleRepo;
     }
 
-    public function queryPage(int $myUserId, ?int $page, ?string $searchName)
+    /**
+     * @param int         $myUserId
+     * @param int|null    $page
+     * @param null|string $searchName
+     *
+     * @return array
+     */
+    public function queryPage(int $myUserId, ?int $page, ?string $searchName): array
     {
         $page = $page ?? 1;
         $start = ($page - 1) * self::PAGE_SIZE;

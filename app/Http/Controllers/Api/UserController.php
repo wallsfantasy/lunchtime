@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Model\Cycle\Cycle;
+use App\Http\Requests\PageCycleRequest;
+use App\Model\Cycle\Query\CyclePageQuery;
 use App\Model\User\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    /** @var CyclePageQuery */
+    private $cycleQuery;
+
+    public function __construct(CyclePageQuery $cyclePageQuery)
+    {
+        $this->cycleQuery = $cyclePageQuery;
+    }
+
     /**
      * Get my User
      *
@@ -25,19 +33,18 @@ class UserController extends Controller
     /**
      * Get my Cycles
      *
-     * @param Request $request
+     * @param PageCycleRequest $request
      *
-     * @return Collection|Cycle[]
+     * @return array
      */
-    public function getMyCycles(Request $request)
+    public function getMyCycles(PageCycleRequest $request)
     {
         $userId = $request->user()->id;
 
-        $result = Cycle::whereHas('members', function ($query) use ($userId) {
-            $query->where('user_id', '=', $userId);
-        })
-            ->with('members')
-            ->get();
+        $page = $request->request->get('page');
+        $searchName = $request->request->get('name');
+
+        $result = $this->cycleQuery->queryPage($userId, $page, $searchName);
 
         return $result;
     }
