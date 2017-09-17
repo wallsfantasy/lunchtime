@@ -2,7 +2,6 @@
 
 namespace App\Model\User;
 
-use App\Model\User\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 

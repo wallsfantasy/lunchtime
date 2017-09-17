@@ -5,11 +5,16 @@ namespace App\Model\Cycle\Application;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\CycleException;
 use App\Model\Cycle\CycleRepository;
+use App\Model\Cycle\Event\UserJoinedCycleEvent;
+use App\Model\Notification\Email\EmailNewCycleMember;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class JoinCycle
 {
+    use DispatchesJobs;
+
     /** @var Dispatcher */
     private $dispatcher;
 
@@ -48,6 +53,10 @@ class JoinCycle
         foreach ($cycle->domainEvents as $event) {
             $event->addMeta();
             $this->dispatcher->dispatch($event);
+
+            if ($event instanceof UserJoinedCycleEvent) {
+                $this->dispatch(new EmailNewCycleMember($event));
+            }
         }
 
         return $cycle;
