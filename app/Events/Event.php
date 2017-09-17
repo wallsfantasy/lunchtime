@@ -51,7 +51,7 @@ abstract class Event
         $this->meta['host_ip'] = gethostbyname($hostName);
         $this->meta['dispatched_at'] = \DateTime::createFromFormat('U.u', microtime(true))
             ->setTimezone(new \DateTimeZone('UTC'))
-            ->format('Y-m-d');
+            ->format('Y-m-d H:i:s.u');
         $this->meta['message_id'] = Uuid::uuid4()->toString();
         $this->meta['message_name'] = $this->getEventName();
         $this->meta['message_type'] = 'event';
