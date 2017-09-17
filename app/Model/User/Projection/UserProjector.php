@@ -33,4 +33,9 @@ class UserProjector
     // public function onUserChangedEmail(UserChangeEmailEvent $event) {...}
 
     // public function onUserUnregistered(UserUnregisteredEvent $event) {...}
+
+    public function subscribe($events)
+    {
+        $events->listen(UserRegisteredEvent::class, self::class . '@onUserRegistered');
+    }
 }

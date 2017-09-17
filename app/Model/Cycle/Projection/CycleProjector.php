@@ -5,7 +5,7 @@ namespace App\Model\Cycle\Projection;
 use App\Model\Cycle\Event\CycleClosedEvent;
 use App\Model\Cycle\Event\CycleCreatedEvent;
 use App\Model\Cycle\Event\MemberLeftCycleEvent;
-use App\Model\Cycle\Event\userJoinedCycleEvent;
+use App\Model\Cycle\Event\UserJoinedCycleEvent;
 use Illuminate\Redis\RedisManager;
 
 class CycleProjector
@@ -56,5 +56,13 @@ class CycleProjector
     public function onMemberLeftCycle(MemberLeftCycleEvent $event)
     {
         $this->redis->srem(self::KEY_PREFIX_MEMBERS . $event->cycleId, [$event->memberId]);
+    }
+
+    public function subscribe($events)
+    {
+        $events->listen(CycleCreatedEvent::class, self::class . '@onCycleCreated');
+        $events->listen(CycleClosedEvent::class, self::class . '@onCycleClosed');
+        $events->listen(UserJoinedCycleEvent::class, self::class . '@onUserJoinedCycle');
+        $events->listen(MemberLeftCycleEvent::class, self::class . '@onMemberLeftCycle');
     }
 }
