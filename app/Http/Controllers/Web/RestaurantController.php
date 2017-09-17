@@ -82,7 +82,7 @@ class RestaurantController extends Controller
 
         $registered = $this->registerRestaurant->registerRestaurant($name, $description);
 
-        return back()->with('notification', "Restaurant {$registered->name} registered.");
+        return back()->with('flash-message.info', "Restaurant {$registered->name} registered.");
     }
 
     /**

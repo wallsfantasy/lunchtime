@@ -113,7 +113,7 @@ class CycleController extends Controller
 
         $this->createCycle->createCycle($name, $lunchtime, $proposeUntil);
 
-        return back()->with('notification', 'Cycle registered.');
+        return back()->with('flash-message.success', 'Cycle registered.');
     }
 
     /**
@@ -129,7 +129,7 @@ class CycleController extends Controller
 
         $this->joinCycle->joinCycle($cycleId);
 
-        return back()->with('notification', 'Cycle joined.');
+        return back()->with('flash-message.success', 'Cycle joined.');
     }
 
     /**
@@ -145,6 +145,6 @@ class CycleController extends Controller
 
         $this->leaveCycle->leaveCycle($cycleId);
 
-        return back()->with('notification', 'Cycle joined.');
+        return back()->with('flash-message.warning', 'Cycle left.');
     }
 }

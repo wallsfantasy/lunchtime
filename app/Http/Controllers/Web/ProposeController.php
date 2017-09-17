@@ -82,7 +82,7 @@ class ProposeController extends Controller
 
         $this->makePropose->makePropose($restaurantId, Carbon::today());
 
-        return back()->with('Proposed a restaurant success.');
+        return back()->with('flash-message.info', 'Proposed a restaurant success.');
     }
 
     /**

@@ -85,10 +85,12 @@
                     @include('layouts.sidebar')
                 </div>
                 <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-1 col-md-8 col-lg-8 col-lg-offset-1 main">
+                    @include('layouts.flash-message')
                     @yield('content')
                 </div>
             @else
                 <div class="col-md-8">
+                    @include('layouts.flash-message')
                     @yield('content')
                 </div>
             @endif
