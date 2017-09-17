@@ -55,7 +55,7 @@ class CycleProjector
 
     public function onMemberLeftCycle(MemberLeftCycleEvent $event)
     {
-        $this->redis->srem(self::KEY_PREFIX_MEMBERS . $event->cycleId, [$event->memberId]);
+        $this->redis->srem(self::KEY_PREFIX_MEMBERS . $event->cycleId, [$event->memberUserId]);
     }
 
     public function subscribe($events)
