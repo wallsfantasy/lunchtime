@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Model\Cycle\Projection;
+namespace App\Model\Cycle\Query;
 
 use App\Model\Cycle\CycleRepository;
+use App\Model\Cycle\Projection\CycleProjector;
+use App\Model\Cycle\Projection\UserProjector;
 use Illuminate\Redis\RedisManager;
 
 class CyclePageQuery

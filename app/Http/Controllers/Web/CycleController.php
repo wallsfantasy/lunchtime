@@ -11,7 +11,7 @@ use App\Model\Cycle\Application\CreateCycle;
 use App\Model\Cycle\Application\JoinCycle;
 use App\Model\Cycle\Application\LeaveCycle;
 use App\Model\Cycle\CycleRepository;
-use App\Model\Cycle\Projection\CyclePageQuery;
+use App\Model\Cycle\Query\CyclePageQuery;
 use App\Model\User\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
