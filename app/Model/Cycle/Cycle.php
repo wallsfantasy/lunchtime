@@ -116,7 +116,7 @@ class Cycle extends Model
         $member = $this->members->pull($key);
 
         // generate memberLeftCycleEvent
-        $this->recordEvent(new MemberLeftCycleEvent($this->id, $this->name, $member->id));
+        $this->recordEvent(new MemberLeftCycleEvent($this->id, $this->name, $member->id, $member->user_id));
     }
 
     public function closeCycle()
