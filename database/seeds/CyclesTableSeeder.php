@@ -1,8 +1,10 @@
 <?php
 
 use App\Model\Cycle\Cycle;
+use App\Model\Cycle\Projection\CycleProjector;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
+use Predis\Pipeline\Pipeline;
 
 class CyclesTableSeeder extends Seeder
 {
@@ -13,8 +15,10 @@ class CyclesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('cycles')->insert(static::fixtures());
+        $fixtures = static::fixtures();
+        DB::table('cycles')->insert($fixtures);
 
+        // cycle members
         /** @var Collection|Cycle[] $cycles */
         $cycles = Cycle::all()->sortBy('id');
 
@@ -67,6 +71,28 @@ class CyclesTableSeeder extends Seeder
                 ['user_id' => 6],
             ]
         );
+
+        Redis::pipeline(function (Pipeline $redis) use ($cycles) {
+            foreach ($cycles as $cycle) {
+                // cycle projection
+                $redis->hmset(
+                    CycleProjector::KEY_PREFIX . $cycle['id'],
+                    [
+                        'id' => $cycle['id'],
+                        'name' => $cycle['name'],
+                        'lunchtime' => $cycle['lunchtime'],
+                        'propose_until' => $cycle['propose_until'],
+                    ]
+                );
+
+                // cycle ids
+                $redis->sadd(CycleProjector::KEY_IDS, [$cycle['id']]);
+                $redis->sadd(CycleProjector::KEY_PREFIX_MEMBERS . $cycles[0]->id, [1, 2, 3, 4, 10]);
+                $redis->sadd(CycleProjector::KEY_PREFIX_MEMBERS . $cycles[1]->id, [7, 9]);
+                $redis->sadd(CycleProjector::KEY_PREFIX_MEMBERS . $cycles[2]->id, [3, 5, 7]);
+                $redis->sadd(CycleProjector::KEY_PREFIX_MEMBERS . $cycles[3]->id, [1, 4, 2, 6]);
+            }
+        });
     }
 
     public static function fixtures()

@@ -9,15 +9,15 @@ use App\Http\Requests\PageCycleRequest;
 use App\Model\Cycle\Application\CreateCycle;
 use App\Model\Cycle\Application\JoinCycle;
 use App\Model\Cycle\Application\LeaveCycle;
-use App\Model\Cycle\Cycle;
 use App\Model\Cycle\CycleRepository;
+use App\Model\Cycle\Projection\CyclePageQuery;
 use App\Model\User\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class CycleController extends Controller
 {
-    const PAGE_SIZE = 20;
+    const PAGE_SIZE  = 20;
     const PAGE_ORDER = 'asc';
 
     /** @var CycleRepository */
@@ -35,18 +35,23 @@ class CycleController extends Controller
     /** @var LeaveCycle */
     private $leaveCycle;
 
+    /** @var CyclePageQuery */
+    private $cyclePageQuery;
+
     public function __construct(
         CycleRepository $cycleRepo,
         UserRepository $userRepo,
         CreateCycle $createCycle,
         JoinCycle $joinCycle,
-        LeaveCycle $leaveCycle
+        LeaveCycle $leaveCycle,
+        CyclePageQuery $cyclePageQuery
     ) {
         $this->cycleRepo = $cycleRepo;
         $this->userRepo = $userRepo;
         $this->createCycle = $createCycle;
         $this->joinCycle = $joinCycle;
         $this->leaveCycle = $leaveCycle;
+        $this->cyclePageQuery = $cyclePageQuery;
     }
 
     /**
@@ -56,14 +61,14 @@ class CycleController extends Controller
      */
     public function index(PageCycleRequest $request): View
     {
-        $page = $request->request->get('page');
-        $cycleName = $request->request->get('name');
+        $pageNum = $request->request->get('page');
+        $searchName = $request->request->get('name');
 
         $myUserId = $request->user()->id;
 
-        $cycles = $this->queryCycleView($myUserId, $cycleName, $page);
+        $cyclePage = $this->cyclePageQuery->queryPage($myUserId, $pageNum, $searchName);
 
-        return view('cycle', compact('cycles', ['myUserId' => $myUserId]));
+        return view('cycle', compact('cyclePage', ['myUserId' => $myUserId]));
     }
 
     /**
@@ -140,49 +145,5 @@ class CycleController extends Controller
         $this->leaveCycle->leaveCycle($cycleId);
 
         return back()->with('notification', 'Cycle joined.');
-    }
-
-    /**
-     * Prepare data to display cycle view
-     *
-     * @param int         $myUserId
-     * @param string|null $name
-     * @param int|null    $page
-     *
-     * @return array
-     */
-    private function queryCycleView(int $myUserId, ?string $name, ?int $page): array
-    {
-        /** @var Cycle[] $cycles */
-        $cycles = $this->cycleRepo
-            ->pageByCycleName($name, $page ?? 1, self::PAGE_ORDER, self::PAGE_SIZE)
-            ->items();
-
-        // find unique users in all cycles
-        $userIds = [];
-        foreach ($cycles as $cycle) {
-            foreach ($cycle->members as $member) {
-                $userIds[$member->user_id] = $member->user_id;
-            }
-        }
-        $registrants = $this->userRepo->findByIds($userIds);
-
-        // view data for $userProposesByCycle
-        foreach ($cycles as &$cycle) {
-            // registrator_user
-            $cycle->creator_user = $registrants->where('id', $cycle->creator_user_id)->first();
-
-            // member_user and my_cycle
-            $isMyCycle = false;
-            foreach ($cycle->members as &$cycleMember) {
-                $cycleMember->user = $registrants->where('id', $cycleMember->user_id)->first();
-                if ($cycleMember->user->id == $myUserId) {
-                    $isMyCycle = true;
-                }
-            }
-            $cycle->is_my_cycle = $isMyCycle;
-        }
-
-        return $cycles;
     }
 }

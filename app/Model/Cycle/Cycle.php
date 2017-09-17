@@ -4,7 +4,9 @@ namespace App\Model\Cycle;
 
 use App\Common\Event\RecordEventsTrait;
 use App\Model\Cycle\Event\CycleClosedEvent;
+use App\Model\Cycle\Event\CycleCreatedEvent;
 use App\Model\Cycle\Event\MemberLeftCycleEvent;
+use App\Model\Cycle\Event\UserJoinedCycleEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -79,6 +81,9 @@ class Cycle extends Model
         $cycle->members->add($member);
 
         // generate cycleCreatedEvent
+        $cycle->recordEvent(
+            new CycleCreatedEvent($cycleId, $userId, $name, $lunchtime->format('%H:%I:%S'), $proposeUntil->format('%H:%I:%S'))
+        );
 
         return $cycle;
     }
@@ -94,6 +99,7 @@ class Cycle extends Model
         $this->members->add($member);
 
         // generate userJoinedCycleEvent
+        $this->recordEvent(new UserJoinedCycleEvent($this->id, $this->name, $member->user_id));
     }
 
     /**

@@ -57,25 +57,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($cycles as $cycle)
+                        @foreach($cyclePage as $cycle)
                             <tr>
-                                <td>{{ $cycle->name }}</td>
+                                <td>{{ $cycle['name'] }}</td>
                                 <td>
                                     <ul>
-                                        @foreach($cycle->members as $member)
-                                            <li>{{ $member->user->name }}</li>
+                                        @foreach($cycle['members'] as $member)
+                                            <li>{{ $member['name'] }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
                                 <td>
-                                    @if($cycle->is_my_cycle === true)
+                                    @if($cycle['is_my_cycle'] === true)
                                         <form class="form-inline" method="post" action="{{ route('cycle-leave') }}">
-                                            <input type="hidden" name="cycle_id" value="{{ $cycle->id }}">
+                                            <input type="hidden" name="cycle_id" value="{{ $cycle['id'] }}">
                                             <button class="btn btn-default">Leave</button>
                                         </form>
                                     @else
                                         <form class="form-inline" method="post" action="{{ route('cycle-join') }}">
-                                            <input type="hidden" name="cycle_id" value="{{ $cycle->id }}">
+                                            <input type="hidden" name="cycle_id" value="{{ $cycle['id'] }}">
                                             <button class="btn btn-default">Join</button>
                                         </form>
                                     @endif

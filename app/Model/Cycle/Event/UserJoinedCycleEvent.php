@@ -4,7 +4,7 @@ namespace App\Model\Cycle\Event;
 
 use App\Events\Event;
 
-class MemberLeftCycleEvent extends Event
+class UserJoinedCycleEvent extends Event
 {
     /** @var string */
     public $cycleId;
@@ -13,18 +13,18 @@ class MemberLeftCycleEvent extends Event
     public $cycleName;
 
     /** @var int */
-    public $memberId;
+    public $userId;
 
-    public function __construct(string $cycleId, string $cycleName, int $memberId)
+    public function __construct(string $cycleId, string $cycleName, int $userId)
     {
         parent::__construct();
         $this->cycleId = $cycleId;
         $this->cycleName = $cycleName;
-        $this->memberId = $memberId;
+        $this->userId = $userId;
     }
 
     public function getEventName()
     {
-        return 'cycle-member_left';
+        return 'cycle-user_joined';
     }
 }
