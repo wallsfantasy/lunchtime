@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCycleRequest;
 use App\Http\Requests\JoinCycleRequest;
+use App\Http\Requests\LeaveCycleRequest;
 use App\Http\Requests\PageCycleRequest;
 use App\Model\Cycle\Application\CreateCycle;
 use App\Model\Cycle\Application\JoinCycle;
@@ -138,7 +139,7 @@ class CycleController extends Controller
      *
      * @return RedirectResponse
      */
-    public function postLeaveCycle(JoinCycleRequest $request): RedirectResponse
+    public function postLeaveCycle(LeaveCycleRequest $request): RedirectResponse
     {
         $cycleId = $request->request->get('cycle_id');
 

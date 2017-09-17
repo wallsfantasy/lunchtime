@@ -70,11 +70,13 @@
                                 <td>
                                     @if($cycle['is_my_cycle'] === true)
                                         <form class="form-inline" method="post" action="{{ route('cycle-leave') }}">
+                                            {!! csrf_field() !!}
                                             <input type="hidden" name="cycle_id" value="{{ $cycle['id'] }}">
                                             <button class="btn btn-default">Leave</button>
                                         </form>
                                     @else
                                         <form class="form-inline" method="post" action="{{ route('cycle-join') }}">
+                                            {!! csrf_field() !!}
                                             <input type="hidden" name="cycle_id" value="{{ $cycle['id'] }}">
                                             <button class="btn btn-default">Join</button>
                                         </form>
