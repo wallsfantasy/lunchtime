@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -25,6 +24,10 @@ const app = new Vue({
  * Notifications
  */
 Echo.channel('cycle')
-    .listen('.lunchtime:cycle:user_joined', (e) => {
+    .listen('.lunchtime:cycle:user-joined', (e) => {
+        console.log(e);
+    });
+Echo.channel('cycle')
+    .listen('.lunchtime:cycle:member-left', (e) => {
         console.log(e);
     });

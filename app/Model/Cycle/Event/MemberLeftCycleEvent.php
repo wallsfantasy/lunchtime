@@ -2,10 +2,13 @@
 
 namespace App\Model\Cycle\Event;
 
+use App\Common\Event\EnrichableEvent;
 use App\Events\Event;
+use App\Model\User\UserRepository;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MemberLeftCycleEvent extends Event
+class MemberLeftCycleEvent extends Event implements ShouldBroadcast, EnrichableEvent
 {
     /** @var string */
     public $cycleId;
@@ -18,6 +21,9 @@ class MemberLeftCycleEvent extends Event
 
     /** @var int */
     public $memberUserId;
+
+    /** @var array */
+    public $memberUser = [];
 
     public function __construct(string $cycleId, string $cycleName, int $memberId, int $memberUserId)
     {
@@ -40,5 +46,12 @@ class MemberLeftCycleEvent extends Event
     public function broadcastAs()
     {
         return $this->getEventName();
+    }
+
+    public function enrich(UserRepository $userRepo)
+    {
+        $memberUser = $userRepo->findByIds([$this->memberUserId]);
+
+        $this->memberUser = $memberUser->toArray();
     }
 }

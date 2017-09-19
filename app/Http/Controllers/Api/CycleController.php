@@ -11,6 +11,7 @@ use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Event\MemberLeftCycleEvent;
 use App\Model\Cycle\Event\UserJoinedCycleEvent;
 use App\Model\Cycle\Member;
+use App\Model\User\UserRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
@@ -85,25 +86,33 @@ class CycleController extends Controller
     /**
      * Push a UserJoinedCycleEvent
      */
-    public function pushUserJoinedEvent(Request $request)
+    public function pushUserJoinedEvent(Request $request, UserRepository $userRepo)
     {
         $userId = $request->user()->id;
         $cycleId = $request->get('cycle_id');
         $cycleName = $request->get('cycle_name');
 
-        Broadcast::event(new UserJoinedCycleEvent($cycleId, $cycleName, $userId));
+        $event = new UserJoinedCycleEvent($cycleId, $cycleName, $userId);
+        $event->addMeta();
+        $event->enrich($userRepo);
+
+        Broadcast::event($event);
     }
 
     /**
      * Push a MemberLeftCycleEvent
      */
-    public function pushMemberLeftCycleEvent(Request $request)
+    public function pushMemberLeftCycleEvent(Request $request, UserRepository $userRepo)
     {
         $cycleId = $request->get('cycle_id');
         $cycleName = $request->get('cycle_name');
         $memberId = $request->get('member_id');
         $memberUserId = $request->get('member_user_id');
 
-        Broadcast::event(new MemberLeftCycleEvent($cycleId, $cycleName, $memberId, $memberUserId));
+        $event = new MemberLeftCycleEvent($cycleId, $cycleName, $memberId, $memberUserId);
+        $event->addMeta();
+        $event->enrich($userRepo);
+
+        Broadcast::event($event);
     }
 }
