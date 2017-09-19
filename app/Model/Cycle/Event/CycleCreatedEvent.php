@@ -6,8 +6,6 @@ use App\Events\Event;
 
 class CycleCreatedEvent extends Event
 {
-    const EVENT_NAME = 'cycle-created';
-
     /** @var string */
     public $cycleId;
 
@@ -25,8 +23,6 @@ class CycleCreatedEvent extends Event
 
     public function __construct(string $cycleId, int $cycleCreatorUserId, string $cycleName, string $cycleLunchtime, string $cycleProposeUntil)
     {
-        parent::__construct();
-        $this->meta['message_name'] = self::EVENT_NAME;
         $this->cycleId = $cycleId;
         $this->cycleCreatorUserId = $cycleCreatorUserId;
         $this->cycleName = $cycleName;
@@ -36,6 +32,6 @@ class CycleCreatedEvent extends Event
 
     public function getEventName()
     {
-        return 'cycle-created';
+        return 'lunchtime:cycle:cycle-created';
     }
 }

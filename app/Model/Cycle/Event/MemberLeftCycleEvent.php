@@ -21,7 +21,6 @@ class MemberLeftCycleEvent extends Event
 
     public function __construct(string $cycleId, string $cycleName, int $memberId, int $memberUserId)
     {
-        parent::__construct();
         $this->cycleId = $cycleId;
         $this->cycleName = $cycleName;
         $this->memberId = $memberId;

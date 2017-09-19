@@ -20,7 +20,6 @@ class UserJoinedCycleEvent extends Event implements ShouldBroadcast
 
     public function __construct(string $cycleId, string $cycleName, int $userId)
     {
-        parent::__construct();
         $this->cycleId = $cycleId;
         $this->cycleName = $cycleName;
         $this->userId = $userId;

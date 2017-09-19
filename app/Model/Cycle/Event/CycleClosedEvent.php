@@ -14,13 +14,12 @@ class CycleClosedEvent extends Event
 
     public function __construct(string $cycleId, string $cycleName)
     {
-        parent::__construct();
         $this->cycleId = $cycleId;
         $this->cycleName = $cycleName;
     }
 
     public function getEventName()
     {
-        return 'cycle-closed';
+        return 'lunchtime:cycle:cycle-closed';
     }
 }

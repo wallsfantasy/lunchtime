@@ -17,7 +17,6 @@ class UserRegisteredEvent extends Event
 
     public function __construct($userId, $userName, $userEmail)
     {
-        parent::__construct();
         $this->userId = $userId;
         $this->userName = $userName;
         $this->userEmail = $userEmail;
@@ -25,6 +24,6 @@ class UserRegisteredEvent extends Event
 
     public function getEventName()
     {
-        return 'user-registered';
+        return 'lunchtime:user:user-registered';
     }
 }
