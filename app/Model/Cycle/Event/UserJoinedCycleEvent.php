@@ -3,8 +3,11 @@
 namespace App\Model\Cycle\Event;
 
 use App\Events\Event;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserJoinedCycleEvent extends Event
+class UserJoinedCycleEvent extends Event implements ShouldBroadcast
 {
     /** @var string */
     public $cycleId;
@@ -25,6 +28,16 @@ class UserJoinedCycleEvent extends Event
 
     public function getEventName()
     {
-        return 'cycle-user_joined';
+        return 'lunchtime:cycle:user-joined';
+    }
+
+    public function broadcastOn()
+    {
+        return new Channel('cycle');
+    }
+
+    public function broadcastAs()
+    {
+        return $this->getEventName();
     }
 }

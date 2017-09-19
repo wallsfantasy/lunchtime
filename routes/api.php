@@ -29,6 +29,8 @@ Route::prefix('restaurants')
 Route::prefix('cycles')
     ->middleware('auth:api')
     ->group(function () {
+        Route::post('/broadcast/join', 'Api\CycleController@pushUserJoinedEvent')->name('api-cycle-push-join');
+        Route::post('/broadcast/left', 'Api\CycleController@pushMemberLeftCycleEvent')->name('api-cycle-push-left');
         Route::post('/', 'Api\CycleController@create');
         Route::post('/{cycleId}/join', 'Api\CycleController@join');
         Route::delete('/{cycleId}/leave', 'Api\CycleController@leave');

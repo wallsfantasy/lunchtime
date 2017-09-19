@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCycleApiRequest;
-use App\Model\Cycle\Cycle;
 use App\Model\Cycle\Application\CreateCycle;
 use App\Model\Cycle\Application\JoinCycle;
 use App\Model\Cycle\Application\LeaveCycle;
+use App\Model\Cycle\Cycle;
+use App\Model\Cycle\Event\MemberLeftCycleEvent;
+use App\Model\Cycle\Event\UserJoinedCycleEvent;
 use App\Model\Cycle\Member;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 
 class CycleController extends Controller
 {
@@ -71,12 +75,35 @@ class CycleController extends Controller
      *
      * @param string $cycleId
      *
-     * @return array
+     * @return Model|Cycle
      */
     public function leave(string $cycleId)
     {
-        $result = $this->leaveCycle->leaveCycle($cycleId);
+        return $this->leaveCycle->leaveCycle($cycleId);
+    }
 
-        return ['success' => $result];
+    /**
+     * Push a UserJoinedCycleEvent
+     */
+    public function pushUserJoinedEvent(Request $request)
+    {
+        $userId = $request->user()->id;
+        $cycleId = $request->get('cycle_id');
+        $cycleName = $request->get('cycle_name');
+
+        Broadcast::event(new UserJoinedCycleEvent($cycleId, $cycleName, $userId));
+    }
+
+    /**
+     * Push a MemberLeftCycleEvent
+     */
+    public function pushMemberLeftCycleEvent(Request $request)
+    {
+        $cycleId = $request->get('cycle_id');
+        $cycleName = $request->get('cycle_name');
+        $memberId = $request->get('member_id');
+        $memberUserId = $request->get('member_user_id');
+
+        Broadcast::event(new MemberLeftCycleEvent($cycleId, $cycleName, $memberId, $memberUserId));
     }
 }

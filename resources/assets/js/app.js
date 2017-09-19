@@ -20,3 +20,11 @@ Vue.component('example', require('./components/Example.vue'));
 const app = new Vue({
     el: '#app'
 });
+
+/**
+ * Notifications
+ */
+Echo.channel('cycle')
+    .listen('.lunchtime:cycle:user_joined', (e) => {
+        console.log(e);
+    });

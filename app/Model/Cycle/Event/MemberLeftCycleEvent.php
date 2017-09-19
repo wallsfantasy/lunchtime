@@ -3,6 +3,7 @@
 namespace App\Model\Cycle\Event;
 
 use App\Events\Event;
+use Illuminate\Broadcasting\Channel;
 
 class MemberLeftCycleEvent extends Event
 {
@@ -29,6 +30,16 @@ class MemberLeftCycleEvent extends Event
 
     public function getEventName()
     {
-        return 'cycle-member_left';
+        return 'lunchtime:cycle:member-left';
+    }
+
+    public function broadcastOn()
+    {
+        return new Channel('cycle');
+    }
+
+    public function broadcastAs()
+    {
+        return $this->getEventName();
     }
 }
