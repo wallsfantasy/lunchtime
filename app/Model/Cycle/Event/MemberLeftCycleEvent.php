@@ -49,7 +49,7 @@ class MemberLeftCycleEvent extends Event implements ShouldBroadcast
 
     public function enrich(UserRepository $userRepo)
     {
-        $memberUser = $userRepo->findByIds([$this->memberUserId]);
+        $memberUser = $userRepo->find($this->memberUserId);
 
         $this->memberUser = $memberUser->toArray();
     }

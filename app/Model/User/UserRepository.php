@@ -20,6 +20,13 @@ class UserRepository
         $this->user = $user;
     }
 
+    public function find(int $id): User
+    {
+        $user = $this->user->find($id);
+
+        return $user;
+    }
+
     /**
      * @param int[] $ids
      *

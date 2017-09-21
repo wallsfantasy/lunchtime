@@ -7,6 +7,7 @@ use App\Model\User\UserRepository;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Facades\Log;
 
 class UserJoinedCycleEvent extends Event implements ShouldBroadcast
 {
@@ -46,7 +47,7 @@ class UserJoinedCycleEvent extends Event implements ShouldBroadcast
 
     public function enrich(UserRepository $userRepo)
     {
-        $user = $userRepo->findByIds([$this->userId]);
+        $user = $userRepo->find($this->userId);
 
         $this->user = $user->toArray();
     }
