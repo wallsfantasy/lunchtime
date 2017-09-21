@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Model\Cycle\Event\Job\EmailNewCycleMemberJob;
 use App\Model\Cycle\Event\MemberLeftCycleEvent;
-use App\Model\Cycle\EventListener\CloseCycleNoMemberListener;
+use App\Model\Cycle\Event\Listener\CloseCycleNoMemberListener;
+use App\Model\Cycle\Event\UserJoinedCycleEvent;
 use App\Model\Cycle\Projection\CycleProjector;
 use App\Model\Cycle\Projection\UserProjector;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         MemberLeftCycleEvent::class => [
             CloseCycleNoMemberListener::class,
         ],
+//        UserJoinedCycleEvent::class => [
+//            EmailNewCycleMemberJob::class,
+//        ]
     ];
 
     /**

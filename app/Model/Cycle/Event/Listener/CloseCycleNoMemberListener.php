@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Cycle\EventListener;
+namespace App\Model\Cycle\Event\Listener;
 
 use App\Model\Cycle\Application\CloseCycle;
 use App\Model\Cycle\CycleRepository;

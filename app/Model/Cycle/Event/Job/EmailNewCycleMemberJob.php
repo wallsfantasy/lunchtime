@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Notification\Email;
+namespace App\Model\Cycle\Event\Job;
 
 use App\Common\Mailer\FakeMailer;
 use App\Model\Cycle\CycleRepository;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class EmailNewCycleMember implements ShouldQueue
+class EmailNewCycleMemberJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

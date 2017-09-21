@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Notification\NewsFeed;
+namespace App\Model\Cycle\Event\Job;
 
 use App\Common\Client\NewsFeed\FakeNewsFeedClient;
 use App\Model\Cycle\Event\UserJoinedCycleEvent;
@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class PostCreateCycleMessage implements ShouldQueue
+class PostCreateCycleMessageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
