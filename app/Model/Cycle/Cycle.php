@@ -4,14 +4,11 @@ namespace App\Model\Cycle;
 
 use App\Common\Event\RecordEventsTrait;
 use App\Model\Cycle\Event\CycleClosedEvent;
-use App\Model\Cycle\Event\CycleCreatedEvent;
 use App\Model\Cycle\Event\MemberLeftCycleEvent;
 use App\Model\Cycle\Event\UserJoinedCycleEvent;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Ramsey\Uuid\Uuid;
 
 /**
  * @property int                      $id
@@ -40,52 +37,6 @@ class Cycle extends Model
     public function members()
     {
         return $this->hasMany(Member::class, 'cycle_id');
-    }
-
-    /**
-     * @param int                $userId
-     * @param string             $name
-     * @param \DateInterval      $lunchtime
-     * @param \DateInterval|null $proposeUntil
-     *
-     * @return self
-     */
-    public static function createCycle(
-        int $userId,
-        string $name,
-        \DateInterval $lunchtime,
-        ?\DateInterval $proposeUntil
-    ): self {
-        // make default propose until if need
-        if ($proposeUntil === null) {
-            $todayProposeUntil = Carbon::today()->add($lunchtime)->sub(new \DateInterval(self::DEFAULT_PROPOSE_BEFORE_LUNCHTIME));
-            $proposeUntil = Carbon::today()->diff($todayProposeUntil);
-        }
-
-        static::guardProposeUntilAndLunchtime($proposeUntil, $lunchtime);
-
-        $cycleId = Uuid::uuid4()->toString();
-        $data = [
-            'id' => $cycleId,
-            'name' => $name,
-            'lunchtime' => $lunchtime->format('%H:%I:%S'),
-            'propose_until' => $proposeUntil->format('%H:%I:%S'),
-            'creator_user_id' => $userId,
-        ];
-        $cycle = new static($data);
-
-        $member = new Member([
-            'cycle_id' => $cycleId,
-            'user_id' => $userId,
-        ]);
-        $cycle->members->add($member);
-
-        // generate cycleCreatedEvent
-        $cycle->recordEvent(
-            new CycleCreatedEvent($cycleId, $userId, $name, $lunchtime->format('%H:%I:%S'), $proposeUntil->format('%H:%I:%S'))
-        );
-
-        return $cycle;
     }
 
     /**
@@ -125,27 +76,6 @@ class Cycle extends Model
 
         // generate cycleClosedEvent
         $this->recordEvent(new CycleClosedEvent($this->id, $this->name));
-    }
-
-    /**
-     * @param \DateInterval $proposeUntil
-     * @param \DateInterval $lunchtime
-     *
-     * @throws CycleException
-     */
-    private static function guardProposeUntilAndLunchtime(\DateInterval $proposeUntil, \DateInterval $lunchtime)
-    {
-        // check times make sense
-        $todayLunchtime = Carbon::today()->add($lunchtime);
-        $todayProposeUntil = Carbon::today()->add($proposeUntil);
-        if ($todayLunchtime < $todayProposeUntil) {
-            $lunchtimeFormatted = $lunchtime->format('%H:%I:%S');
-            $proposeUntilFormatted = $proposeUntil->format('%H:%I:%S');
-            throw CycleException::createLunchtimeBeforePropose(null, [
-                'propose_until' => $proposeUntilFormatted,
-                'lunchtime' => $lunchtimeFormatted,
-            ]);
-        }
     }
 
     /**

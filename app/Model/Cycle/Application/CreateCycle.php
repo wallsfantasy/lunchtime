@@ -3,6 +3,7 @@
 namespace App\Model\Cycle\Application;
 
 use App\Model\Cycle\Cycle;
+use App\Model\Cycle\CycleFactory;
 use App\Model\Cycle\CycleRepository;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -15,13 +16,17 @@ class CreateCycle
     /** @var AuthManager */
     private $authManager;
 
+    /** @var CycleFactory */
+    private $cycleFactory;
+
     /** @var CycleRepository */
     private $cycleRepo;
 
-    public function __construct(Dispatcher $dispatcher, AuthManager $authManager, CycleRepository $cycleRepo)
+    public function __construct(Dispatcher $dispatcher, AuthManager $authManager, CycleFactory $cycleFactory, CycleRepository $cycleRepo)
     {
         $this->dispatcher = $dispatcher;
         $this->authManager = $authManager;
+        $this->cycleFactory = $cycleFactory;
         $this->cycleRepo = $cycleRepo;
     }
 
@@ -36,7 +41,7 @@ class CreateCycle
     {
         $userId = $this->authManager->guard()->id();
 
-        $cycle = Cycle::createCycle($userId, ucfirst($name), $lunchtime, $proposeUntil);
+        $cycle = $this->cycleFactory->createCycle($userId, ucfirst($name), $lunchtime, $proposeUntil);
 
         $this->cycleRepo->add($cycle);
 
