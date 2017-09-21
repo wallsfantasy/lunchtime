@@ -81,7 +81,7 @@ class HomeController extends Controller
         foreach ($cycles as $cycle) {
             $proposesByCycle[] = [
                 'cycle' => $cycle,
-                'proposes' => $this->getCycleEffectiveProposes($cycle, $proposes, $users, $restaurants),
+                'proposes' => $this->getCycleProposesOfUsers($cycle, $proposes, $users, $restaurants),
             ];
         }
 
@@ -96,7 +96,7 @@ class HomeController extends Controller
      *
      * @return array
      */
-    private function getCycleEffectiveProposes(
+    private function getCycleProposesOfUsers(
         Cycle $cycle,
         iterable $proposes,
         iterable $users,
@@ -107,7 +107,7 @@ class HomeController extends Controller
         $proposeUntilParts = explode(':', $cycle->propose_until);
         $todayProposeUntil = Carbon::createFromTime($proposeUntilParts[0], $proposeUntilParts[1], $proposeUntilParts[2]);
 
-        $effectiveProposes = [];
+        $currentPurpose = [];
         foreach ($proposes as $propose) {
             // skip proposes those are not belong to member users
             if (!in_array($propose->user_id, $memberUserIds, true)) {
@@ -121,21 +121,21 @@ class HomeController extends Controller
 
             // if user never have a propose record then add it
             $proposeUserId = $propose->user_id;
-            if (!isset($effectiveProposes[$proposeUserId])) {
+            if (!isset($currentPurpose[$proposeUserId])) {
                 $propose->user = $users->where('id', '=', $propose->user_id)->first();
                 $propose->restaurant = $restaurants->where('id', '=', $propose->restaurant_id)->first();
-                $effectiveProposes[$proposeUserId] = $propose;
+                $currentPurpose[$proposeUserId] = $propose;
                 continue;
             }
 
             // replace propose if later than existing record
-            if ($effectiveProposes[$proposeUserId]->proposed_at < $propose->proposed_at) {
+            if ($currentPurpose[$proposeUserId]->proposed_at < $propose->proposed_at) {
                 $propose->user = $users->where('id', '=', $propose->user_id)->first();
                 $propose->restaurant = $restaurants->where('id', '=', $propose->restaurant_id)->first();
-                $effectiveProposes[$proposeUserId] = $propose;
+                $currentPurpose[$proposeUserId] = $propose;
             }
         }
 
-        return $effectiveProposes;
+        return $currentPurpose;
     }
 }
