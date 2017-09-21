@@ -2,14 +2,13 @@
 
 namespace App\Model\Cycle\Event;
 
-use App\Common\Event\EnrichableEvent;
 use App\Events\Event;
 use App\Model\User\UserRepository;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserJoinedCycleEvent extends Event implements ShouldBroadcast, EnrichableEvent
+class UserJoinedCycleEvent extends Event implements ShouldBroadcast
 {
     /** @var string */
     public $cycleId;
