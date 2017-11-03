@@ -23,11 +23,11 @@ const app = new Vue({
 /**
  * Notifications
  */
-Echo.channel('cycle')
-    .listen('.lunchtime:cycle:user-joined', (e) => {
-        console.log(e);
-    });
-Echo.channel('cycle')
-    .listen('.lunchtime:cycle:member-left', (e) => {
-        console.log(e);
-    });
+// Echo.channel('cycle')
+//     .listen('.lunchtime:cycle:user-joined', (e) => {
+//         console.log(e);
+//     });
+// Echo.channel('cycle')
+//     .listen('.lunchtime:cycle:member-left', (e) => {
+//         console.log(e);
+//     });
