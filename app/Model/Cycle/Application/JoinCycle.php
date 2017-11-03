@@ -5,8 +5,6 @@ namespace App\Model\Cycle\Application;
 use App\Model\Cycle\Cycle;
 use App\Model\Cycle\CycleException;
 use App\Model\Cycle\CycleRepository;
-use App\Model\Cycle\Event\Job\EmailNewCycleMemberJob;
-use App\Model\Cycle\Event\UserJoinedCycleEvent;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -53,10 +51,6 @@ class JoinCycle
         foreach ($cycle->domainEvents as $event) {
             $event->addMeta();
             $this->dispatcher->dispatch($event);
-
-            if ($event instanceof UserJoinedCycleEvent) {
-                $this->dispatch(new EmailNewCycleMemberJob($event));
-            }
         }
 
         return $cycle;
