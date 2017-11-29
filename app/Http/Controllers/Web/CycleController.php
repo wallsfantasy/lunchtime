@@ -135,7 +135,7 @@ class CycleController extends Controller
     /**
      * POST method to leave cycle
      *
-     * @param JoinCycleRequest $request
+     * @param LeaveCycleRequest $request
      *
      * @return RedirectResponse
      */
